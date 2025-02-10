@@ -3,15 +3,16 @@ package com.crisordonez.registro.model.mapper
 import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
+import org.mindrot.jbcrypt.BCrypt
 import java.time.LocalDateTime
 
 object CuentaUsuarioMapper {
 
-    fun CuentaUsuarioRequest.toEntity(password: String): CuentaUsuarioEntity {
+    fun CuentaUsuarioRequest.toEntity(): CuentaUsuarioEntity {
         return CuentaUsuarioEntity(
             nombreUsuario = this.nombreUsuario,
             correo = this.correo ?: "",
-            contrasena = password,
+            contrasena = BCrypt.hashpw(this.contrasena, BCrypt.gensalt()),
             aceptaConsentimiento = this.aceptaConsentimiento
         )
     }
