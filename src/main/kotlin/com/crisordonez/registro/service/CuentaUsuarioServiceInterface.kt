@@ -16,4 +16,6 @@ interface CuentaUsuarioServiceInterface {
 
     fun login(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse
 
+    fun autenticar(cuentaUsuario: CuentaUsuarioRequest): String
+
 }

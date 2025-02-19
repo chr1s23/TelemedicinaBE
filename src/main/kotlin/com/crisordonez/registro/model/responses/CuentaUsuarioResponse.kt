@@ -10,6 +10,8 @@ data class CuentaUsuarioResponse(
 
     val nombreUsuario: String,
 
-    val aceptaConsentimiento: Boolean
+    val aceptaConsentimiento: Boolean,
+
+    val token: String
 
 )

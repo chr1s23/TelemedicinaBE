@@ -15,6 +15,8 @@ data class CuentaUsuarioRequest(
 
     val correo: String? = null,
 
-    val aceptaConsentimiento: Boolean = false
+    val aceptaConsentimiento: Boolean = false,
+
+    val rol: String = "USER"
 
 )

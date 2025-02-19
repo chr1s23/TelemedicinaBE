@@ -28,4 +28,9 @@ class CuentaUsuarioController() {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.login(cuenta))
     }
 
+    @PostMapping("/autenticar")
+    fun autenticar(@Valid @RequestBody usuario: CuentaUsuarioRequest): ResponseEntity<String> {
+        return ResponseEntity.ok(cuentaUsuarioServiceInterface.autenticar(usuario))
+    }
+
 }
