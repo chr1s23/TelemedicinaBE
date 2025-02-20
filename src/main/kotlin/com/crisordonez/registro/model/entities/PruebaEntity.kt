@@ -18,8 +18,7 @@ data class PruebaEntity(
     @Column(nullable = false)
     var fecha: Date,
 
-    @Column(nullable = false)
-    var fechaResultado: Date,
+    var fechaResultado: Date? = null,
 
     @Column(nullable = false)
     var dispositivo: UUID,

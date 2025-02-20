@@ -24,6 +24,8 @@ data class CuentaUsuarioEntity(
     @Column(nullable = false)
     var contrasena: String,
 
+    var rol: String = "USER",
+
     var aceptaConsentimiento: Boolean = false,
 
     var ultimaSesion: LocalDateTime? = null,
