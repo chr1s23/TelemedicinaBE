@@ -23,13 +23,14 @@ object CuentaUsuarioMapper {
         return cuenta
     }
 
-    fun CuentaUsuarioEntity.toResponse(): CuentaUsuarioResponse {
+    fun CuentaUsuarioEntity.toResponse(token: String?): CuentaUsuarioResponse {
         return CuentaUsuarioResponse(
             publicId = this.publicId,
             nombreUsuario = this.nombreUsuario,
             correo = this.correo,
             aceptaConsentimiento = this.aceptaConsentimiento,
-            rol = this.rol
+            rol = this.rol,
+            token = token
         )
     }
 

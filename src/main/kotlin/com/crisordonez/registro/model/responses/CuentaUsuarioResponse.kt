@@ -12,6 +12,8 @@ data class CuentaUsuarioResponse(
 
     val aceptaConsentimiento: Boolean,
 
-    val rol: String
+    val rol: String,
+
+    val token: String? = null
 
 )

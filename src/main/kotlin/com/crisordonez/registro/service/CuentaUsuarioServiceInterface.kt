@@ -6,7 +6,7 @@ import java.util.UUID
 
 interface CuentaUsuarioServiceInterface {
 
-    fun crearCuentaUsuario(cuentaUsuario: CuentaUsuarioRequest): String
+    fun crearCuentaUsuario(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse
 
     fun editarCuentaUsuario(publicId: UUID, cuentaUsuario: CuentaUsuarioRequest)
 
@@ -14,7 +14,7 @@ interface CuentaUsuarioServiceInterface {
 
     fun getCuentaUsuario(publicId: UUID): CuentaUsuarioResponse
 
-    fun autenticar(cuentaUsuario: CuentaUsuarioRequest): String
+    fun autenticar(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse
 
     fun eliminarCuentaUsuario(publicId: UUID)
 

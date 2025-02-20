@@ -39,7 +39,7 @@ class CuentaUsuarioService(
 
     private val log = LoggerFactory.getLogger(CuentaUsuarioService::class.java)
 
-    override fun crearCuentaUsuario(cuentaUsuario: CuentaUsuarioRequest): String {
+    override fun crearCuentaUsuario(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse {
         try {
             log.info("Creando cuenta de usuario - Nombre: ${cuentaUsuario.nombreUsuario}")
             val usuarioDuplicado = if (cuentaUsuario.correo != null) {
@@ -100,7 +100,7 @@ class CuentaUsuarioService(
     override fun getAllCuentas(): List<CuentaUsuarioResponse> {
         try {
             log.info("Consultando todas las cuentas de usuario")
-            val cuentas = cuentaUsuarioRepository.findAll().map { it.toResponse() }
+            val cuentas = cuentaUsuarioRepository.findAll().map { it.toResponse(null) }
             log.info("Cuentas de usuario consultadas - Total: ${cuentas.size}")
             return cuentas
         } catch (e: Exception) {
@@ -118,13 +118,13 @@ class CuentaUsuarioService(
             }
 
             log.info("Cuenta de usuario consultada correctamemte")
-            return cuenta.get().toResponse()
+            return cuenta.get().toResponse(null)
         } catch (e: Exception) {
             throw e
         }
     }
 
-    override fun autenticar(cuentaUsuario: CuentaUsuarioRequest): String {
+    override fun autenticar(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse {
         try {
             log.info("Autenticando usuario - Nombre: ${cuentaUsuario.nombreUsuario}")
             val authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(
@@ -132,7 +132,9 @@ class CuentaUsuarioService(
             ))
 
             if (authentication.isAuthenticated) {
-                return jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
+                val token = jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
+                val usuario = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario).get()
+                return usuario.toResponse(token)
             } else {
                 throw UsernameNotFoundException("Credenciales inválidas")
             }

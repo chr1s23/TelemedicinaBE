@@ -24,12 +24,12 @@ class CuentaUsuarioController() {
     lateinit var cuentaUsuarioServiceInterface: CuentaUsuarioServiceInterface
 
     @PostMapping("/registro")
-    fun crearCuentaUsuario(@Valid @RequestBody cuenta: CuentaUsuarioRequest): ResponseEntity<String> {
+    fun crearCuentaUsuario(@Valid @RequestBody cuenta: CuentaUsuarioRequest): ResponseEntity<CuentaUsuarioResponse> {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.crearCuentaUsuario(cuenta))
     }
 
     @PostMapping("/autenticar")
-    fun autenticar(@Valid @RequestBody usuario: CuentaUsuarioRequest): ResponseEntity<String> {
+    fun autenticar(@Valid @RequestBody usuario: CuentaUsuarioRequest): ResponseEntity<CuentaUsuarioResponse> {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.autenticar(usuario))
     }
 
