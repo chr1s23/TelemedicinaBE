@@ -24,6 +24,13 @@ data class PruebaEntity(
     var dispositivo: UUID,
 
     @OneToMany(fetch = FetchType.LAZY)
-    var archivos: MutableList<ArchivoEntity> = mutableListOf()
+    var archivos: MutableList<ArchivoEntity> = mutableListOf(),
+
+    @OneToOne
+    @JoinColumn(name = "sesion_chat_id")
+    var sesionChat: SesionChatEntity,
+
+    @OneToMany(fetch = FetchType.LAZY)
+    var evolucion: MutableList<EvolucionEntity> = mutableListOf()
 
 ) : AuditModel()

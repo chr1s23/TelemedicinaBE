@@ -12,13 +12,11 @@ data class PacienteResponse(
 
     val pais: String,
 
-    val idioma: String,
+    val lenguaMaterna: String,
 
     val estadoCivil: String,
 
     val sexo: String,
-
-    val telefono: String? = null,
 
     val identificacion: String? = null,
 

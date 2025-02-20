@@ -6,14 +6,14 @@ data class InformacionSocioeconomicaResponse(
 
     val publicId: UUID,
 
-    val instruccion: String,
+    val instruccion: String? = null,
 
-    val ingresos: String,
+    val ingresos: String? = null,
 
-    val trabajoRemunerado: Boolean,
+    val trabajoRemunerado: String? = null,
 
-    val ocupacion: String,
+    val ocupacion: String? = null,
 
-    val recibeBono: Boolean
+    val recibeBono: String? = null
 
 )

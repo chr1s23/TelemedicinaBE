@@ -1,5 +1,6 @@
 package com.crisordonez.registro.model.entities
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -26,7 +27,8 @@ data class EvolucionEntity(
     @Column(nullable = false)
     var peso: Double,
 
-    @OneToOne
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "prueba_id")
     var prueba: PruebaEntity
 

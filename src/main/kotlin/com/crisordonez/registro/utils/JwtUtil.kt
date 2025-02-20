@@ -20,7 +20,7 @@ class JwtUtil {
 
     fun generateToken(userDetails: UserDetails): String {
         val claims = mutableMapOf<String, String>()
-        claims["iss"] = "https://secure.genuinecoder.com"
+        claims["iss"] = "https://www.ucuenca.edu.ec"
 
         return Jwts.builder()
             .claims(claims)

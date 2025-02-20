@@ -1,16 +1,18 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.PruebaEntity
+import com.crisordonez.registro.model.entities.SesionChatEntity
 import com.crisordonez.registro.model.requests.PruebaRequest
 import com.crisordonez.registro.model.responses.PruebaResponse
 import java.text.SimpleDateFormat
 
 object PruebaMapper {
 
-    fun PruebaRequest.toEntity(): PruebaEntity {
+    fun PruebaRequest.toEntity(sesion: SesionChatEntity): PruebaEntity {
         return PruebaEntity(
             fecha = SimpleDateFormat("dd/MM/yyyy").parse(this.fecha),
-            dispositivo = this.dispositivo
+            dispositivo = this.dispositivo,
+            sesionChat = sesion
         )
     }
 

@@ -1,6 +1,7 @@
 package com.crisordonez.registro.service
 
 import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
+import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toUpdateUltimaSesion
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,11 +21,12 @@ class CuentaUsuarioDetailService : UserDetailsService {
 
     override fun loadUserByUsername(username: String?): UserDetails {
         try {
-            log.info("Iniciando sesion - Nombre usuario: $username")
+            log.info("Autenticando - Nombre usuario: $username")
             val usuario = cuentaUsuarioRepository.findByNombreUsuario(username!!)
             if (!usuario.isPresent) {
                 throw UsernameNotFoundException(username)
             }
+            cuentaUsuarioRepository.save(usuario.get().toUpdateUltimaSesion())
             return User.builder()
                 .username(usuario.get().nombreUsuario)
                 .password(usuario.get().contrasena)

@@ -1,6 +1,7 @@
 package com.crisordonez.registro.model.entities
 
 import com.crisordonez.registro.model.enums.TipoArchivoEnum
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -26,6 +27,11 @@ data class ArchivoEntity(
     var tamano: Long,
 
     @Column(nullable = false)
-    var nombre: String
+    var nombre: String,
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "prueba_id")
+    var prueba: PruebaEntity? = null
 
 ): AuditModel()
