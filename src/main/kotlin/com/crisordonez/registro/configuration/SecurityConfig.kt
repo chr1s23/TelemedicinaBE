@@ -31,12 +31,22 @@ class SecurityConfig {
         return httpSecurity
             .csrf { it.disable() }
             .authorizeHttpRequests { registry ->
-            registry.requestMatchers("/usuarios/**", "/home").permitAll()
-            registry.requestMatchers("/socioeconomica").hasRole("USER")
-                registry.requestMatchers("/user/home").hasRole("USER")
-                registry.requestMatchers("/reportes").hasRole("ADMIN")
-            registry.anyRequest().authenticated()
-        }
+                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
+                registry.requestMatchers("/anamnesis/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/evolucion/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/info-socioeconomica/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/paciente/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/prueba/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/salud-sexual/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/sesion-chat/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/archivo/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/usuarios/editar/**").hasRole("USER")
+                registry.requestMatchers("/info-socioeconomica/editar/**", "/info-socioeconomica/usuario/**").hasRole("USER")
+                registry.requestMatchers("/paciente/usuario/**", "/paciente/editar/**").hasRole("USER")
+                registry.requestMatchers("/sesion-chat/usuario/**").hasRole("USER")
+                registry.anyRequest().authenticated()
+            }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }

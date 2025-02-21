@@ -3,6 +3,7 @@ package com.crisordonez.registro.model.mapper
 import com.crisordonez.registro.model.entities.PacienteEntity
 import com.crisordonez.registro.model.entities.SaludSexualEntity
 import com.crisordonez.registro.model.entities.SesionChatEntity
+import com.crisordonez.registro.model.mapper.PruebaMapper.toResponse
 import com.crisordonez.registro.model.mapper.SaludSexualMapper.toResponse
 import com.crisordonez.registro.model.requests.SesionChatRequest
 import com.crisordonez.registro.model.responses.SesionChatResponse
@@ -25,7 +26,8 @@ object SesionChatMapper {
         return SesionChatResponse(
             publicId = this.publicId,
             contenido = this.contenido,
-            saludSexual = this.saludSexual.toResponse()
+            saludSexual = this.saludSexual.toResponse(),
+            prueba = this.prueba?.toResponse()
         )
     }
 }

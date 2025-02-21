@@ -10,6 +10,6 @@ data class SesionChatResponse(
 
     val saludSexual: SaludSexualResponse,
 
-    val evolucion: EvolucionResponse? = null
+    val prueba: PruebaResponse? = null
 
 )

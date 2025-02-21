@@ -18,7 +18,7 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/usuarios")
-class CuentaUsuarioController() {
+class CuentaUsuarioController {
 
     @Autowired
     lateinit var cuentaUsuarioServiceInterface: CuentaUsuarioServiceInterface
@@ -33,17 +33,17 @@ class CuentaUsuarioController() {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.autenticar(usuario))
     }
 
-    @GetMapping("/{publicId}")
+    @GetMapping("/admin/{publicId}")
     fun getUsuario(@PathVariable publicId: UUID): ResponseEntity<CuentaUsuarioResponse> {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.getCuentaUsuario(publicId))
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     fun getTodosUsuarios(): ResponseEntity<List<CuentaUsuarioResponse>> {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.getAllCuentas())
     }
 
-    @DeleteMapping("/eliminar/{publicId}")
+    @DeleteMapping("/admin/eliminar/{publicId}")
     fun eliminarUsuario(@PathVariable publicId: UUID): ResponseEntity<Unit> {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.eliminarCuentaUsuario(publicId))
     }

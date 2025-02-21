@@ -26,12 +26,12 @@ class InformacionSocioeconomicaController {
         return ResponseEntity.ok(informacionSocioeconomicaServiceInterface.editarInfoSocioeconomica(publicId, informacion))
     }
 
-    @GetMapping("/{publicId}")
+    @GetMapping("/usuario/{publicId}")
     fun getInformacion(@PathVariable publicId: UUID): ResponseEntity<InformacionSocioeconomicaResponse?> {
         return ResponseEntity.ok(informacionSocioeconomicaServiceInterface.getInfoSocioeconomica(publicId))
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     fun getTodosInformacion(): ResponseEntity<List<InformacionSocioeconomicaResponse>> {
         return ResponseEntity.ok(informacionSocioeconomicaServiceInterface.getTodosInfo())
     }

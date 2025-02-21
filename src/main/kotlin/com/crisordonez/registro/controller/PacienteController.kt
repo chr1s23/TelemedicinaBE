@@ -26,12 +26,12 @@ class PacienteController {
         return ResponseEntity.ok(pacienteServiceInterface.editarPaciente(publicId, paciente))
     }
 
-    @GetMapping("/{publicId}")
+    @GetMapping("/usuario/{publicId}")
     fun getPaciente(@PathVariable publicId: UUID): ResponseEntity<PacienteResponse> {
         return ResponseEntity.ok(pacienteServiceInterface.getPaciente(publicId))
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     fun getTodosPacientes(): ResponseEntity<List<PacienteResponse>> {
         return ResponseEntity.ok(pacienteServiceInterface.getTodosPacientes())
     }
