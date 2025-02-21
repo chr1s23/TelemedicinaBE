@@ -2,6 +2,7 @@ package com.crisordonez.registro.model.entities
 
 import com.crisordonez.registro.model.enums.IngresoEnum
 import com.crisordonez.registro.model.enums.InstruccionEnum
+import com.crisordonez.registro.model.enums.OpcionesEnum
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -16,21 +17,18 @@ data class InformacionSocioeconomicaEntity(
     @Column(nullable = false)
     var publicId: UUID = UUID.randomUUID(),
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    var instruccion: InstruccionEnum = InstruccionEnum.PRIMARIA,
+    var instruccion: InstruccionEnum? = null,
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    var ingresos: IngresoEnum = IngresoEnum.MENOR_450,
+    var ingresos: IngresoEnum? = null,
 
-    @Column(nullable = false)
-    var trabajoRemunerado: Boolean = false,
+    @Enumerated(EnumType.STRING)
+    var trabajoRemunerado: OpcionesEnum? = null,
 
-    @Column(nullable = false)
-    var ocupacion: String,
+    var ocupacion: String? = null,
 
-    @Column(nullable = false)
-    var recibeBono: Boolean = false
+    @Enumerated(EnumType.STRING)
+    var recibeBono: OpcionesEnum? = null
 
 ) : AuditModel()

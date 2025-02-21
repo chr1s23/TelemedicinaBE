@@ -16,7 +16,7 @@ data class CuentaUsuarioEntity(
     var publicId: UUID = UUID.randomUUID(),
 
     @Column(unique = true)
-    var correo: String,
+    var correo: String? = null,
 
     @Column(nullable = false, unique = true)
     var nombreUsuario: String,

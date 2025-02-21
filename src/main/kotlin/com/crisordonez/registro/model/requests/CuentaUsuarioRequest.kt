@@ -17,6 +17,8 @@ data class CuentaUsuarioRequest(
 
     val aceptaConsentimiento: Boolean = false,
 
-    val rol: String = "USER"
+    val rol: String = "USER",
+
+    val paciente: PacienteRequest? = null
 
 )

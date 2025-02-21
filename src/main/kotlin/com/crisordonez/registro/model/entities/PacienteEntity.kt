@@ -29,15 +29,13 @@ data class PacienteEntity(
     var pais: PaisEnum = PaisEnum.ECUADOR,
 
     @Enumerated(EnumType.STRING)
-    var idioma: IdiomaEnum = IdiomaEnum.ESPANOL,
+    var lenguaMaterna: IdiomaEnum = IdiomaEnum.ESPANOL,
 
     @Enumerated(EnumType.STRING)
     var estadoCivil: EstadoCivilEnum = EstadoCivilEnum.CASADO,
 
     @Enumerated(EnumType.STRING)
     var sexo: SexoEnum = SexoEnum.FEMENINO,
-
-    var telefono: String? = null,
 
     var identificacion: String? = null,
 

@@ -23,7 +23,7 @@ data class PacienteRequest(
 
     @field:NotNull(message = "El idioma es requerido")
     @field:NotBlank(message = "El idioma no puede estar vacío")
-    val idioma: IdiomaEnum,
+    val lenguaMaterna: IdiomaEnum,
 
     @field:NotNull(message = "El estado civil es requerido")
     @field:NotBlank(message = "El estado civil no puede estar vacío")
@@ -33,8 +33,8 @@ data class PacienteRequest(
     @field:NotBlank(message = "El sexo no puede estar vacío")
     val sexo: SexoEnum,
 
-    val telefono: String? = null,
+    val identificacion: String? = null,
 
-    val identificacion: String? = null
+    val infoSocioeconomica: InformacionSocioeconomicaRequest? = null
 
 )

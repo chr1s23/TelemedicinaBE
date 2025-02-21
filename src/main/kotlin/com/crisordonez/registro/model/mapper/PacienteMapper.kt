@@ -4,6 +4,7 @@ import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
 import com.crisordonez.registro.model.entities.PacienteEntity
 import com.crisordonez.registro.model.mapper.AnamnesisMapper.toResponse
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toResponse
+import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import java.text.SimpleDateFormat
@@ -15,13 +16,24 @@ object PacienteMapper {
             nombre = this.nombre,
             fechaNacimiento = SimpleDateFormat("dd/MM/yyy").parse(this.fechaNacimiento),
             pais = this.pais,
-            idioma = this.idioma,
+            lenguaMaterna = this.lenguaMaterna,
             estadoCivil = this.estadoCivil,
             sexo = this.sexo,
-            telefono = this.telefono,
             identificacion = this.identificacion,
             cuenta = cuenta
         )
+    }
+
+    fun PacienteRequest.toEntityUpdated(paciente: PacienteEntity): PacienteEntity {
+        paciente.nombre = this.nombre
+        paciente.fechaNacimiento = SimpleDateFormat("dd/MM/yyy").parse(this.fechaNacimiento)
+        paciente.pais = this.pais
+        paciente.lenguaMaterna = this.lenguaMaterna
+        paciente.estadoCivil = this.estadoCivil
+        paciente.sexo = this.sexo
+        paciente.identificacion = this.identificacion
+
+        return paciente
     }
 
     fun PacienteEntity.toResponse(): PacienteResponse {
@@ -30,10 +42,9 @@ object PacienteMapper {
             nombre = this.nombre,
             fechaNacimiento = SimpleDateFormat("dd/MM/yyy").format(this.fechaNacimiento),
             pais = this.pais.name,
-            idioma = this.idioma.name,
+            lenguaMaterna = this.lenguaMaterna.name,
             estadoCivil = this.estadoCivil.name,
             sexo = this.sexo.name,
-            telefono = this.telefono,
             identificacion = this.identificacion,
             informacionSocioeconomica = this.informacionSocioeconomica?.toResponse(),
             anamnesis = this.anamnesis?.toResponse()

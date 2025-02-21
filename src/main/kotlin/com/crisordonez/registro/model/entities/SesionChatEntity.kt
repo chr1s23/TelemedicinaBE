@@ -1,5 +1,6 @@
 package com.crisordonez.registro.model.entities
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import jdk.jfr.Timestamp
 import java.time.LocalDateTime
@@ -30,9 +31,10 @@ data class SesionChatEntity(
     var saludSexual: SaludSexualEntity,
 
     @OneToOne
-    @JoinColumn(name = "evolucion_id")
-    var evolucion: EvolucionEntity? = null,
+    @JoinColumn(name = "prueba_id")
+    var prueba: PruebaEntity? = null,
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     var paciente: PacienteEntity

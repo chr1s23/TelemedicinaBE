@@ -16,14 +16,24 @@ object InformacionSocioeconomicaMapper {
         )
     }
 
+    fun InformacionSocioeconomicaRequest.toEntityUpdated(info: InformacionSocioeconomicaEntity): InformacionSocioeconomicaEntity {
+        info.instruccion = this.instruccion
+        info.ingresos = this.ingresos
+        info.ocupacion = this.ocupacion
+        info.trabajoRemunerado = this.trabajoRemunerado
+        info.recibeBono = this.recibeBono
+
+        return info
+    }
+
     fun InformacionSocioeconomicaEntity.toResponse(): InformacionSocioeconomicaResponse {
         return InformacionSocioeconomicaResponse(
             publicId = this.publicId,
-            instruccion = this.instruccion.name,
-            ingresos = this.ingresos.name,
+            instruccion = this.instruccion?.name,
+            ingresos = this.ingresos?.name,
             ocupacion = this.ocupacion,
-            trabajoRemunerado = this.trabajoRemunerado,
-            recibeBono = this.recibeBono
+            trabajoRemunerado = this.trabajoRemunerado?.name,
+            recibeBono = this.recibeBono?.name
         )
     }
 }
