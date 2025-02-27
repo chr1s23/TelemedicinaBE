@@ -8,8 +8,6 @@ data class SesionChatResponse(
 
     val contenido: String?,
 
-    val saludSexual: SaludSexualResponse,
-
-    val prueba: PruebaResponse? = null
+    val examenVph: ExamenVphResponse? = null
 
 )

@@ -44,6 +44,10 @@ data class SaludSexualEntity(
     @Enumerated(EnumType.STRING)
     var enfermedadAutoinmune: OpcionesEnum,
 
-    var nombreAutoinmune: String? = null
+    var nombreAutoinmune: String? = null,
+
+    @OneToOne
+    @JoinColumn(name = "examen_vph_id")
+    var examenVph: ExamenVphEntity? = null
 
 ) : AuditModel()

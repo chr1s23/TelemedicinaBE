@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import java.util.UUID
 
-data class PruebaRequest(
+data class ExamenVphRequest(
 
     @field:NotNull(message = "La fecha no puede ser nula")
     @field:NotBlank(message = "La fecha no puede estar vacía")
@@ -12,6 +12,9 @@ data class PruebaRequest(
 
     @field:NotNull(message = "El dispositivo relacionado no puede ser nulo")
     @field:NotBlank(message = "El dispositivo relacionado no puede estar vacío")
-    val dispositivo: UUID
+    val dispositivo: String,
+
+    @field:NotNull(message = "La informacion de salud sexual no puede ser nula")
+    val saludSexual: SaludSexualRequest
 
 )

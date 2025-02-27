@@ -6,7 +6,7 @@ import java.util.UUID
 
 interface EvolucionServiceInterface {
 
-    fun crearEvolucion(publicId: UUID, evolucion: EvolucionRequest)
+    fun crearEvolucion(publicId: String, evolucion: EvolucionRequest)
 
     fun getEvolucion(publicId: UUID): EvolucionResponse
 

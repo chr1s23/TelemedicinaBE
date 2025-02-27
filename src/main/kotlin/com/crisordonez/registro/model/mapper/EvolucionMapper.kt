@@ -1,20 +1,19 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.EvolucionEntity
-import com.crisordonez.registro.model.entities.PruebaEntity
-import com.crisordonez.registro.model.mapper.PruebaMapper.toResponse
+import com.crisordonez.registro.model.entities.ExamenVphEntity
 import com.crisordonez.registro.model.requests.EvolucionRequest
 import com.crisordonez.registro.model.responses.EvolucionResponse
 
 object EvolucionMapper {
 
-    fun EvolucionRequest.toEntity(prueba: PruebaEntity): EvolucionEntity {
+    fun EvolucionRequest.toEntity(examen: ExamenVphEntity): EvolucionEntity {
         return EvolucionEntity(
             temperatura = this.temperatura,
             pulso = this.pulso,
             talla = this.talla,
             peso = this.peso,
-            prueba = prueba
+            examenVph = examen
         )
     }
 
@@ -24,8 +23,7 @@ object EvolucionMapper {
             temperatura = this.temperatura,
             pulso = this.pulso,
             talla = this.talla,
-            peso = this.peso,
-            prueba = this.prueba.toResponse()
+            peso = this.peso
         )
     }
 }

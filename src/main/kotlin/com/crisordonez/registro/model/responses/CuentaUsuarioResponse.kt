@@ -6,13 +6,7 @@ data class CuentaUsuarioResponse(
 
     val publicId: UUID,
 
-    val correo: String? = null,
-
     val nombreUsuario: String,
-
-    val aceptaConsentimiento: Boolean,
-
-    val rol: String,
 
     val token: String? = null
 

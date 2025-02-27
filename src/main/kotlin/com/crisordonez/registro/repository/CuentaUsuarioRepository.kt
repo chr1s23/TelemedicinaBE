@@ -7,8 +7,6 @@ import java.util.UUID
 
 interface CuentaUsuarioRepository: CrudRepository<CuentaUsuarioEntity, Long> {
 
-    fun findByCorreoOrNombreUsuario(correo: String, nombreUsuario: String): Optional<CuentaUsuarioEntity>
-
     fun findByNombreUsuario(nombreUsuario: String): Optional<CuentaUsuarioEntity>
 
     fun findByPublicId(publicId: UUID): Optional<CuentaUsuarioEntity>

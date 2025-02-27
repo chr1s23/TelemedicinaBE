@@ -42,15 +42,11 @@ class CuentaUsuarioService(
     override fun crearCuentaUsuario(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse {
         try {
             log.info("Creando cuenta de usuario - Nombre: ${cuentaUsuario.nombreUsuario}")
-            val usuarioDuplicado = if (cuentaUsuario.correo != null) {
-                cuentaUsuarioRepository.findByCorreoOrNombreUsuario(cuentaUsuario.correo, cuentaUsuario.nombreUsuario)
-            } else {
-                cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
-            }
+            val usuarioDuplicado = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
 
             if (usuarioDuplicado.isPresent) {
                 log.error("La informacion ya esta registrada")
-                throw Exception("El correo o nombre de usuario ya estan registrados")
+                throw Exception("El nombre de usuario ya estan registrados")
             }
             if (cuentaUsuario.paciente == null) {
                 throw Exception("La informacion del paciente no puede ser nula")
@@ -60,7 +56,9 @@ class CuentaUsuarioService(
             cuenta.paciente = paciente
             cuentaUsuarioRepository.save(cuenta)
             if (cuentaUsuario.paciente.infoSocioeconomica != null) {
-                informacionSocioeconomicaRepository.save(cuentaUsuario.paciente.infoSocioeconomica.toEntity())
+                val info = informacionSocioeconomicaRepository.save(cuentaUsuario.paciente.infoSocioeconomica.toEntity(paciente))
+                paciente.informacionSocioeconomica = info
+                pacienteRepository.save(paciente)
             }
             log.info("Cuenta de usuario creada exitosamente, iniciando sesion")
             val token = autenticar(cuentaUsuario)
@@ -81,11 +79,7 @@ class CuentaUsuarioService(
                 throw Exception("La cuenta de usuario no existe")
             }
 
-            val cuentaExistente = if (cuentaUsuario.correo != null) {
-                cuentaUsuarioRepository.findByCorreoOrNombreUsuario(cuentaUsuario.correo, cuentaUsuario.nombreUsuario)
-            } else {
-                cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
-            }
+            val cuentaExistente = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
 
             if (cuentaExistente.isPresent && cuentaExistente.get().publicId != publicId) {
                 throw Exception("El correo o nombre de usuario ya existen")

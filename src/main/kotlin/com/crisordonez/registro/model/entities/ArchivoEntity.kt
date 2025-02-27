@@ -27,11 +27,6 @@ data class ArchivoEntity(
     var tamano: Long,
 
     @Column(nullable = false)
-    var nombre: String,
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "prueba_id")
-    var prueba: PruebaEntity? = null
+    var nombre: String
 
 ): AuditModel()

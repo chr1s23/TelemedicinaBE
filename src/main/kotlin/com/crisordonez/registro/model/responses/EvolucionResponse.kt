@@ -12,8 +12,6 @@ data class EvolucionResponse(
 
     val talla: Double,
 
-    val peso: Double,
-
-    val prueba: PruebaResponse
+    val peso: Double
 
 )

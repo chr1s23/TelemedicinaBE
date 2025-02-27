@@ -5,7 +5,7 @@ import com.crisordonez.registro.model.mapper.EvolucionMapper.toResponse
 import com.crisordonez.registro.model.requests.EvolucionRequest
 import com.crisordonez.registro.model.responses.EvolucionResponse
 import com.crisordonez.registro.repository.EvolucionRepository
-import com.crisordonez.registro.repository.PruebaRepository
+import com.crisordonez.registro.repository.ExamenVphRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -14,20 +14,20 @@ import java.util.*
 @Service
 class EvolucionService(
     @Autowired private val evolucionRepository: EvolucionRepository,
-    @Autowired private val pruebaRepository: PruebaRepository
+    @Autowired private val examenVphRepository: ExamenVphRepository
 ) : EvolucionServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun crearEvolucion(publicId: UUID, evolucion: EvolucionRequest) {
+    override fun crearEvolucion(publicId: String, evolucion: EvolucionRequest) {
         try {
             log.info("Creando evolucion")
-            val prueba = pruebaRepository.findByDispositivo(publicId).orElseThrow {
+            val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
                 throw Exception("No existe una prueba relacionada al dispositivo referencia")
             }
             val evolucionEntity = evolucionRepository.save(evolucion.toEntity(prueba))
             prueba.evolucion.add(evolucionEntity)
-            pruebaRepository.save(prueba)
+            examenVphRepository.save(prueba)
             log.info("Evolucion creada correctamente")
         } catch (e: Exception) {
             throw e

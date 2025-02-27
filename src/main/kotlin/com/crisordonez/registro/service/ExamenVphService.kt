@@ -1,54 +1,47 @@
 package com.crisordonez.registro.service
 
-import com.crisordonez.registro.model.mapper.ArchivoMapper.toEntity
 import com.crisordonez.registro.model.mapper.EvolucionMapper.toEntity
-import com.crisordonez.registro.model.mapper.PruebaMapper.toResponse
-import com.crisordonez.registro.model.mapper.PruebaMapper.toUpdateResultado
-import com.crisordonez.registro.model.requests.PruebaResultadoRequest
-import com.crisordonez.registro.model.responses.PruebaResponse
-import com.crisordonez.registro.repository.ArchivoRepository
+import com.crisordonez.registro.model.mapper.ExamenVphMapper.toResponse
+import com.crisordonez.registro.model.mapper.ExamenVphMapper.toUpdateResultado
+import com.crisordonez.registro.model.requests.ExamenResultadoRequest
+import com.crisordonez.registro.model.responses.ExamenVphResponse
 import com.crisordonez.registro.repository.EvolucionRepository
-import com.crisordonez.registro.repository.PruebaRepository
+import com.crisordonez.registro.repository.ExamenVphRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class PruebaService(
-    @Autowired private val pruebaRepository: PruebaRepository,
-    @Autowired private val archivoRepository: ArchivoRepository,
+class ExamenVphService(
+    @Autowired private val examenVphRepository: ExamenVphRepository,
     @Autowired private val evolucionRepository: EvolucionRepository
-): PruebaServiceInterface {
+): ExamenVphServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun establecerResultadoPrueba(publicId: UUID, pruebaRequest: PruebaResultadoRequest) {
+    override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest) {
         try {
             log.info("Estableciendo resultado - Prueba: $publicId")
-            val prueba = pruebaRepository.findByDispositivo(publicId).orElseThrow {
+            val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
                 throw Exception("No existe un dispositivo relacionado")
             }
-
-            val archivo = if (pruebaRequest.archivo != null) {
-                archivoRepository.save(pruebaRequest.archivo.toEntity(prueba))
-            } else { null }
 
             val evolucion = if (pruebaRequest.evolucion != null) {
                 evolucionRepository.save(pruebaRequest.evolucion.toEntity(prueba))
             } else { null }
 
-            pruebaRepository.save(prueba.toUpdateResultado(pruebaRequest, archivo, evolucion))
+            examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion))
             log.info("Resultado establecido correctamente")
         } catch (e: Exception) {
             throw e
         }
     }
 
-    override fun getPrueba(publicId: UUID): PruebaResponse {
+    override fun getPrueba(publicId: String): ExamenVphResponse {
         try {
             log.info("Consultando prueba por dispositivo relacionado - Dispositivo: $publicId")
-            val prueba = pruebaRepository.findByDispositivo(publicId).orElseThrow {
+            val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
                 throw Exception("No existe prueba relacionada con el dispositivo")
             }
             log.info("Prueba consultada correctamente")
@@ -58,10 +51,10 @@ class PruebaService(
         }
     }
 
-    override fun getTodasPruebas(): List<PruebaResponse> {
+    override fun getTodasPruebas(): List<ExamenVphResponse> {
         try {
             log.info("Consultando todas las pruebas en el sistema")
-            val pruebas = pruebaRepository.findAll().map { it.toResponse() }
+            val pruebas = examenVphRepository.findAll().map { it.toResponse() }
             log.info("Pruebas consultadas correctamente - Total: ${pruebas.size} registros")
             return pruebas
         } catch (e: Exception) {

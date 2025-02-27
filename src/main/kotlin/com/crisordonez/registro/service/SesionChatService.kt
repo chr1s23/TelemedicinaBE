@@ -1,6 +1,6 @@
 package com.crisordonez.registro.service
 
-import com.crisordonez.registro.model.mapper.PruebaMapper.toEntity
+import com.crisordonez.registro.model.mapper.ExamenVphMapper.toEntity
 import com.crisordonez.registro.model.mapper.SaludSexualMapper.toEntity
 import com.crisordonez.registro.model.mapper.SesionChatMapper.toEntity
 import com.crisordonez.registro.model.mapper.SesionChatMapper.toResponse
@@ -16,7 +16,7 @@ import java.util.*
 class SesionChatService(
     @Autowired private val sesionChatRepository: SesionChatRepository,
     @Autowired private val saludSexualRepository: SaludSexualRepository,
-    @Autowired private val pruebaRepository: PruebaRepository,
+    @Autowired private val examenVphRepository: ExamenVphRepository,
     @Autowired private val pacienteRepository: PacienteRepository
 ): SesionChatServiceInterface {
 
@@ -28,15 +28,18 @@ class SesionChatService(
             val paciente = pacienteRepository.findByCuentaPublicId(sesion.cuentaPublicId).orElseThrow{
                 throw Exception("La cuenta de usuario solicitada no existe")
             }
-            val saludSexual = saludSexualRepository.save(sesion.saludSexual.toEntity())
-            val sesionChat = sesionChatRepository.save(sesion.toEntity(paciente, saludSexual))
+            val sesionChat = sesionChatRepository.save(sesion.toEntity(paciente))
 
-            if (sesion.prueba != null) {
-                val prueba = pruebaRepository.save(sesion.prueba.toEntity(sesionChat))
-                sesionChat.prueba = prueba
+            if (sesion.examenVph != null) {
+                val saludSexual = saludSexualRepository.save(sesion.examenVph.saludSexual.toEntity())
+                val prueba = examenVphRepository.save(sesion.examenVph.toEntity(sesionChat, saludSexual))
+                saludSexual.examenVph = prueba
+                sesionChat.examenVph = prueba
                 sesionChatRepository.save(sesionChat)
+                saludSexualRepository.save(saludSexual)
+            } else {
+                throw Exception("La informacion de la prueba es requerida")
             }
-
             paciente.sesionChat.add(sesionChat)
             pacienteRepository.save(paciente)
             log.info("Sesion de chat creada correctamente")

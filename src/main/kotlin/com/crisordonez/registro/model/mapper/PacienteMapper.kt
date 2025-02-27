@@ -4,7 +4,7 @@ import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
 import com.crisordonez.registro.model.entities.PacienteEntity
 import com.crisordonez.registro.model.mapper.AnamnesisMapper.toResponse
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toResponse
-import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
+import com.crisordonez.registro.model.mapper.SesionChatMapper.toResponse
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import java.text.SimpleDateFormat
@@ -47,7 +47,8 @@ object PacienteMapper {
             sexo = this.sexo.name,
             identificacion = this.identificacion,
             informacionSocioeconomica = this.informacionSocioeconomica?.toResponse(),
-            anamnesis = this.anamnesis?.toResponse()
+            anamnesis = this.anamnesis?.toResponse(),
+            sesionChat = this.sesionChat.map { it.toResponse() }
         )
     }
 }

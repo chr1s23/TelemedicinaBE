@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -24,7 +23,7 @@ class EvolucionController {
     lateinit var evolucionServiceInterface: EvolucionServiceInterface
 
     @PostMapping("/admin/{publicId}")
-    fun crearEvolucion(@PathVariable publicId: UUID, @Valid @RequestBody evolucion: EvolucionRequest): ResponseEntity<Unit> {
+    fun crearEvolucion(@PathVariable publicId: String, @Valid @RequestBody evolucion: EvolucionRequest): ResponseEntity<Unit> {
         return ResponseEntity.ok(evolucionServiceInterface.crearEvolucion(publicId, evolucion))
     }
 

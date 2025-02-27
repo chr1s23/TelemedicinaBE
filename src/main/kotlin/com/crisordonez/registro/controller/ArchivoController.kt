@@ -24,8 +24,8 @@ class ArchivoController {
     lateinit var archivoServiceInterface: ArchivoServiceInterface
 
     @PostMapping("/admin/{publicId}")
-    fun crearArchivo(@PathVariable publicId: UUID, @Valid @RequestBody archivo: ArchivoRequest): ResponseEntity<Unit> {
-        return ResponseEntity.ok(archivoServiceInterface.crearArchivo(publicId, archivo))
+    fun crearArchivo(@Valid @RequestBody archivo: ArchivoRequest): ResponseEntity<Unit> {
+        return ResponseEntity.ok(archivoServiceInterface.crearArchivo(archivo))
     }
 
     @GetMapping("/admin/{publicId}")

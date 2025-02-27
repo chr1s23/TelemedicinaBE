@@ -10,7 +10,6 @@ object CuentaUsuarioMapper {
     fun CuentaUsuarioRequest.toEntity(pass: String): CuentaUsuarioEntity {
         return CuentaUsuarioEntity(
             nombreUsuario = this.nombreUsuario,
-            correo = this.correo,
             contrasena = pass,
             aceptaConsentimiento = this.aceptaConsentimiento,
             rol = this.rol
@@ -19,7 +18,6 @@ object CuentaUsuarioMapper {
 
     fun CuentaUsuarioRequest.toEntityUpdated(cuenta: CuentaUsuarioEntity): CuentaUsuarioEntity {
         cuenta.nombreUsuario = this.nombreUsuario
-        cuenta.correo = this.correo
         return cuenta
     }
 
@@ -27,9 +25,6 @@ object CuentaUsuarioMapper {
         return CuentaUsuarioResponse(
             publicId = this.publicId,
             nombreUsuario = this.nombreUsuario,
-            correo = this.correo,
-            aceptaConsentimiento = this.aceptaConsentimiento,
-            rol = this.rol,
             token = token
         )
     }
