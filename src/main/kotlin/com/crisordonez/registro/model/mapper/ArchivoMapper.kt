@@ -1,19 +1,17 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.ArchivoEntity
-import com.crisordonez.registro.model.entities.PruebaEntity
 import com.crisordonez.registro.model.requests.ArchivoRequest
 import com.crisordonez.registro.model.responses.ArchivoResponse
 
 object ArchivoMapper {
 
-    fun ArchivoRequest.toEntity(prueba: PruebaEntity?): ArchivoEntity {
+    fun ArchivoRequest.toEntity(): ArchivoEntity {
         return ArchivoEntity(
             nombre = this.nombre,
             tipo = this.tipo,
             contenido = this.contenido,
-            tamano = this.contenido.size.toLong(),
-            prueba = prueba
+            tamano = this.contenido.size.toLong()
         )
     }
 

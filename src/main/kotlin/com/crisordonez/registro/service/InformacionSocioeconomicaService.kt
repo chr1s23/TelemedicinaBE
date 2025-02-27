@@ -30,7 +30,7 @@ class InformacionSocioeconomicaService(
             val informacionEntity = if (paciente.informacionSocioeconomica != null) {
                 informacionSocioeconomicaRepository.save(informacion.toEntityUpdated(paciente.informacionSocioeconomica!!))
             } else {
-                informacionSocioeconomicaRepository.save(informacion.toEntity())
+                informacionSocioeconomicaRepository.save(informacion.toEntity(paciente))
             }
             paciente.informacionSocioeconomica = informacionEntity
             pacienteRepository.save(paciente)

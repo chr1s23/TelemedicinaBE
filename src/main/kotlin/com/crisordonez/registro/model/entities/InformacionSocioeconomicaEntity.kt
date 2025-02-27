@@ -29,6 +29,10 @@ data class InformacionSocioeconomicaEntity(
     var ocupacion: String? = null,
 
     @Enumerated(EnumType.STRING)
-    var recibeBono: OpcionesEnum? = null
+    var recibeBono: OpcionesEnum? = null,
+
+    @OneToOne
+    @JoinColumn(name = "paciente_id")
+    var paciente: PacienteEntity
 
 ) : AuditModel()

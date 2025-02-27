@@ -27,12 +27,8 @@ data class SesionChatEntity(
     var contenido: String? = null,
 
     @OneToOne
-    @JoinColumn(name = "salud_sexual_id")
-    var saludSexual: SaludSexualEntity,
-
-    @OneToOne
-    @JoinColumn(name = "prueba_id")
-    var prueba: PruebaEntity? = null,
+    @JoinColumn(name = "examen_vph_id")
+    var examenVph: ExamenVphEntity? = null,
 
     @JsonIgnore
     @ManyToOne

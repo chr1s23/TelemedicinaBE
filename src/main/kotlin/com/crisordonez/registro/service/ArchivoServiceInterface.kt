@@ -6,7 +6,7 @@ import java.util.UUID
 
 interface ArchivoServiceInterface {
 
-    fun crearArchivo(publicId: UUID, archivo: ArchivoRequest)
+    fun crearArchivo(archivo: ArchivoRequest)
 
     fun getArchivo(publicId: UUID): ArchivoResponse
 

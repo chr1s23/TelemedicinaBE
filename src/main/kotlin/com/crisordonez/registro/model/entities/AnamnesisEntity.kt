@@ -1,11 +1,6 @@
 package com.crisordonez.registro.model.entities
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.util.*
 
 @Entity
@@ -21,6 +16,10 @@ data class AnamnesisEntity(
 
     var edadPrimerRelacionSexual: Int? = null,
 
-    var edadPrimerPap: Int? = null
+    var edadPrimerPap: Int? = null,
+
+    @OneToOne
+    @JoinColumn(name = "paciente_id")
+    var paciente: PacienteEntity
 
 ) : AuditModel()

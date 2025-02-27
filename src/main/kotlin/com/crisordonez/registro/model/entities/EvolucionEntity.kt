@@ -29,7 +29,12 @@ data class EvolucionEntity(
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "prueba_id")
-    var prueba: PruebaEntity
+    @JoinColumn(name = "examen_vph_id")
+    var examenVph: ExamenVphEntity,
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "medico_id")
+    var medico: MedicoEntity? = null
 
 ) : AuditModel()

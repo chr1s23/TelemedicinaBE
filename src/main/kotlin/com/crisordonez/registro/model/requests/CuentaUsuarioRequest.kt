@@ -13,8 +13,6 @@ data class CuentaUsuarioRequest(
     @field:NotBlank(message = "La contrasena no puede estar vacía")
     val contrasena: String,
 
-    val correo: String? = null,
-
     val aceptaConsentimiento: Boolean = false,
 
     val rol: String = "USER",

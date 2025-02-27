@@ -1,18 +1,20 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.InformacionSocioeconomicaEntity
+import com.crisordonez.registro.model.entities.PacienteEntity
 import com.crisordonez.registro.model.requests.InformacionSocioeconomicaRequest
 import com.crisordonez.registro.model.responses.InformacionSocioeconomicaResponse
 
 object InformacionSocioeconomicaMapper {
 
-    fun InformacionSocioeconomicaRequest.toEntity(): InformacionSocioeconomicaEntity {
+    fun InformacionSocioeconomicaRequest.toEntity(paciente: PacienteEntity): InformacionSocioeconomicaEntity {
         return InformacionSocioeconomicaEntity(
             instruccion = this.instruccion,
             ingresos = this.ingresos,
             ocupacion = this.ocupacion,
             trabajoRemunerado = this.trabajoRemunerado,
-            recibeBono = this.recibeBono
+            recibeBono = this.recibeBono,
+            paciente = paciente
         )
     }
 

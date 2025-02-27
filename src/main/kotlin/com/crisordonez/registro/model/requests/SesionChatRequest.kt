@@ -17,8 +17,6 @@ data class SesionChatRequest(
 
     val contenido: String? = null,
 
-    val saludSexual: SaludSexualRequest,
-
-    val prueba: PruebaRequest? = null
+    val examenVph: ExamenVphRequest? = null
 
 )

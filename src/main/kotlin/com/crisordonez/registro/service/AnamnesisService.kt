@@ -26,7 +26,7 @@ class AnamnesisService(
             val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
                 throw Exception("No existe la cuenta de usuario solicitada")
             }
-            val anamnesisEntity = anamnesisRepository.save(anamnesis.toEntity())
+            val anamnesisEntity = anamnesisRepository.save(anamnesis.toEntity(paciente))
             paciente.anamnesis = anamnesisEntity
             pacienteRepository.save(paciente)
             log.info("Anamnesis creada correctamente")

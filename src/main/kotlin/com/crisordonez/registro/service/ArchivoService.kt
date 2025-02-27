@@ -6,7 +6,6 @@ import com.crisordonez.registro.model.mapper.ArchivoMapper.toResponse
 import com.crisordonez.registro.model.requests.ArchivoRequest
 import com.crisordonez.registro.model.responses.ArchivoResponse
 import com.crisordonez.registro.repository.ArchivoRepository
-import com.crisordonez.registro.repository.PruebaRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -14,21 +13,15 @@ import java.util.*
 
 @Service
 class ArchivoService(
-    @Autowired private val archivoRepository: ArchivoRepository,
-    @Autowired private val pruebaRepository: PruebaRepository
+    @Autowired private val archivoRepository: ArchivoRepository
 ) : ArchivoServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun crearArchivo(publicId: UUID, archivo: ArchivoRequest) {
+    override fun crearArchivo(archivo: ArchivoRequest) {
         try {
             log.info("Creando archivo")
-            val prueba = pruebaRepository.findByDispositivo(publicId).orElseThrow {
-                throw Exception("No existe una prueba relacionada con el dispositivo")
-            }
-            val archivoEntity = archivoRepository.save(archivo.toEntity(prueba))
-            prueba.archivos.add(archivoEntity)
-            pruebaRepository.save(prueba)
+            archivoRepository.save(archivo.toEntity())
             log.info("Archivo creado correctamente")
         } catch (e: Exception) {
             throw e
