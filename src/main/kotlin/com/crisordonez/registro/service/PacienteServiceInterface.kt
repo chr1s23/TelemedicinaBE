@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.requests.DispositivoRequest
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import java.util.UUID
@@ -11,5 +12,7 @@ interface PacienteServiceInterface {
     fun getPaciente(publicId: UUID): PacienteResponse
 
     fun getTodosPacientes(): List<PacienteResponse>
+
+    fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest)
 
 }

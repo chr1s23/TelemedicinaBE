@@ -52,6 +52,9 @@ data class PacienteEntity(
     var anamnesis: AnamnesisEntity? = null,
 
     @OneToMany(fetch = FetchType.LAZY)
-    var sesionChat: MutableList<SesionChatEntity> = mutableListOf()
+    var sesionChat: MutableList<SesionChatEntity> = mutableListOf(),
+
+    @OneToMany(fetch = FetchType.LAZY)
+    var dispositivos: MutableList<DispositivoEntity> = mutableListOf()
 
 ) : AuditModel()
