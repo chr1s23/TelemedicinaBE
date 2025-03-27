@@ -22,6 +22,12 @@ object ExamenVphMapper {
         )
     }
 
+    fun ExamenVphRequest.toEntityUpdated(examen: ExamenVphEntity): ExamenVphEntity {
+        examen.fechaExamen = SimpleDateFormat("dd/MM/yyyy").parse(this.fecha)
+        examen.dispositivo = this.dispositivo
+        return examen
+    }
+
     fun ExamenVphEntity.toResponse(): ExamenVphResponse {
         return ExamenVphResponse(
             publicId = this.publicId,

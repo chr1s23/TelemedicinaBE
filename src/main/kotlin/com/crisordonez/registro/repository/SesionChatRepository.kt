@@ -11,4 +11,6 @@ interface SesionChatRepository: CrudRepository<SesionChatEntity, Long> {
 
     fun findByPublicId(publicId: UUID): Optional<SesionChatEntity>
 
+    fun findByExamenVphDispositivo(dispositivo: String): SesionChatEntity?
+
 }

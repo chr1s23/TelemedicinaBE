@@ -43,7 +43,7 @@ class SecurityConfig {
                 registry.requestMatchers("/archivo/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/usuarios/editar/**").hasRole("USER")
                 registry.requestMatchers("/info-socioeconomica/editar/**", "/info-socioeconomica/usuario/**").hasRole("USER")
-                registry.requestMatchers("/paciente/usuario/**", "/paciente/editar/**").hasRole("USER")
+                registry.requestMatchers("/paciente/usuario/**", "/paciente/editar/**", "/registrar-dispositivo/**").hasRole("USER")
                 registry.requestMatchers("/sesion-chat/usuario/**").hasRole("USER")
                 registry.anyRequest().authenticated()
             }

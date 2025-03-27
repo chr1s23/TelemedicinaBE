@@ -1,5 +1,6 @@
 package com.crisordonez.registro.controller
 
+import com.crisordonez.registro.model.requests.DispositivoRequest
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import com.crisordonez.registro.service.PacienteServiceInterface
@@ -35,4 +36,10 @@ class PacienteController {
     fun getTodosPacientes(): ResponseEntity<List<PacienteResponse>> {
         return ResponseEntity.ok(pacienteServiceInterface.getTodosPacientes())
     }
+
+    @PutMapping("/registrar-dispositivo/{publicId}")
+    fun registrarDispositivo(@PathVariable publicId: UUID, @Valid @RequestBody dispositivo: DispositivoRequest): ResponseEntity<Unit> {
+        return ResponseEntity.ok(pacienteServiceInterface.registrarDispositivo(publicId, dispositivo))
+    }
+
 }

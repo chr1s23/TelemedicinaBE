@@ -21,6 +21,19 @@ object SaludSexualMapper {
         )
     }
 
+    fun SaludSexualRequest.toEntityUpdated(saludSexual: SaludSexualEntity): SaludSexualEntity {
+        saludSexual.estaEmbarazada = this.estaEmbarazada
+        saludSexual.fechaUltimaMenstruacion = SimpleDateFormat("dd/MM/yyyy").parse(this.fechaUltimaMenstruacion)
+        saludSexual.ultimoExamenPap = this.ultimoExamenPap
+        saludSexual.tiempoPruebaVph = this.tiempoPruebaVph
+        saludSexual.numParejasSexuales = this.numParejasSexuales
+        saludSexual.tieneEts = this.tieneEts
+        saludSexual.nombreEts = this.nombreEts
+        saludSexual.enfermedadAutoinmune = this.enfermedadAutoinmune
+        saludSexual.nombreAutoinmune = this.nombreAutoinmune
+        return saludSexual
+    }
+
     fun SaludSexualEntity.toResponse(): SaludSexualResponse {
         return SaludSexualResponse(
             publicId = this.publicId,
