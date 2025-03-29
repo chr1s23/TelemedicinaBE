@@ -1,7 +1,5 @@
 package com.crisordonez.registro.model.entities
 
-import com.crisordonez.registro.model.enums.TipoArchivoEnum
-import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -17,16 +15,15 @@ data class ArchivoEntity(
     var publicId: UUID = UUID.randomUUID(),
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    var tipo: TipoArchivoEnum,
+    var tipo: String,
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "bytea")
     var contenido: ByteArray,
 
     @Column(nullable = false)
     var tamano: Long,
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     var nombre: String
 
 ): AuditModel()

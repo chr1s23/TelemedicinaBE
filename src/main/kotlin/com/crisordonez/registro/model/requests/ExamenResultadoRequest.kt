@@ -9,8 +9,6 @@ data class ExamenResultadoRequest(
     @field:NotBlank(message = "La fecha del resultado no debe estar vacia")
     val fechaResultado: String,
 
-    val archivo: ArchivoRequest? = null,
-
     val evolucion: EvolucionRequest? = null
 
 )

@@ -31,7 +31,7 @@ class SecurityConfig {
         return httpSecurity
             .csrf { it.disable() }
             .authorizeHttpRequests { registry ->
-                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
+                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**").permitAll()
                 registry.requestMatchers("/anamnesis/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/evolucion/admin/**").hasRole("ADMIN")
