@@ -17,7 +17,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombreUsuario\": \"0123456789\",\r\n    \"contrasena\": \"christian\",\r\n    \"rol\": \"USER\",\r\n    \"aceptaConsentimiento\": true,\r\n    \"paciente\": {\r\n        \"nombre\": \"Gabriela Orellana\",\r\n        \"fechaNacimiento\": \"15/06/1999\",\r\n        \"pais\": \"ECUADOR\",\r\n        \"lenguaMaterna\": \"ESPANOL\",\r\n        \"estadoCivil\": \"SOLTERO\",\r\n        \"sexo\": \"FEMENINO\",\r\n        \"infoSocioeconomica\": null //{ //opcional puede ser nulo\r\n            //\"instruccion\": \"UNIVERSITARIA\",\r\n            //\"ingresos\": \"MENOR_450\",\r\n            //\"trabajoRemunerado\": \"SI\",\r\n            //\"ocupacion\": \"Desarrollador de software\",\r\n            //\"recibeBono\": \"NO\"\r\n        //} \r\n    }\r\n}",
+					"raw": "{\r\n    \"nombreUsuario\": \"0980924329\",\r\n    \"contrasena\": \"0980924329\",\r\n    \"rol\": \"ADMIN\",\r\n    \"aceptaConsentimiento\": true,\r\n    \"paciente\": {\r\n        \"nombre\": \"Administrator\",\r\n        \"fechaNacimiento\": \"15/06/1999\",\r\n        \"pais\": \"ECUADOR\",\r\n        \"lenguaMaterna\": \"ESPANOL\",\r\n        \"estadoCivil\": \"SOLTERO\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"infoSocioeconomica\": null //{ //opcional puede ser nulo\r\n            //\"instruccion\": \"UNIVERSITARIA\",\r\n            //\"ingresos\": \"MENOR_450\",\r\n            //\"trabajoRemunerado\": \"SI\",\r\n            //\"ocupacion\": \"Desarrollador de software\",\r\n            //\"recibeBono\": \"NO\"\r\n        //} \r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -25,12 +25,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/usuarios/registro",
-					"protocol": "http",
+					"raw": "https://clias.ucuenca.edu.ec/usuarios/registro",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"clias",
+						"ucuenca",
+						"edu",
+						"ec"
 					],
-					"port": "8080",
 					"path": [
 						"usuarios",
 						"registro"
@@ -86,7 +88,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"sender\": \"8df18da8-2ac3-4348-81e6-17bcc48bbfc5\",\r\n    \"message\": \"hola\"\r\n}",
+					"raw": "{\r\n    \"sender\": \"8df4785a8-2ac3-4348-81e6-17bcc48b4785\",\r\n    \"message\": \"comenzar proceso\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -225,6 +227,132 @@
 						"info-socioeconomica",
 						"editar",
 						"2b6880f0-d696-42eb-8d3b-8e88b6566790"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Guardar imagen",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL3d3dy51Y3VlbmNhLmVkdS5lYyIsInN1YiI6IjA5ODA5MjQzMjkiLCJpYXQiOjE3NDMyMTY3ODAsImV4cCI6MTc0MzIyNzU4MH0.La6nrTBuUG5J0Nx6xm-bn3vRlBqH1uWv0XX_oR6e0KIhkWKYzVMvg_AkKiUgAnMKBmF69yS7fBKIDU6iQr76Zg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "archivo",
+							"type": "file",
+							"src": "/C:/Users/cris1/Downloads/autocuidado.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/archivo/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"archivo",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener imagen chat",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/archivo/nombre/autocuidado.jpg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"archivo",
+						"nombre",
+						"autocuidado.jpg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar archivo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL3d3dy51Y3VlbmNhLmVkdS5lYyIsInN1YiI6IjA5ODA5MjQzMjkiLCJpYXQiOjE3NDMyMTY3ODAsImV4cCI6MTc0MzIyNzU4MH0.La6nrTBuUG5J0Nx6xm-bn3vRlBqH1uWv0XX_oR6e0KIhkWKYzVMvg_AkKiUgAnMKBmF69yS7fBKIDU6iQr76Zg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/archivo/admin/eliminar/f4a23754-5cff-4b69-908e-d972df4cbf6f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"archivo",
+						"admin",
+						"eliminar",
+						"f4a23754-5cff-4b69-908e-d972df4cbf6f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos archivos",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL3d3dy51Y3VlbmNhLmVkdS5lYyIsInN1YiI6IjA5ODA5MjQzMjkiLCJpYXQiOjE3NDMyMTY3ODAsImV4cCI6MTc0MzIyNzU4MH0.La6nrTBuUG5J0Nx6xm-bn3vRlBqH1uWv0XX_oR6e0KIhkWKYzVMvg_AkKiUgAnMKBmF69yS7fBKIDU6iQr76Zg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/archivo/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"archivo",
+						"admin"
 					]
 				}
 			},

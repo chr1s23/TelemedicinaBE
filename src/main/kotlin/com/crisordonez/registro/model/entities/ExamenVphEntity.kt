@@ -1,6 +1,5 @@
 package com.crisordonez.registro.model.entities
 
-import com.crisordonez.registro.model.enums.TipoArchivoEnum
 import jakarta.persistence.*
 import java.util.Date
 import java.util.UUID
@@ -35,9 +34,9 @@ data class ExamenVphEntity(
     @OneToMany(fetch = FetchType.LAZY)
     var evolucion: MutableList<EvolucionEntity> = mutableListOf(),
 
-    @Enumerated(EnumType.STRING)
-    var tipo: TipoArchivoEnum? = null,
+    var tipo: String? = null,
 
+    @Column(nullable = false, columnDefinition = "bytea")
     var contenido: ByteArray? = null,
 
     var tamano: Long? = null,

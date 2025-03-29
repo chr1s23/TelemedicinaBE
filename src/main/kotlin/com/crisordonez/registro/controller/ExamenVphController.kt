@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.util.UUID
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/prueba")
@@ -22,8 +23,12 @@ class ExamenVphController {
     lateinit var examenVphServiceInterface: ExamenVphServiceInterface
 
     @PutMapping("/admin/resultado/{publicId}")
-    fun establecerResultado(@PathVariable publicId: String, @Valid @RequestBody prueba: ExamenResultadoRequest): ResponseEntity<Unit> {
-        return ResponseEntity.ok(examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba))
+    fun establecerResultado(
+        @PathVariable publicId: String,
+        @Valid @RequestBody prueba: ExamenResultadoRequest,
+        @RequestParam("archivo") archivo: MultipartFile
+    ): ResponseEntity<Unit> {
+        return ResponseEntity.ok(examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba, archivo))
     }
 
     @GetMapping("/admin/{publicId}")

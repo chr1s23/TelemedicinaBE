@@ -3,12 +3,12 @@ package com.crisordonez.registro.service
 import com.crisordonez.registro.model.mapper.ArchivoMapper.toEntity
 import com.crisordonez.registro.model.mapper.ArchivoMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.ArchivoMapper.toResponse
-import com.crisordonez.registro.model.requests.ArchivoRequest
 import com.crisordonez.registro.model.responses.ArchivoResponse
 import com.crisordonez.registro.repository.ArchivoRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 @Service
@@ -18,7 +18,7 @@ class ArchivoService(
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun crearArchivo(archivo: ArchivoRequest) {
+    override fun crearArchivo(archivo: MultipartFile) {
         try {
             log.info("Creando archivo")
             archivoRepository.save(archivo.toEntity())
@@ -41,6 +41,19 @@ class ArchivoService(
         }
     }
 
+    override fun getArchivoByNombre(nombre: String): ArchivoResponse {
+        try {
+            log.info("Consultando archivo - Nombre: $nombre")
+            val archivo = archivoRepository.findByNombre(nombre).orElseThrow {
+                throw Exception("No existe el archivo solicitado")
+            }
+            log.info("Archivo consultado por nombre correctamente")
+            return archivo.toResponse()
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
     override fun getTodosArchivos(): List<ArchivoResponse> {
         try {
             log.info("Consultando todos los archivos del sistema")
@@ -52,7 +65,7 @@ class ArchivoService(
         }
     }
 
-    override fun editarArchivo(publicId: UUID, archivo: ArchivoRequest) {
+    override fun editarArchivo(publicId: UUID, archivo: MultipartFile) {
         try {
             log.info("Editando archivo - PublicId: $publicId")
             val archivoExistente = archivoRepository.findByPublicId(publicId).orElseThrow {

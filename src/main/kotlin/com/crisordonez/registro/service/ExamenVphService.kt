@@ -10,7 +10,7 @@ import com.crisordonez.registro.repository.ExamenVphRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class ExamenVphService(
@@ -20,7 +20,7 @@ class ExamenVphService(
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest) {
+    override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest, archivo: MultipartFile) {
         try {
             log.info("Estableciendo resultado - Prueba: $publicId")
             val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
@@ -31,7 +31,7 @@ class ExamenVphService(
                 evolucionRepository.save(pruebaRequest.evolucion.toEntity(prueba))
             } else { null }
 
-            examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion))
+            examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion, archivo))
             log.info("Resultado establecido correctamente")
         } catch (e: Exception) {
             throw e
