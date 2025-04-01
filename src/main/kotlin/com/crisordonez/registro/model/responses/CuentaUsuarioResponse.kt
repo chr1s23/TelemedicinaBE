@@ -6,6 +6,8 @@ data class CuentaUsuarioResponse(
 
     val publicId: UUID,
 
+    val nombre: String,
+
     val nombreUsuario: String,
 
     val token: String? = null

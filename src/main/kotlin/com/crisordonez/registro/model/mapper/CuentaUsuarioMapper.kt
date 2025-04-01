@@ -24,6 +24,7 @@ object CuentaUsuarioMapper {
     fun CuentaUsuarioEntity.toResponse(token: String?): CuentaUsuarioResponse {
         return CuentaUsuarioResponse(
             publicId = this.publicId,
+            nombre = this.paciente?.nombre ?: "",
             nombreUsuario = this.nombreUsuario,
             token = token
         )
