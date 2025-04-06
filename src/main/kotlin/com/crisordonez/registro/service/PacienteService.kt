@@ -60,7 +60,7 @@ class PacienteService(
         }
     }
 
-    override fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest) {
+    override fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest): String {
         try {
             log.info("Registrando nuevo dispositivo al paciente - PublicId: $publicId")
             val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
@@ -70,6 +70,7 @@ class PacienteService(
             paciente.dispositivos.add(dispositivoEntity)
             pacienteRepository.save(paciente)
             log.info("Dispositivo registrado correctamente")
+            return dispositivo.dispositivo
         } catch (e: Exception) {
             throw e
         }

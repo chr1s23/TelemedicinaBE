@@ -13,6 +13,6 @@ interface PacienteServiceInterface {
 
     fun getTodosPacientes(): List<PacienteResponse>
 
-    fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest)
+    fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest): String
 
 }

@@ -1,6 +1,7 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
+import com.crisordonez.registro.model.mapper.DispositivoMapper.toResponse
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import java.time.LocalDateTime
@@ -26,7 +27,8 @@ object CuentaUsuarioMapper {
             publicId = this.publicId,
             nombre = this.paciente?.nombre ?: "",
             nombreUsuario = this.nombreUsuario,
-            token = token
+            token = token,
+            dispositivos = this.paciente?.dispositivos?.map { it.toResponse() } ?: emptyList()
         )
     }
 
