@@ -28,7 +28,7 @@ object CuentaUsuarioMapper {
             nombre = this.paciente?.nombre ?: "",
             nombreUsuario = this.nombreUsuario,
             token = token,
-            dispositivos = this.paciente?.dispositivos?.map { it.toResponse() } ?: emptyList()
+            dispositivo = this.paciente?.dispositivos?.firstOrNull()?.dispositivo
         )
     }
 

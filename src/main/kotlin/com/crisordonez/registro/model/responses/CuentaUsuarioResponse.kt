@@ -12,6 +12,6 @@ data class CuentaUsuarioResponse(
 
     val token: String? = null,
 
-    val dispositivos: List<DispositivoResponse>
+    val dispositivo: String? = null
 
 )
