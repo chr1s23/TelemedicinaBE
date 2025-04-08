@@ -29,12 +29,6 @@ data class SaludSexualRequest(
     @field:NotBlank(message = "Tiene ETS es requerido")
     val tieneEts: OpcionesEnum,
 
-    val nombreEts: String? = null,
-
-    @field:NotNull(message = "Enfermedad autoinmune es requerida")
-    @field:NotBlank(message = "Enfermedad autoinmune es requerida")
-    val enfermedadAutoinmune: OpcionesEnum,
-
-    val nombreAutoinmune: String? = null
+    val nombreEts: String? = null
 
 )

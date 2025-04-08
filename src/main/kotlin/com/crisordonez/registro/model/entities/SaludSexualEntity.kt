@@ -40,12 +40,6 @@ data class SaludSexualEntity(
 
     var nombreEts: String? = null,
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    var enfermedadAutoinmune: OpcionesEnum,
-
-    var nombreAutoinmune: String? = null,
-
     @OneToOne
     @JoinColumn(name = "examen_vph_id")
     var examenVph: ExamenVphEntity? = null

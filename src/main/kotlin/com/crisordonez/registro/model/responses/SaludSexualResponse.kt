@@ -18,10 +18,6 @@ data class SaludSexualResponse(
 
     val tieneEts: String,
 
-    val nombreEts: String? = null,
-
-    val enfermedadAutoinmune: String,
-
-    val nombreAutoinmune: String? = null
+    val nombreEts: String? = null
 
 )
