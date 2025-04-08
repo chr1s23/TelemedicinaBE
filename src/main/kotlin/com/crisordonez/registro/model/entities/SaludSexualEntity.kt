@@ -3,7 +3,6 @@ package com.crisordonez.registro.model.entities
 import com.crisordonez.registro.model.enums.OpcionesEnum
 import com.crisordonez.registro.model.enums.RangoTiempoEnum
 import jakarta.persistence.*
-import java.util.Date
 import java.util.UUID
 
 @Entity
@@ -21,7 +20,7 @@ data class SaludSexualEntity(
     var estaEmbarazada: Boolean = false,
 
     @Column(nullable = false)
-    var fechaUltimaMenstruacion: Date,
+    var fechaUltimaMenstruacion: String,
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
