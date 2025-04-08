@@ -15,9 +15,7 @@ object SaludSexualMapper {
             tiempoPruebaVph = this.tiempoPruebaVph,
             numParejasSexuales = this.numParejasSexuales,
             tieneEts = this.tieneEts,
-            nombreEts = this.nombreEts,
-            enfermedadAutoinmune = this.enfermedadAutoinmune,
-            nombreAutoinmune = this.nombreAutoinmune
+            nombreEts = this.nombreEts
         )
     }
 
@@ -29,8 +27,6 @@ object SaludSexualMapper {
         saludSexual.numParejasSexuales = this.numParejasSexuales
         saludSexual.tieneEts = this.tieneEts
         saludSexual.nombreEts = this.nombreEts
-        saludSexual.enfermedadAutoinmune = this.enfermedadAutoinmune
-        saludSexual.nombreAutoinmune = this.nombreAutoinmune
         return saludSexual
     }
 
@@ -43,9 +39,7 @@ object SaludSexualMapper {
             tiempoPruebaVph = this.tiempoPruebaVph.name,
             numParejasSexuales = this.numParejasSexuales,
             tieneEts = this.tieneEts.name,
-            nombreEts = this.nombreEts,
-            enfermedadAutoinmune = this.enfermedadAutoinmune.name,
-            nombreAutoinmune = this.nombreAutoinmune
+            nombreEts = this.nombreEts
         )
     }
 }
