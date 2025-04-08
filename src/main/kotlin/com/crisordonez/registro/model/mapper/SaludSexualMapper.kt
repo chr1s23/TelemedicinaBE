@@ -3,14 +3,13 @@ package com.crisordonez.registro.model.mapper
 import com.crisordonez.registro.model.entities.SaludSexualEntity
 import com.crisordonez.registro.model.requests.SaludSexualRequest
 import com.crisordonez.registro.model.responses.SaludSexualResponse
-import java.text.SimpleDateFormat
 
 object SaludSexualMapper {
 
     fun SaludSexualRequest.toEntity(): SaludSexualEntity {
         return SaludSexualEntity(
             estaEmbarazada = this.estaEmbarazada,
-            fechaUltimaMenstruacion = SimpleDateFormat("dd/MM/yyyy").parse(this.fechaUltimaMenstruacion),
+            fechaUltimaMenstruacion = this.fechaUltimaMenstruacion,
             ultimoExamenPap = this.ultimoExamenPap,
             tiempoPruebaVph = this.tiempoPruebaVph,
             numParejasSexuales = this.numParejasSexuales,
@@ -21,7 +20,7 @@ object SaludSexualMapper {
 
     fun SaludSexualRequest.toEntityUpdated(saludSexual: SaludSexualEntity): SaludSexualEntity {
         saludSexual.estaEmbarazada = this.estaEmbarazada
-        saludSexual.fechaUltimaMenstruacion = SimpleDateFormat("dd/MM/yyyy").parse(this.fechaUltimaMenstruacion)
+        saludSexual.fechaUltimaMenstruacion = this.fechaUltimaMenstruacion
         saludSexual.ultimoExamenPap = this.ultimoExamenPap
         saludSexual.tiempoPruebaVph = this.tiempoPruebaVph
         saludSexual.numParejasSexuales = this.numParejasSexuales
@@ -34,7 +33,7 @@ object SaludSexualMapper {
         return SaludSexualResponse(
             publicId = this.publicId,
             estaEmbarazada = this.estaEmbarazada,
-            fechaUltimaMenstruacion = SimpleDateFormat("dd/MM/yyyy").format(this.fechaUltimaMenstruacion),
+            fechaUltimaMenstruacion = this.fechaUltimaMenstruacion,
             ultimoExamenPap = this.ultimoExamenPap.name,
             tiempoPruebaVph = this.tiempoPruebaVph.name,
             numParejasSexuales = this.numParejasSexuales,

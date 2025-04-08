@@ -36,7 +36,7 @@ data class ExamenVphEntity(
 
     var tipo: String? = null,
 
-    @Column(nullable = false, columnDefinition = "bytea")
+    @Column(nullable = true, columnDefinition = "bytea")
     var contenido: ByteArray? = null,
 
     var tamano: Long? = null,
