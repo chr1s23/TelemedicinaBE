@@ -3,6 +3,7 @@ package com.crisordonez.registro.service
 import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toEntity
 import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toResponse
+import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toUpdateContrasena
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
@@ -148,6 +149,33 @@ class CuentaUsuarioService(
 
             cuentaUsuarioRepository.delete(cuenta.get())
             log.info("Cuenta de usuario eliminada correctamente")
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override fun validarExpiracionToken(token: String): Boolean {
+        try {
+            log.info("Validando expiracion del token")
+            val valido = jwtUtil.isTokenValid(token)
+            log.info("Token validado correctamente - Estado: $valido")
+            return valido
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override fun updateContrasena(cuentaUsuario: CuentaUsuarioRequest) {
+        try {
+            log.info("Cambiando contrasena de la cuenta ${cuentaUsuario.nombreUsuario}")
+            val cuenta = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
+
+            if (!cuenta.isPresent) {
+                throw Exception("La cuenta de usuario ${cuentaUsuario.nombreUsuario} no existe")
+            }
+
+            cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(cuentaUsuario.contrasena))
+            log.info("Contrasena cambiada correctamente")
         } catch (e: Exception) {
             throw e
         }
