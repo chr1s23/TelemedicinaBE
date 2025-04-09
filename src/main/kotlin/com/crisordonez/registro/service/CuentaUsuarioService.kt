@@ -154,12 +154,12 @@ class CuentaUsuarioService(
         }
     }
 
-    override fun validarExpiracionToken(token: String): Boolean {
+    override fun validarExpiracionToken(token: String): String? {
         try {
             log.info("Validando expiracion del token")
-            val valido = jwtUtil.isTokenValid(token)
-            log.info("Token validado correctamente - Estado: $valido")
-            return valido
+            val newToken = jwtUtil.refreshToken(token)
+            log.info("Token validado correctamente")
+            return newToken
         } catch (e: Exception) {
             throw e
         }

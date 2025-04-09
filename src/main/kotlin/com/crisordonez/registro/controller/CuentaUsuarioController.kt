@@ -55,7 +55,7 @@ class CuentaUsuarioController {
     }
 
     @GetMapping("/validar")
-    fun validarToken(@RequestHeader("token") token: String): ResponseEntity<Boolean> {
+    fun validarToken(@RequestHeader("token") token: String): ResponseEntity<String?> {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.validarExpiracionToken(token))
     }
 
