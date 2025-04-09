@@ -18,4 +18,8 @@ interface CuentaUsuarioServiceInterface {
 
     fun eliminarCuentaUsuario(publicId: UUID)
 
+    fun validarExpiracionToken(token: String): Boolean
+
+    fun updateContrasena(cuentaUsuario: CuentaUsuarioRequest)
+
 }

@@ -1,7 +1,6 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
-import com.crisordonez.registro.model.mapper.DispositivoMapper.toResponse
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import java.time.LocalDateTime
@@ -34,6 +33,11 @@ object CuentaUsuarioMapper {
 
     fun CuentaUsuarioEntity.toUpdateUltimaSesion(): CuentaUsuarioEntity {
         this.ultimaSesion = LocalDateTime.now()
+        return this
+    }
+
+    fun CuentaUsuarioEntity.toUpdateContrasena(newPass: String): CuentaUsuarioEntity {
+        this.contrasena = newPass
         return this
     }
 }
