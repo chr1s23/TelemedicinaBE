@@ -174,7 +174,7 @@ class CuentaUsuarioService(
                 throw Exception("La cuenta de usuario ${cuentaUsuario.nombreUsuario} no existe")
             }
 
-            cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(cuentaUsuario.contrasena))
+            cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(passwordEncoder.encode(cuentaUsuario.contrasena)))
             log.info("Contrasena cambiada correctamente")
         } catch (e: Exception) {
             throw e
