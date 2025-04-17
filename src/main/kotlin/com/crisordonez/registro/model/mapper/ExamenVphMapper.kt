@@ -16,7 +16,7 @@ object ExamenVphMapper {
 
     fun ExamenVphRequest.toEntity(sesion: SesionChatEntity, saludSexual: SaludSexualEntity): ExamenVphEntity {
         return ExamenVphEntity(
-            fechaExamen = SimpleDateFormat("dd/MM/yyyy").parse(this.fecha),
+            fechaExamen = this.fecha,
             dispositivo = this.dispositivo,
             sesionChat = sesion,
             saludSexual = saludSexual
@@ -24,7 +24,7 @@ object ExamenVphMapper {
     }
 
     fun ExamenVphRequest.toEntityUpdated(examen: ExamenVphEntity): ExamenVphEntity {
-        examen.fechaExamen = SimpleDateFormat("dd/MM/yyyy").parse(this.fecha)
+        examen.fechaExamen = this.fecha
         examen.dispositivo = this.dispositivo
         return examen
     }
@@ -45,7 +45,7 @@ object ExamenVphMapper {
     }
 
     fun ExamenVphEntity.toUpdateResultado(resultado: ExamenResultadoRequest, evolucion: EvolucionEntity?, archivo: MultipartFile): ExamenVphEntity {
-        this.fechaResultado = SimpleDateFormat("dd/MM/yyyy").parse(resultado.fechaResultado)
+        this.fechaResultado = resultado.fechaResultado
 
         this.tipo = archivo.contentType ?: "unknown"
         this.contenido = archivo.bytes
