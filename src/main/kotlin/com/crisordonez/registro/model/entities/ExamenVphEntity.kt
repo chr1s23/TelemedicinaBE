@@ -1,7 +1,8 @@
 package com.crisordonez.registro.model.entities
 
 import jakarta.persistence.*
-import java.util.Date
+import jdk.jfr.Timestamp
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
@@ -15,10 +16,11 @@ data class ExamenVphEntity(
     @Column(nullable = false)
     var publicId: UUID = UUID.randomUUID(),
 
-    @Column(nullable = false)
-    var fechaExamen: Date,
+    @Timestamp
+    var fechaExamen: LocalDateTime,
 
-    var fechaResultado: Date? = null,
+    @Timestamp
+    var fechaResultado: LocalDateTime? = null,
 
     @Column(nullable = false)
     var dispositivo: String,
