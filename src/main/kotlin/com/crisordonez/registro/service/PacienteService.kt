@@ -1,12 +1,15 @@
 package com.crisordonez.registro.service
 
 import com.crisordonez.registro.model.mapper.DispositivoMapper.toEntity
+import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
+import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.PacienteMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.PacienteMapper.toResponse
 import com.crisordonez.registro.model.requests.DispositivoRequest
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import com.crisordonez.registro.repository.DispositivoRepository
+import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
 import com.crisordonez.registro.repository.PacienteRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +19,8 @@ import java.util.*
 @Service
 class PacienteService(
     @Autowired private val pacienteRepository: PacienteRepository,
-    @Autowired private val dispositivoRepository: DispositivoRepository
+    @Autowired private val dispositivoRepository: DispositivoRepository,
+    @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository
 ): PacienteServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
@@ -28,7 +32,18 @@ class PacienteService(
                 throw Exception("No existe la informacion del paciente solicitado")
             }
 
-            pacienteRepository.save(paciente.toEntityUpdated(pacienteExistente))
+            val pacienteActualizado = paciente.toEntityUpdated(pacienteExistente)
+
+            if (paciente.infoSocioeconomica != null) {
+                val informacionEntity = if (pacienteActualizado.informacionSocioeconomica != null) {
+                    informacionSocioeconomicaRepository.save(paciente.infoSocioeconomica.toEntityUpdated(pacienteActualizado.informacionSocioeconomica!!))
+                } else {
+                    informacionSocioeconomicaRepository.save(paciente.infoSocioeconomica.toEntity(pacienteActualizado))
+                }
+                pacienteActualizado.informacionSocioeconomica = informacionEntity
+            }
+
+            pacienteRepository.save(pacienteActualizado)
             log.info("Informacion del paciente editada correctamente")
         } catch (e: Exception) {
             throw e
