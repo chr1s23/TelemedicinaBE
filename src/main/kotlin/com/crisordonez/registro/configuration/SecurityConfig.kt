@@ -41,6 +41,7 @@ class SecurityConfig {
                 registry.requestMatchers("/salud-sexual/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/sesion-chat/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/archivo/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/medico/*", "/medico").hasRole("ADMIN")
                 registry.requestMatchers("/usuarios/editar/**").hasRole("USER")
                 registry.requestMatchers("/info-socioeconomica/editar/**", "/info-socioeconomica/usuario/**").hasRole("USER")
                 registry.requestMatchers("/paciente/usuario/**", "/paciente/editar/**", "/registrar-dispositivo/**").hasRole("USER")

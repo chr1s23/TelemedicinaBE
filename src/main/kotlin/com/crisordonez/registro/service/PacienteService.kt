@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.DispositivoMapper.toEntity
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntityUpdated
@@ -26,68 +27,52 @@ class PacienteService(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun editarPaciente(publicId: UUID, paciente: PacienteRequest) {
-        try {
-            log.info("Editando informacion paciente - PublicId: $publicId")
-            val pacienteExistente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
-                throw Exception("No existe la informacion del paciente solicitado")
-            }
-
-            val pacienteActualizado = paciente.toEntityUpdated(pacienteExistente)
-
-            if (paciente.infoSocioeconomica != null) {
-                val informacionEntity = if (pacienteActualizado.informacionSocioeconomica != null) {
-                    informacionSocioeconomicaRepository.save(paciente.infoSocioeconomica.toEntityUpdated(pacienteActualizado.informacionSocioeconomica!!))
-                } else {
-                    informacionSocioeconomicaRepository.save(paciente.infoSocioeconomica.toEntity(pacienteActualizado))
-                }
-                pacienteActualizado.informacionSocioeconomica = informacionEntity
-            }
-
-            pacienteRepository.save(pacienteActualizado)
-            log.info("Informacion del paciente editada correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Editando informacion paciente - PublicId: $publicId")
+        val pacienteExistente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe la informacion del paciente solicitado")
         }
+
+        val pacienteActualizado = paciente.toEntityUpdated(pacienteExistente)
+
+        if (paciente.infoSocioeconomica != null) {
+            val informacionEntity = if (pacienteActualizado.informacionSocioeconomica != null) {
+                informacionSocioeconomicaRepository.save(paciente.infoSocioeconomica.toEntityUpdated(pacienteActualizado.informacionSocioeconomica!!))
+            } else {
+                informacionSocioeconomicaRepository.save(paciente.infoSocioeconomica.toEntity(pacienteActualizado))
+            }
+            pacienteActualizado.informacionSocioeconomica = informacionEntity
+        }
+
+        pacienteRepository.save(pacienteActualizado)
+        log.info("Informacion del paciente editada correctamente")
     }
 
     override fun getPaciente(publicId: UUID): PacienteResponse {
-        try {
-            log.info("Consultando informacion paciente - PublicId: $publicId")
-            val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
-                throw Exception("No existe la informacion del paciente solicitado")
-            }
-
-            log.info("Informacion consultada correctamente")
-            return paciente.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando informacion paciente - PublicId: $publicId")
+        val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe la informacion del paciente solicitado")
         }
+
+        log.info("Informacion consultada correctamente")
+        return paciente.toResponse()
     }
 
     override fun getTodosPacientes(): List<PacienteResponse> {
-        try {
-            log.info("Consultando informacion de los pacientes")
-            val pacientes = pacienteRepository.findAll().map { it.toResponse() }
-            log.info("Informacion consultada correctamente - Total: ${pacientes.size} registros")
-            return pacientes
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Consultando informacion de los pacientes")
+        val pacientes = pacienteRepository.findAll().map { it.toResponse() }
+        log.info("Informacion consultada correctamente - Total: ${pacientes.size} registros")
+        return pacientes
     }
 
     override fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest): String {
-        try {
-            log.info("Registrando nuevo dispositivo al paciente - PublicId: $publicId")
-            val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
-                throw Exception("No existe la informacion del paciente solicitado")
-            }
-            val dispositivoEntity = dispositivoRepository.save(dispositivo.toEntity(paciente))
-            paciente.dispositivos.add(dispositivoEntity)
-            pacienteRepository.save(paciente)
-            log.info("Dispositivo registrado correctamente")
-            return dispositivo.dispositivo
-        } catch (e: Exception) {
-            throw e
+        log.info("Registrando nuevo dispositivo al paciente - PublicId: $publicId")
+        val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe la informacion del paciente solicitado")
         }
+        val dispositivoEntity = dispositivoRepository.save(dispositivo.toEntity(paciente))
+        paciente.dispositivos.add(dispositivoEntity)
+        pacienteRepository.save(paciente)
+        log.info("Dispositivo registrado correctamente")
+        return dispositivo.dispositivo
     }
 }

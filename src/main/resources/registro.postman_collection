@@ -17,7 +17,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombreUsuario\": \"0980924329\",\r\n    \"contrasena\": \"0980924329\",\r\n    \"rol\": \"ADMIN\",\r\n    \"aceptaConsentimiento\": true,\r\n    \"paciente\": {\r\n        \"nombre\": \"Administrator\",\r\n        \"fechaNacimiento\": \"15/06/1999\",\r\n        \"pais\": \"ECUADOR\",\r\n        \"lenguaMaterna\": \"ESPANOL\",\r\n        \"estadoCivil\": \"SOLTERO\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"infoSocioeconomica\": null //{ //opcional puede ser nulo\r\n            //\"instruccion\": \"UNIVERSITARIA\",\r\n            //\"ingresos\": \"MENOR_450\",\r\n            //\"trabajoRemunerado\": \"SI\",\r\n            //\"ocupacion\": \"Desarrollador de software\",\r\n            //\"recibeBono\": \"NO\"\r\n        //} \r\n    }\r\n}",
+					"raw": "{\r\n    \"nombreUsuario\": \"0994728251\",\r\n    \"contrasena\": \"0994728251\",\r\n    \"rol\": \"ADMIN\",\r\n    \"aceptaConsentimiento\": true,\r\n    \"paciente\": {\r\n        \"nombre\": \"Administrator\",\r\n        \"fechaNacimiento\": \"15/06/1999\",\r\n        \"pais\": \"ECUADOR\",\r\n        \"lenguaMaterna\": \"ESPANOL\",\r\n        \"estadoCivil\": \"SOLTERO\",\r\n        \"sexo\": \"MASCULINO\",\r\n        \"infoSocioeconomica\": null //{ //opcional puede ser nulo\r\n            //\"instruccion\": \"UNIVERSITARIA\",\r\n            //\"ingresos\": \"MENOR_450\",\r\n            //\"trabajoRemunerado\": \"SI\",\r\n            //\"ocupacion\": \"Desarrollador de software\",\r\n            //\"recibeBono\": \"NO\"\r\n        //} \r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -25,14 +25,12 @@
 					}
 				},
 				"url": {
-					"raw": "https://clias.ucuenca.edu.ec/usuarios/registro",
-					"protocol": "https",
+					"raw": "http://localhost:8080/usuarios/registro",
+					"protocol": "http",
 					"host": [
-						"clias",
-						"ucuenca",
-						"edu",
-						"ec"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"usuarios",
 						"registro"
@@ -54,7 +52,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombreUsuario\": \"0994728251\",\r\n    \"contrasena\": \"christian\"\r\n}",
+					"raw": "{\r\n    \"nombreUsuario\": \"0980924329\",\r\n    \"contrasena\": \"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -62,14 +60,12 @@
 					}
 				},
 				"url": {
-					"raw": "https://clias.ucuenca.edu.ec/usuarios/autenticar",
-					"protocol": "https",
+					"raw": "http://localhost:8080/usuarios/autenticar",
+					"protocol": "http",
 					"host": [
-						"clias",
-						"ucuenca",
-						"edu",
-						"ec"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						"usuarios",
 						"autenticar"
@@ -88,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"sender\": \"8df4785a8-2ac3-4348-81e6-17bcc48b4785\",\r\n    \"message\": \"comenzar proceso\"\r\n}",
+					"raw": "{\r\n    \"sender\": \"8df4785a8-2ac3-4348-81e6-17bcc48b4785\",\r\n    \"message\": \"sabes que es la sifilis?\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -121,7 +117,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL3d3dy51Y3VlbmNhLmVkdS5lYyIsInN1YiI6IjA5OTQ3MjgyNTEiLCJpYXQiOjE3NDMwOTQyNzYsImV4cCI6MTc0MzEwNTA3Nn0.G7YYecSIHDiaahHnVAkVaK22xUt4SJnJ928wlHU5bp7ycf0Er3KC4Dvqf7iNoYGhA-g01TfogeZVwrA9o9A1CA",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTgwOTI0MzI5IiwiaWF0IjoxNzQ2NjQyMzc0LCJleHAiOjE3NDY2NTY3NzR9.WPIsCF4FhwAHw3UpLwTkuAf3jFS0UVNXQmdHv3pMzBzjxAkozeTYxHEA1-HGYVZKjJ9_RjN5qeFqV1r94m71IQ",
 							"type": "string"
 						}
 					]
@@ -138,7 +134,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/paciente/registrar-dispositivo/58970bf5-ab40-40d8-a205-312bf0f771dc",
+					"raw": "http://localhost:8080/paciente/registrar-dispositivo/58970bf5-ab40-40d8-a205-312bf0f771da",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -147,7 +143,7 @@
 					"path": [
 						"paciente",
 						"registrar-dispositivo",
-						"58970bf5-ab40-40d8-a205-312bf0f771dc"
+						"58970bf5-ab40-40d8-a205-312bf0f771da"
 					]
 				}
 			},
@@ -233,14 +229,14 @@
 			"response": []
 		},
 		{
-			"name": "Guardar imagen",
+			"name": "Guardar archivo",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL3d3dy51Y3VlbmNhLmVkdS5lYyIsInN1YiI6IjA5ODA5MjQzMjkiLCJpYXQiOjE3NDMyMTY3ODAsImV4cCI6MTc0MzIyNzU4MH0.La6nrTBuUG5J0Nx6xm-bn3vRlBqH1uWv0XX_oR6e0KIhkWKYzVMvg_AkKiUgAnMKBmF69yS7fBKIDU6iQr76Zg",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwczovL3d3dy51Y3VlbmNhLmVkdS5lYyIsInN1YiI6IjA5OTQ3MjgyNTEiLCJpYXQiOjE3NDM2OTY4NzYsImV4cCI6MTc0MzcwNzY3Nn0.eqGgrjQ638tACITQa2_J-doywQgn8y2q4-MBHeDfGBg58aLCg03zSn_0r_i37RMEX9QdUbAIkm6E6UUnPufyJQ",
 							"type": "string"
 						}
 					]
@@ -253,17 +249,19 @@
 						{
 							"key": "archivo",
 							"type": "file",
-							"src": "/C:/Users/cris1/Downloads/autocuidado.jpg"
+							"src": "/C:/Users/cris1/Downloads/nuevas comprimidas/nuevas comprimidas/violencia_genero_autocuidado.pdf"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/archivo/admin",
-					"protocol": "http",
+					"raw": "https://clias.ucuenca.edu.ec/archivo/admin",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"clias",
+						"ucuenca",
+						"edu",
+						"ec"
 					],
-					"port": "8080",
 					"path": [
 						"archivo",
 						"admin"
@@ -273,7 +271,7 @@
 			"response": []
 		},
 		{
-			"name": "Obtener imagen chat",
+			"name": "Obtener archivo chat",
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -281,16 +279,18 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/archivo/nombre/autocuidado.jpg",
-					"protocol": "http",
+					"raw": "https://clias.ucuenca.edu.ec/archivo/nombre/violencia_genero_autocuidado.pdf",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"clias",
+						"ucuenca",
+						"edu",
+						"ec"
 					],
-					"port": "8080",
 					"path": [
 						"archivo",
 						"nombre",
-						"autocuidado.jpg"
+						"violencia_genero_autocuidado.pdf"
 					]
 				}
 			},
@@ -353,6 +353,107 @@
 					"path": [
 						"archivo",
 						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener informacion usuario",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTgwOTI0MzI5IiwiaWF0IjoxNzQ0OTM3MTQ0LCJleHAiOjE3NDQ5NTE1NDR9._j-RK5LztiFPtRtgST7bIa3ssVSueobAnafRvDZdpWBiz39_zeMWDGZFzh2nW18K9DpCfuddItJi8b1sA-5rSw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://clias.ucuenca.edu.ec/paciente/usuario/6475a5ef-2890-4a4e-a96a-1d4f14c4c15c",
+					"protocol": "https",
+					"host": [
+						"clias",
+						"ucuenca",
+						"edu",
+						"ec"
+					],
+					"path": [
+						"paciente",
+						"usuario",
+						"6475a5ef-2890-4a4e-a96a-1d4f14c4c15c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear medico",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTgwOTI0MzI5IiwiaWF0IjoxNzQ2NjQyMzc0LCJleHAiOjE3NDY2NTY3NzR9.WPIsCF4FhwAHw3UpLwTkuAf3jFS0UVNXQmdHv3pMzBzjxAkozeTYxHEA1-HGYVZKjJ9_RjN5qeFqV1r94m71IQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Medico 1\",\r\n    \"correo\": \"correo@correo.com\",\r\n    \"especializacion\": \"Cirugia\",\r\n    \"sexo\": \"MASCULINO\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/medico",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"medico"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar medico",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwOTk0NzI4MjUxIiwiaWF0IjoxNzQ2NjQ0NzUzLCJleHAiOjE3NDY2NTkxNTN9.1a3XCBn-2_3aeZSSAnmVPtijPpparm8-PiMMbBNX0xuMCHWQT0YAUP40wfURNoykGMfCCn5OYdQu-MhIzonvYA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/medico/6475a5ef-2890-4a4e-a96a-1d4f14c4c15c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"medico",
+						"6475a5ef-2890-4a4e-a96a-1d4f14c4c15c"
 					]
 				}
 			},

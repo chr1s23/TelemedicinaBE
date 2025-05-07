@@ -3,8 +3,6 @@ FROM maven:3.9.4-eclipse-temurin-21 AS builder
 
 RUN mkdir -p /home/deployments
 
-ENV TZ America/Bogota
-
 WORKDIR /home/deployments
 
 # Copiar archivos del proyecto al contenedor
@@ -14,6 +12,14 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM amazoncorretto:21
+
+# Establecer la zona horaria
+ENV TZ=America/Guayaquil
+
+RUN yum install -y tzdata && \
+    ln -sf /usr/share/zoneinfo/America/Guayaquil /etc/localtime && \
+    echo "America/Guayaquil" > /etc/timezone && \
+    yum clean all
 
 WORKDIR /home/deployments
 

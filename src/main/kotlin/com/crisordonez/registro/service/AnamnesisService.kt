@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.AnamnesisMapper.toEntity
 import com.crisordonez.registro.model.mapper.AnamnesisMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.AnamnesisMapper.toResponse
@@ -21,67 +22,47 @@ class AnamnesisService(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun crearAnamnesis(publicId: UUID, anamnesis: AnamnesisRequest) {
-        try {
-            log.info("Creando anamnesis")
-            val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
-                throw Exception("No existe la cuenta de usuario solicitada")
-            }
-            val anamnesisEntity = anamnesisRepository.save(anamnesis.toEntity(paciente))
-            paciente.anamnesis = anamnesisEntity
-            pacienteRepository.save(paciente)
-            log.info("Anamnesis creada correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Creando anamnesis")
+        val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe la cuenta de usuario solicitada")
         }
+        val anamnesisEntity = anamnesisRepository.save(anamnesis.toEntity(paciente))
+        paciente.anamnesis = anamnesisEntity
+        pacienteRepository.save(paciente)
+        log.info("Anamnesis creada correctamente")
     }
 
     override fun getAnamnesis(publicId: UUID): AnamnesisResponse {
-        try {
-            log.info("Consultando registro de anamnesis - PublicId: $publicId")
-            val registro = anamnesisRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el registro solicitado")
-            }
-            log.info("Registro consultado correctamente")
-            return registro.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando registro de anamnesis - PublicId: $publicId")
+        val registro = anamnesisRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el registro solicitado")
         }
+        log.info("Registro consultado correctamente")
+        return registro.toResponse()
     }
 
     override fun getTodasAnamnesis(): List<AnamnesisResponse> {
-        try {
-            log.info("Consultando todos los registros de anamnesis")
-            val registros = anamnesisRepository.findAll().map { it.toResponse() }
-            log.info("Registros consultados - Total: ${registros.size}")
-            return registros
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Consultando todos los registros de anamnesis")
+        val registros = anamnesisRepository.findAll().map { it.toResponse() }
+        log.info("Registros consultados - Total: ${registros.size}")
+        return registros
     }
 
     override fun editarAnamnesis(publicId: UUID, anamnesis: AnamnesisRequest) {
-        try {
-            log.info("Editanto registro de anamnesis - PublicId: $publicId")
-            val registro = anamnesisRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el registro de anamnesis solicitado")
-            }
-            anamnesisRepository.save(anamnesis.toEntityUpdated(registro))
-            log.info("Registro actualizado correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Editanto registro de anamnesis - PublicId: $publicId")
+        val registro = anamnesisRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el registro de anamnesis solicitado")
         }
+        anamnesisRepository.save(anamnesis.toEntityUpdated(registro))
+        log.info("Registro actualizado correctamente")
     }
 
     override fun eliminarAnamnesis(publicId: UUID) {
-        try {
-            log.info("Eliminando registro de anamnesis - PublicId: $publicId")
-            val registro = anamnesisRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el registro requerido")
-            }
-            anamnesisRepository.delete(registro)
-            log.info("Registro de anamnesis eliminado correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Eliminando registro de anamnesis - PublicId: $publicId")
+        val registro = anamnesisRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el registro requerido")
         }
+        anamnesisRepository.delete(registro)
+        log.info("Registro de anamnesis eliminado correctamente")
     }
 }
