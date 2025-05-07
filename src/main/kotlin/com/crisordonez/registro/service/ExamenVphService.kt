@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.EvolucionMapper.toEntity
 import com.crisordonez.registro.model.mapper.ExamenVphMapper.toResponse
 import com.crisordonez.registro.model.mapper.ExamenVphMapper.toUpdateResultado
@@ -21,44 +22,32 @@ class ExamenVphService(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest, archivo: MultipartFile) {
-        try {
-            log.info("Estableciendo resultado - Prueba: $publicId")
-            val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
-                throw Exception("No existe un dispositivo relacionado")
-            }
-
-            val evolucion = if (pruebaRequest.evolucion != null) {
-                evolucionRepository.save(pruebaRequest.evolucion.toEntity(prueba))
-            } else { null }
-
-            examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion, archivo))
-            log.info("Resultado establecido correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Estableciendo resultado - Prueba: $publicId")
+        val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
+            throw NotFoundException("No existe un dispositivo relacionado")
         }
+
+        val evolucion = if (pruebaRequest.evolucion != null) {
+            evolucionRepository.save(pruebaRequest.evolucion.toEntity(prueba))
+        } else { null }
+
+        examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion, archivo))
+        log.info("Resultado establecido correctamente")
     }
 
     override fun getPrueba(publicId: String): ExamenVphResponse {
-        try {
-            log.info("Consultando prueba por dispositivo relacionado - Dispositivo: $publicId")
-            val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
-                throw Exception("No existe prueba relacionada con el dispositivo")
-            }
-            log.info("Prueba consultada correctamente")
-            return prueba.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando prueba por dispositivo relacionado - Dispositivo: $publicId")
+        val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
+            throw NotFoundException("No existe prueba relacionada con el dispositivo")
         }
+        log.info("Prueba consultada correctamente")
+        return prueba.toResponse()
     }
 
     override fun getTodasPruebas(): List<ExamenVphResponse> {
-        try {
-            log.info("Consultando todas las pruebas en el sistema")
-            val pruebas = examenVphRepository.findAll().map { it.toResponse() }
-            log.info("Pruebas consultadas correctamente - Total: ${pruebas.size} registros")
-            return pruebas
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Consultando todas las pruebas en el sistema")
+        val pruebas = examenVphRepository.findAll().map { it.toResponse() }
+        log.info("Pruebas consultadas correctamente - Total: ${pruebas.size} registros")
+        return pruebas
     }
 }

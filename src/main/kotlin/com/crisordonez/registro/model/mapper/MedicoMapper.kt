@@ -11,8 +11,18 @@ object MedicoMapper {
         return MedicoEntity(
             nombre = this.nombre,
             correo = this.correo,
-            especializacion = this.especializacion
+            especializacion = this.especializacion,
+            sexo = this.sexo
         )
+    }
+
+    fun MedicoEntity.toEntityUpdated(medico: MedicoRequest): MedicoEntity {
+        this.nombre = medico.nombre
+        this.correo = medico.correo
+        this.sexo = medico.sexo
+        this.especializacion = medico.especializacion
+
+        return this
     }
 
     fun MedicoEntity.toResponse(): MedicoResponse {
@@ -21,6 +31,7 @@ object MedicoMapper {
             nombre = this.nombre,
             correo = this.correo,
             especializacion = this.especializacion,
+            sexo = this.sexo,
             evoliciones = this.evoluciones.map { it.toResponse() }
         )
     }

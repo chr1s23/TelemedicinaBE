@@ -9,4 +9,8 @@ interface MedicoRepository: CrudRepository<MedicoEntity, Long> {
 
     fun findByPublicId(publicId: UUID): Optional<MedicoEntity>
 
+    fun findByNombre(nombre: String): Optional<MedicoEntity>
+
+    fun findByCorreo(correo: String): Optional<MedicoEntity>
+
 }

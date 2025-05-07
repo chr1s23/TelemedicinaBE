@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.ArchivoMapper.toEntity
 import com.crisordonez.registro.model.mapper.ArchivoMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.ArchivoMapper.toResponse
@@ -19,75 +20,51 @@ class ArchivoService(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun crearArchivo(archivo: MultipartFile) {
-        try {
-            log.info("Creando archivo")
-            archivoRepository.save(archivo.toEntity())
-            log.info("Archivo creado correctamente")
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Creando archivo")
+        archivoRepository.save(archivo.toEntity())
+        log.info("Archivo creado correctamente")
     }
 
     override fun getArchivo(publicId: UUID): ArchivoResponse {
-        try {
-            log.info("Consultando archivo - PublicId: $publicId")
-            val archivo = archivoRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el archivo solicitado")
-            }
-            log.info("Archivo consultado correctamente")
-            return archivo.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando archivo - PublicId: $publicId")
+        val archivo = archivoRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el archivo solicitado")
         }
+        log.info("Archivo consultado correctamente")
+        return archivo.toResponse()
     }
 
     override fun getArchivoByNombre(nombre: String): ArchivoResponse {
-        try {
-            log.info("Consultando archivo - Nombre: $nombre")
-            val archivo = archivoRepository.findByNombre(nombre).orElseThrow {
-                throw Exception("No existe el archivo solicitado")
-            }
-            log.info("Archivo consultado por nombre correctamente")
-            return archivo.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando archivo - Nombre: $nombre")
+        val archivo = archivoRepository.findByNombre(nombre).orElseThrow {
+            throw NotFoundException("No existe el archivo solicitado")
         }
+        log.info("Archivo consultado por nombre correctamente")
+        return archivo.toResponse()
     }
 
     override fun getTodosArchivos(): List<ArchivoResponse> {
-        try {
-            log.info("Consultando todos los archivos del sistema")
-            val archivos = archivoRepository.findAll().map { it.toResponse() }
-            log.info("Archivos consultado - Total: ${archivos.size}")
-            return archivos
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Consultando todos los archivos del sistema")
+        val archivos = archivoRepository.findAll().map { it.toResponse() }
+        log.info("Archivos consultado - Total: ${archivos.size}")
+        return archivos
     }
 
     override fun editarArchivo(publicId: UUID, archivo: MultipartFile) {
-        try {
-            log.info("Editando archivo - PublicId: $publicId")
-            val archivoExistente = archivoRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("El archivo no existe")
-            }
-            archivoRepository.save(archivo.toEntityUpdated(archivoExistente))
-            log.info("Archivo editado correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Editando archivo - PublicId: $publicId")
+        val archivoExistente = archivoRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("El archivo no existe")
         }
+        archivoRepository.save(archivo.toEntityUpdated(archivoExistente))
+        log.info("Archivo editado correctamente")
     }
 
     override fun eliminarArchivo(publicId: UUID) {
-        try {
-            log.info("Eliminando archivo - PublicId: $publicId")
-            val archivo = archivoRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el archivo requerido")
-            }
-            archivoRepository.delete(archivo)
-            log.info("Archivo eliminado correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Eliminando archivo - PublicId: $publicId")
+        val archivo = archivoRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el archivo requerido")
         }
+        archivoRepository.delete(archivo)
+        log.info("Archivo eliminado correctamente")
     }
 }
