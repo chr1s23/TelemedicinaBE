@@ -16,7 +16,7 @@ class JwtUtil {
 
     private final val SECRET = "8A17B9AB37D9C2D8C82288FBEF1606A246F28557340F63802EDE551630A4AB2C75112CA50A3C87DAC9A57F1828E298DB05009425D6E26D4533A054B519CBC9C1"
 
-    private final val VALIDITY = TimeUnit.MINUTES.toMillis(240)
+    private final val VALIDITY = TimeUnit.MINUTES.toMillis(1440)
 
     fun generateToken(userDetails: UserDetails): String {
 
