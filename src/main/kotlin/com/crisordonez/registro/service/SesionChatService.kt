@@ -6,6 +6,8 @@ import com.crisordonez.registro.model.mapper.SesionChatMapper.toEntity
 import com.crisordonez.registro.model.mapper.SesionChatMapper.toResponse
 import com.crisordonez.registro.model.requests.SesionChatRequest
 import com.crisordonez.registro.model.responses.SesionChatResponse
+import com.crisordonez.registro.model.entities.PacienteEntity
+
 import com.crisordonez.registro.repository.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +20,7 @@ class SesionChatService(
     @Autowired private val saludSexualRepository: SaludSexualRepository,
     @Autowired private val examenVphRepository: ExamenVphRepository,
     @Autowired private val pacienteRepository: PacienteRepository
+
 ): SesionChatServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
@@ -40,7 +43,7 @@ class SesionChatService(
             } else {
                 throw Exception("La informacion de la prueba es requerida")
             }
-            paciente.sesionChat.add(sesionChat)
+            paciente.sesionesChat.add(sesionChat)
             pacienteRepository.save(paciente)
             log.info("Sesion de chat creada correctamente")
         } catch (e: Exception) {

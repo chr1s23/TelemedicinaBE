@@ -8,5 +8,7 @@ import java.util.UUID
 interface ExamenVphRepository: CrudRepository<ExamenVphEntity, Long> {
 
     fun findByDispositivo(dispositivo: String): Optional<ExamenVphEntity>
+    fun findByPublicId(publicId: UUID): ExamenVphEntity?
+
 
 }

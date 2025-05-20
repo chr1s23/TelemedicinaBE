@@ -4,6 +4,7 @@ import com.crisordonez.registro.model.entities.EvolucionEntity
 import com.crisordonez.registro.model.entities.ExamenVphEntity
 import com.crisordonez.registro.model.requests.EvolucionRequest
 import com.crisordonez.registro.model.responses.EvolucionResponse
+import java.time.LocalDateTime
 
 object EvolucionMapper {
 

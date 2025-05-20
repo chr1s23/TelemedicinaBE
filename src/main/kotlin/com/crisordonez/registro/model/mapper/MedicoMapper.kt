@@ -1,27 +1,32 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.MedicoEntity
-import com.crisordonez.registro.model.mapper.EvolucionMapper.toResponse
 import com.crisordonez.registro.model.requests.MedicoRequest
 import com.crisordonez.registro.model.responses.MedicoResponse
+import org.springframework.security.crypto.password.PasswordEncoder
+import com.crisordonez.registro.model.mapper.EvolucionMapper.toResponse
+
 
 object MedicoMapper {
 
-    fun MedicoRequest.toEntity(): MedicoEntity {
+    fun MedicoRequest.toEntity(encoder: PasswordEncoder): MedicoEntity {
         return MedicoEntity(
-            nombre = this.nombre,
-            correo = this.correo,
+            usuario         = this.usuario,
+            contrasena      = encoder.encode(this.contrasena),
+            nombre          = this.nombre,
+            correo          = this.correo,
             especializacion = this.especializacion
         )
     }
 
     fun MedicoEntity.toResponse(): MedicoResponse {
         return MedicoResponse(
-            publicId = this.publicId,
-            nombre = this.nombre,
-            correo = this.correo,
+            publicId       = this.publicId,
+            usuario        = this.usuario,
+            nombre         = this.nombre,
+            correo         = this.correo,
             especializacion = this.especializacion,
-            evoliciones = this.evoluciones.map { it.toResponse() }
+            evoluciones    = this.evoluciones.map { it.toResponse() }
         )
     }
 }

@@ -33,7 +33,9 @@ object ExamenVphMapper {
             tipo = this.tipo?.name,
             contenido = this.contenido,
             tamano = this.tamano,
-            nombre = this.nombre
+            nombre = this.nombre,
+            diagnostico = this.diagnostico, // <-- app web
+            genotipos = this.genotipos // <-- incluir genotipos en la respuesta
         )
     }
 
@@ -44,6 +46,9 @@ object ExamenVphMapper {
             this.contenido = resultado.archivo.contenido
             this.nombre = resultado.archivo.nombre
             this.tamano = resultado.archivo.contenido.size.toLong()
+        }
+        if (!resultado.diagnostico.isNullOrBlank()) {
+            this.diagnostico = resultado.diagnostico // <-- app web
         }
         if (evolucion != null) {
             this.evolucion.add(evolucion)

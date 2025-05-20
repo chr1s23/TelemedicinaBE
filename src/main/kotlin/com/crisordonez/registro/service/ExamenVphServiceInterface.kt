@@ -2,7 +2,7 @@ package com.crisordonez.registro.service
 
 import com.crisordonez.registro.model.requests.ExamenResultadoRequest
 import com.crisordonez.registro.model.responses.ExamenVphResponse
-import java.util.UUID
+import org.springframework.web.multipart.MultipartFile
 
 interface ExamenVphServiceInterface {
 
@@ -12,4 +12,12 @@ interface ExamenVphServiceInterface {
 
     fun getTodasPruebas(): List<ExamenVphResponse>
 
+    fun subirResultadoPdf(
+        pacienteId: Long,
+        archivo: MultipartFile,
+        nombre: String,
+        dispositivo: String,
+        diagnostico: String,
+        genotiposStr: String?
+    )
 }

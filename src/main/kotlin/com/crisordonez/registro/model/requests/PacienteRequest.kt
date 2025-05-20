@@ -18,20 +18,17 @@ data class PacienteRequest(
     val fechaNacimiento: String,
 
     @field:NotNull(message = "El país es requerido")
-    @field:NotBlank(message = "El país no puede estar vacío")
     val pais: PaisEnum,
 
     @field:NotNull(message = "El idioma es requerido")
-    @field:NotBlank(message = "El idioma no puede estar vacío")
     val lenguaMaterna: IdiomaEnum,
 
     @field:NotNull(message = "El estado civil es requerido")
-    @field:NotBlank(message = "El estado civil no puede estar vacío")
     val estadoCivil: EstadoCivilEnum,
 
     @field:NotNull(message = "El sexo es requerido")
-    @field:NotBlank(message = "El sexo no puede estar vacío")
     val sexo: SexoEnum,
+
 
     val identificacion: String? = null,
 

@@ -24,21 +24,26 @@ class EvolucionController {
 
     @PostMapping("/admin/{publicId}")
     fun crearEvolucion(@PathVariable publicId: String, @Valid @RequestBody evolucion: EvolucionRequest): ResponseEntity<Unit> {
+        // Aquí se asume que la fecha se establecerá en el servicio cuando se guarda la evolución
         return ResponseEntity.ok(evolucionServiceInterface.crearEvolucion(publicId, evolucion))
     }
 
     @GetMapping("/admin/{publicId}")
     fun getEvolucion(@PathVariable publicId: UUID): ResponseEntity<EvolucionResponse> {
-        return ResponseEntity.ok(evolucionServiceInterface.getEvolucion(publicId))
+        // Obtener la evolución y devolver la respuesta
+        val evolucionResponse = evolucionServiceInterface.getEvolucion(publicId)
+        return ResponseEntity.ok(evolucionResponse)
     }
 
     @GetMapping("/admin")
     fun getTodasEvoluciones(): ResponseEntity<List<EvolucionResponse>> {
+        // Obtener todas las evoluciones
         return ResponseEntity.ok(evolucionServiceInterface.getTodasEvoluciones())
     }
 
     @DeleteMapping("/admin/{publicId}")
     fun eliminarEvolucion(@PathVariable publicId: UUID): ResponseEntity<Unit> {
+        // Eliminar la evolución por publicId
         return ResponseEntity.ok(evolucionServiceInterface.eliminarEvolucion(publicId))
     }
 

@@ -1,6 +1,7 @@
 package com.crisordonez.registro.model.responses
 
 import java.util.UUID
+import java.time.LocalDateTime
 
 data class EvolucionResponse(
 
@@ -12,6 +13,13 @@ data class EvolucionResponse(
 
     val talla: Double,
 
-    val peso: Double
+    val peso: Double,
+
 
 )
+
+
+
+
+
+

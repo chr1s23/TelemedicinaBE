@@ -42,6 +42,13 @@ data class ExamenVphEntity(
 
     var tamano: Long? = null,
 
-    var nombre: String? = null
+    var nombre: String? = null,
+
+    var diagnostico: String? = null,          //  Nueva para app web
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "genotipos_vph", joinColumns = [JoinColumn(name = "examen_vph_id")])
+    @Column(name = "genotipo")
+    var genotipos: List<String> = emptyList()  //  Nueva para app web
 
 ) : AuditModel()

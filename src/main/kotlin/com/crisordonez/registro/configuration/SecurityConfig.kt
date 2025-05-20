@@ -15,6 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.http.HttpMethod
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +34,46 @@ class SecurityConfig {
     @Bean
     fun securityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
         return httpSecurity
+            .cors { }
             .csrf { it.disable() }
             .authorizeHttpRequests { registry ->
+                // 1) Permito todos los OPTIONS (CORS preflight)
+                registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                // 2) Login y creación de administradores
+                registry.requestMatchers("/api/auth/login", "/api/users").permitAll()
+                // 3) CRUD de administradores
+                registry.requestMatchers(HttpMethod.GET,    "/api/users/**").permitAll()
+                registry.requestMatchers(HttpMethod.POST,   "/api/users/**").permitAll()
+                registry.requestMatchers(HttpMethod.PUT,    "/api/users/**").permitAll()
+                registry.requestMatchers(HttpMethod.DELETE, "/api/users/**").permitAll()
+
+                // 4) Lectura de médicos
+                registry.requestMatchers(HttpMethod.GET,    "/api/medicos/**").permitAll()
+                // 5) Creación, actualización y eliminación de médicos
+                registry.requestMatchers(HttpMethod.POST,   "/api/medicos/**").permitAll()
+                registry.requestMatchers(HttpMethod.PUT,    "/api/medicos/**").permitAll()
+                registry.requestMatchers(HttpMethod.DELETE, "/api/medicos/**").permitAll()
+
+                // 6) Consultas de códigos QR
+                registry.requestMatchers(HttpMethod.GET, "/api/dispositivos_registrados/**").permitAll()
+                // 7) Lectura de pacientes
+                registry.requestMatchers(HttpMethod.GET, "/api/pacientes/**").permitAll()
+
+                // 8) Permitir subida de resultados por médico desde web
+                registry.requestMatchers(HttpMethod.POST, "/prueba/medico/subir/**").permitAll()
+
+                // 9) Generación codigos QR
+                registry.requestMatchers(HttpMethod.POST, "/api/codigosqr").permitAll()
+
+                // 10) Listar codigos QR
+                registry.requestMatchers(HttpMethod.GET, "/api/codigosqr").permitAll()
+
+                // 11) Listar Examen VPH
+                registry.requestMatchers(HttpMethod.GET, "/prueba/admin").permitAll()
+                
+
+                // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
                 registry.requestMatchers("/anamnesis/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
@@ -45,11 +88,14 @@ class SecurityConfig {
                 registry.requestMatchers("/info-socioeconomica/editar/**", "/info-socioeconomica/usuario/**").hasRole("USER")
                 registry.requestMatchers("/paciente/usuario/**", "/paciente/editar/**").hasRole("USER")
                 registry.requestMatchers("/sesion-chat/usuario/**").hasRole("USER")
+
                 registry.anyRequest().authenticated()
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .build()
     }
+
+
 
     @Bean
     fun userDetailService(): UserDetailsService {
@@ -74,5 +120,21 @@ class SecurityConfig {
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val config = CorsConfiguration().apply {
+
+            allowedOriginPatterns = listOf("*")
+            allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            allowedHeaders = listOf("*")
+            allowCredentials = true
+        }
+        return UrlBasedCorsConfigurationSource().also { src ->
+            src.registerCorsConfiguration("/**", config)
+        }
+    }
+
+
 
 }

@@ -6,11 +6,13 @@ data class MedicoResponse(
 
     val publicId: UUID,
 
+    val usuario: String,
+
     val nombre: String,
 
     val correo: String,
 
     val especializacion: String? = null,
 
-    val evoliciones: List<EvolucionResponse> = emptyList()
+    val evoluciones: List<EvolucionResponse> = emptyList()
 )

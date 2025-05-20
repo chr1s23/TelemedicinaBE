@@ -14,11 +14,14 @@ import java.util.*
 
 @Service
 class AnamnesisService(
+
     @Autowired private val anamnesisRepository: AnamnesisRepository,
     @Autowired private val pacienteRepository: PacienteRepository
 ) : AnamnesisServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
+
+
 
     override fun crearAnamnesis(publicId: UUID, anamnesis: AnamnesisRequest) {
         try {
@@ -84,4 +87,5 @@ class AnamnesisService(
             throw e
         }
     }
+
 }

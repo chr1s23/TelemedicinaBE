@@ -1,5 +1,7 @@
 package com.crisordonez.registro.model.entities
 
+import com.crisordonez.registro.model.enums.SexoEnum
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -17,12 +19,25 @@ data class MedicoEntity(
     @Column(nullable = false)
     var nombre: String,
 
+    @Column(nullable = false, unique = true)
+    var usuario: String = "",
+
+    @JsonIgnore
+    @Column(nullable = false)
+    var contrasena: String = "",
+
+    @Enumerated(EnumType.STRING)
+    var sexo: SexoEnum = SexoEnum.FEMENINO,
+
     @Column(nullable = false)
     var correo: String,
 
     var especializacion: String? = null,
 
     @OneToMany(fetch = FetchType.LAZY)
-    var evoluciones: MutableList<EvolucionEntity> = mutableListOf()
+    var evoluciones: MutableList<EvolucionEntity> = mutableListOf(),
+
+    @Column(name = "rol", nullable = false)
+    var rol: String = "MEDICO"
 
 ) : AuditModel()

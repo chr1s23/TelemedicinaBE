@@ -18,8 +18,9 @@ object AnamnesisMapper {
     fun AnamnesisEntity.toResponse(): AnamnesisResponse {
         return AnamnesisResponse(
             publicId = this.publicId,
-            edadPrimerRelacionSexual = this.edadPrimerRelacionSexual,
-            edadPrimerPap = this.edadPrimerPap
+            sexual = this.edadPrimerRelacionSexual,
+            edadPrimerPap = this.edadPrimerPap,
+            campo = "hola"
         )
     }
 

@@ -52,7 +52,7 @@ class CuentaUsuarioService(
                 throw Exception("La informacion del paciente no puede ser nula")
             }
             val cuenta = cuentaUsuarioRepository.save(cuentaUsuario.toEntity(passwordEncoder.encode(cuentaUsuario.contrasena)))
-            val paciente = pacienteRepository.save(cuentaUsuario.paciente.toEntity(cuenta))
+            val paciente = pacienteRepository.save(cuentaUsuario.paciente.toEntity())
             cuenta.paciente = paciente
             cuentaUsuarioRepository.save(cuenta)
             if (cuentaUsuario.paciente.infoSocioeconomica != null) {

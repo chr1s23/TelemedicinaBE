@@ -1,0 +1,50 @@
+package com.crisordonez.registro.service
+
+import com.crisordonez.registro.model.entities.CodigoQREntity
+import com.crisordonez.registro.model.responses.CodigoQRStatusResponse
+import com.crisordonez.registro.repository.CodigoQRRepository
+import com.crisordonez.registro.repository.DispositivoRegistradoRepository
+import com.crisordonez.registro.repository.ExamenVphRepository
+import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
+@Service
+class CodigoQRService(
+    private val codigoQRRepository: CodigoQRRepository,
+    private val dispositivoRegistradoRepository: DispositivoRegistradoRepository,
+    private val examenVphRepository: ExamenVphRepository
+) {
+
+    fun guardar(codigo: String, fechaExpiracionStr: String): CodigoQREntity {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val fechaExpiracion = LocalDate.parse(fechaExpiracionStr, formatter)
+
+        val entidad = CodigoQREntity(
+            codigo = codigo,
+            fechaExpiracion = fechaExpiracion
+        )
+        return codigoQRRepository.save(entidad)
+    }
+
+    fun obtenerTodosConStatus(): List<CodigoQRStatusResponse> {
+        val codigos = codigoQRRepository.findAll()
+
+        return codigos.map { codigo ->
+            val estaRegistrado = dispositivoRegistradoRepository.findByDispositivo(codigo.codigo).isPresent
+            val tieneResultado = examenVphRepository.findByDispositivo(codigo.codigo).isPresent
+
+            val status = when {
+                tieneResultado -> "resultado listo"
+                estaRegistrado -> "registrado"
+                else -> "generado"
+            }
+
+            CodigoQRStatusResponse(
+                codigo = codigo.codigo,
+                fechaExpiracion = codigo.fechaExpiracion,
+                status = status
+            )
+        }
+    }
+}

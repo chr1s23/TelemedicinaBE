@@ -3,6 +3,7 @@ package com.crisordonez.registro.model.entities
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.UUID
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "evolucion")
@@ -35,6 +36,7 @@ data class EvolucionEntity(
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "medico_id")
-    var medico: MedicoEntity? = null
+    var medico: MedicoEntity? = null,
+
 
 ) : AuditModel()
