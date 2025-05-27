@@ -32,12 +32,20 @@ class CodigoQRService(
 
         return codigos.map { codigo ->
             val estaRegistrado = dispositivoRegistradoRepository.findByDispositivo(codigo.codigo).isPresent
-            val tieneResultado = examenVphRepository.findByDispositivo(codigo.codigo).isPresent
+            val examenOpt = examenVphRepository.findByDispositivo(codigo.codigo)
 
-            val status = when {
-                tieneResultado -> "resultado listo"
-                estaRegistrado -> "registrado"
-                else -> "generado"
+            val status = if (examenOpt.isPresent) {
+                val examen = examenOpt.get()
+                val tieneCamposLlenos = examen.fechaResultado != null &&
+                        !examen.nombre.isNullOrBlank() &&
+                        examen.tamano != null &&
+                        examen.tipo != null &&
+                        !examen.diagnostico.isNullOrBlank()
+                if (tieneCamposLlenos) "resultado listo" else "en proceso"
+            } else if (estaRegistrado) {
+                "registrado"
+            } else {
+                "generado"
             }
 
             CodigoQRStatusResponse(

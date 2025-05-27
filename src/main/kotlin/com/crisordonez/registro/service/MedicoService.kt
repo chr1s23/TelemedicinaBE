@@ -53,6 +53,8 @@ class MedicoService(
             nombre          = dto.nombre
             correo          = dto.correo
             especializacion = dto.especializacion
+            sexo            = dto.sexo
+            nRegistro       = dto.nRegistro
         }
         return repo.save(medico).toResponse()
     }
@@ -75,5 +77,12 @@ class MedicoService(
             return medicoEntity.toResponse()
         }
         return null
+    }
+
+    // Nuevo método para buscar por ID numérico (Long)
+    fun obtenerMedicoPorId(id: Long): MedicoResponse {
+        val medico = repo.findById(id)
+            .orElseThrow { NoSuchElementException("Médico id=$id no encontrado") }
+        return medico.toResponse()
     }
 }

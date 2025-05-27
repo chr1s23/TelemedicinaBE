@@ -9,4 +9,5 @@ interface DispositivoRegistradoRepository :
     JpaRepository<DispositivoRegistradoEntity, Long> {
     fun findByDispositivo(dispositivo: String): Optional<DispositivoRegistradoEntity>
 
+
 }

@@ -62,6 +62,10 @@ class SecurityConfig {
 
                 // 8) Permitir subida de resultados por médico desde web
                 registry.requestMatchers(HttpMethod.POST, "/prueba/medico/subir/**").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/prueba/medico/nombre/**").permitAll()
+                // CRUD de examenes
+                registry.requestMatchers(HttpMethod.PATCH, "/prueba/medico/clear-fields/**").permitAll()
+
 
                 // 9) Generación codigos QR
                 registry.requestMatchers(HttpMethod.POST, "/api/codigosqr").permitAll()
@@ -71,7 +75,9 @@ class SecurityConfig {
 
                 // 11) Listar Examen VPH
                 registry.requestMatchers(HttpMethod.GET, "/prueba/admin").permitAll()
-                
+
+                // 12) Listar prefijos
+                registry.requestMatchers(HttpMethod.GET,  "/prueba/medico/prefixes").permitAll()
 
                 // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
@@ -126,7 +132,7 @@ class SecurityConfig {
         val config = CorsConfiguration().apply {
 
             allowedOriginPatterns = listOf("*")
-            allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             allowedHeaders = listOf("*")
             allowCredentials = true
         }

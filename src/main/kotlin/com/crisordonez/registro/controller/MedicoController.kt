@@ -22,19 +22,20 @@ class MedicoController(
         ResponseEntity.status(HttpStatus.CREATED)
             .body(service.crearMedico(req))
 
+    // Cambiado a Long para buscar por id numérico
     @GetMapping("/{id}")
-    fun getOne(@PathVariable id: String): MedicoResponse =  // Cambiado a String
-        service.obtenerMedico(id)
+    fun getOne(@PathVariable id: Long): MedicoResponse =
+        service.obtenerMedicoPorId(id)
 
     @PutMapping("/{id}")
     fun update(
-        @PathVariable id: String,  // Cambiado a String
+        @PathVariable id: String,  // UUID para actualizar
         @RequestBody req: MedicoRequest
     ): MedicoResponse =
         service.actualizarMedico(id, req)
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: String): ResponseEntity<Void> {  // Cambiado a String
+    fun delete(@PathVariable id: String): ResponseEntity<Void> {  // UUID para eliminar
         service.eliminarMedico(id)
         return ResponseEntity.noContent().build()
     }

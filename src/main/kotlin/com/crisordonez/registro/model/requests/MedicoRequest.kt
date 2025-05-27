@@ -1,5 +1,7 @@
 package com.crisordonez.registro.model.requests
 
+import com.crisordonez.registro.model.enums.SexoEnum
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
@@ -24,5 +26,15 @@ data class MedicoRequest(
     @field:NotBlank(message = "El correo no puede estar vacío")
     val correo: String,
 
-    val especializacion: String? = null
+    val especializacion: String? = null,
+
+    @field:NotNull(message = "El sexo no puede ser nulo")
+    val sexo: SexoEnum,
+
+    @JsonProperty("n_registro")
+    @field:NotNull(message = "El número de registro no puede ser nulo")
+    @field:NotBlank(message = "El número de registro no puede estar vacío")
+    @field:Size(min = 3, max = 20, message = "El número de registro debe tener entre 3 y 20 caracteres")
+    val nRegistro: String = ""
+
 )

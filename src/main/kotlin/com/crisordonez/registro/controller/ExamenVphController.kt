@@ -16,12 +16,23 @@ class ExamenVphController {
     @Autowired
     lateinit var examenVphServiceInterface: ExamenVphServiceInterface
 
+    // ─── endpoint: devuelve solo el nombre del paciente dado el código de dispositivo ───
+    @GetMapping("/medico/nombre/{codigoDispositivo}")
+    fun obtenerNombrePaciente(@PathVariable codigoDispositivo: String): ResponseEntity<String> {
+        val nombre = examenVphServiceInterface.obtenerNombrePorCodigo(codigoDispositivo)
+        return ResponseEntity.ok(nombre)
+    }
+
+    // ─── Endpoints existentes ────────────────────────────────────────────────────
+
     @PutMapping("/admin/resultado/{publicId}")
     fun establecerResultado(
         @PathVariable publicId: String,
         @Valid @RequestBody prueba: ExamenResultadoRequest
     ): ResponseEntity<Unit> {
-        return ResponseEntity.ok(examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba))
+        return ResponseEntity.ok(
+            examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba)
+        )
     }
 
     @GetMapping("/admin/{publicId}")
@@ -34,7 +45,6 @@ class ExamenVphController {
         return ResponseEntity.ok(examenVphServiceInterface.getTodasPruebas())
     }
 
-    // NUEVO ENDPOINT PARA SUBIR PDF + DIAGNÓSTICO + RECOMENDACIÓN
     @PostMapping("/medico/subir/{pacienteId}")
     fun subirExamen(
         @PathVariable pacienteId: Long,
@@ -51,9 +61,18 @@ class ExamenVphController {
             dispositivo = dispositivo,
             diagnostico = diagnostico,
             genotiposStr = genotiposStr
-
         )
         return ResponseEntity.ok("Examen subido correctamente")
     }
-
+    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico ───
+    @PatchMapping("/medico/clear-fields/{codigoDispositivo}")
+    fun clearExamenFields(@PathVariable codigoDispositivo: String): ResponseEntity<Void> {
+        examenVphServiceInterface.clearExamenFields(codigoDispositivo)
+        return ResponseEntity.ok().build()
+    }
+    @GetMapping("/medico/prefixes")
+    fun getDevicePrefixes(): ResponseEntity<List<String>> {
+        val prefixes = examenVphServiceInterface.getDevicePrefixes()
+        return ResponseEntity.ok(prefixes)
+    }
 }

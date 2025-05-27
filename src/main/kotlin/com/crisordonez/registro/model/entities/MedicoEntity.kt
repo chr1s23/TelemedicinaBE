@@ -9,11 +9,10 @@ import java.util.UUID
 @Table(name = "medicos")
 data class MedicoEntity(
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     var publicId: UUID = UUID.randomUUID(),
 
     @Column(nullable = false)
@@ -33,6 +32,9 @@ data class MedicoEntity(
     var correo: String,
 
     var especializacion: String? = null,
+
+    @Column(name = "n_registro")
+    var nRegistro: String? = null,
 
     @OneToMany(fetch = FetchType.LAZY)
     var evoluciones: MutableList<EvolucionEntity> = mutableListOf(),

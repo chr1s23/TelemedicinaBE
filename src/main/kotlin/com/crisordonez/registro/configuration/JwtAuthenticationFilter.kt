@@ -30,11 +30,12 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
 
         // ←––––– SALTAR RUTAS PÚBLICAS SIN JWT –––––→
         if (
-            path == "/api/auth/login" ||
-            (path == "/api/users" && request.method.equals("POST", ignoreCase = true)) ||
-            (path == "/api/codigosqr" && request.method.equals("POST", ignoreCase = true)) ||
-            (path == "/api/codigosqr" && request.method.equals("GET", ignoreCase = true))  ||
-            (path == "/prueba/admin" && request.method.equals("GET", ignoreCase = true))
+            path.startsWith("/api/auth/login") ||
+            (path.startsWith("/api/users") && request.method.equals("POST", ignoreCase = true)) ||
+            (path.startsWith("/api/codigosqr") && (request.method.equals("POST", ignoreCase = true) || request.method.equals("GET", ignoreCase = true))) ||
+            (path.startsWith("/prueba/admin") && request.method.equals("GET", ignoreCase = true)) ||
+            (path.startsWith("/prueba/medico/nombre/") && request.method.equals("GET", ignoreCase = true)) ||
+            (path.startsWith("/prueba/medico/subir") && request.method.equals("POST", ignoreCase = true))
         ) {
             println("Ruta pública detectada: $path, saltando filtro JWT")
             filterChain.doFilter(request, response)

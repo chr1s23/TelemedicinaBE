@@ -11,5 +11,5 @@ class RegistroApplication
 fun main(args: Array<String>) {
 	println("🚀 Iniciando servicio de registro...")
 	runApplication<RegistroApplication>(*args)
-	println("✅ Servicio de registro iniciado correctamente.")
+	println("✅ Servicio de registro iniciado correctamente. ")
 }
