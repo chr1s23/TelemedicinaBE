@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.EvolucionMapper.toEntity
 import com.crisordonez.registro.model.mapper.EvolucionMapper.toResponse
 import com.crisordonez.registro.model.requests.EvolucionRequest
@@ -20,54 +21,38 @@ class EvolucionService(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun crearEvolucion(publicId: String, evolucion: EvolucionRequest) {
-        try {
-            log.info("Creando evolucion")
-            val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
-                throw Exception("No existe una prueba relacionada al dispositivo referencia")
-            }
-            val evolucionEntity = evolucionRepository.save(evolucion.toEntity(prueba))
-            prueba.evolucion.add(evolucionEntity)
-            examenVphRepository.save(prueba)
-            log.info("Evolucion creada correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Creando evolucion")
+        val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
+            throw NotFoundException("No existe una prueba relacionada al dispositivo de referencia")
         }
+        val evolucionEntity = evolucionRepository.save(evolucion.toEntity(prueba))
+        prueba.evolucion.add(evolucionEntity)
+        examenVphRepository.save(prueba)
+        log.info("Evolucion creada correctamente")
     }
 
     override fun getEvolucion(publicId: UUID): EvolucionResponse {
-        try {
-            log.info("Consultando evolucion - PublicId: $publicId")
-            val evolucion = evolucionRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el registro solicitado")
-            }
-            log.info("Evolucion consultada correctamente")
-            return evolucion.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando evolucion - PublicId: $publicId")
+        val evolucion = evolucionRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el registro solicitado")
         }
+        log.info("Evolucion consultada correctamente")
+        return evolucion.toResponse()
     }
 
     override fun getTodasEvoluciones(): List<EvolucionResponse> {
-        try {
-            log.info("Consultando todos los registros de evolucion")
-            val registros = evolucionRepository.findAll().map { it.toResponse() }
-            log.info("Registros consultados - Total: ${registros.size}")
-            return registros
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Consultando todos los registros de evolucion")
+        val registros = evolucionRepository.findAll().map { it.toResponse() }
+        log.info("Registros consultados - Total: ${registros.size}")
+        return registros
     }
 
     override fun eliminarEvolucion(publicId: UUID) {
-        try {
-            log.info("Eliminando evolucion - PublicId: $publicId")
-            val evolucion = evolucionRepository.findByPublicId(publicId).orElseThrow {
-                throw Exception("No existe el registro solicitado")
-            }
-            evolucionRepository.delete(evolucion)
-        } catch (e: Exception) {
-            throw e
+        log.info("Eliminando evolucion - PublicId: $publicId")
+        val evolucion = evolucionRepository.findByPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe el registro solicitado")
         }
+        evolucionRepository.delete(evolucion)
     }
 
 }

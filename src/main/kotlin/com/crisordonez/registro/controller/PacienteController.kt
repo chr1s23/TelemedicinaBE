@@ -1,5 +1,6 @@
 package com.crisordonez.registro.controller
 
+import com.crisordonez.registro.model.requests.DispositivoRequest
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import com.crisordonez.registro.service.PacienteServiceInterface
@@ -38,10 +39,7 @@ class PacienteController {
         return ResponseEntity.ok().build()
     }
 
-    /**
-     * GET /paciente/dispositivo/{codigo}
-     * Busca el paciente asociado a un dispositivo registrado.
-     */
+    //Busca el paciente asociado a un dispositivo registrado.
     @GetMapping("/dispositivo/{codigo}")
     fun getByDispositivo(@PathVariable codigo: String): ResponseEntity<PacienteResponse> {
         val dto = pacienteServiceInterface.findByDispositivo(codigo)
@@ -49,5 +47,8 @@ class PacienteController {
         return ResponseEntity.ok(dto)
     }
 
-
+    @PutMapping("/registrar-dispositivo/{publicId}")
+    fun registrarDispositivo(@PathVariable publicId: UUID, @Valid @RequestBody dispositivo: DispositivoRequest): ResponseEntity<String> {
+        return ResponseEntity.ok(pacienteServiceInterface.registrarDispositivo(publicId, dispositivo))
+    }
 }

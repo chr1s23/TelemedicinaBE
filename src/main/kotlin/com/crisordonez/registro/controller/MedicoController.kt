@@ -2,6 +2,7 @@ package com.crisordonez.registro.controller
 
 import com.crisordonez.registro.model.requests.MedicoRequest
 import com.crisordonez.registro.model.responses.MedicoResponse
+import com.crisordonez.registro.service.MedicoServiceInterface
 import com.crisordonez.registro.service.MedicoService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

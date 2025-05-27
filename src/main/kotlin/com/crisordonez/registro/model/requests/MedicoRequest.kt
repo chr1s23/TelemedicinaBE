@@ -19,16 +19,16 @@ data class MedicoRequest(
     val contrasena: String,
 
     @field:NotNull(message = "El nombre no puede ser nulo")
-    @field:NotBlank(message = "El nombre no puede estar vacío")
+
     val nombre: String,
 
     @field:NotNull(message = "El correo no puede ser nulo")
-    @field:NotBlank(message = "El correo no puede estar vacío")
     val correo: String,
 
     val especializacion: String? = null,
 
     @field:NotNull(message = "El sexo no puede ser nulo")
+
     val sexo: SexoEnum,
 
     @JsonProperty("n_registro")
@@ -37,4 +37,5 @@ data class MedicoRequest(
     @field:Size(min = 3, max = 20, message = "El número de registro debe tener entre 3 y 20 caracteres")
     val nRegistro: String = ""
 
+    val sexo: SexoEnum
 )

@@ -9,17 +9,24 @@ import com.crisordonez.registro.model.mapper.SaludSexualMapper.toResponse
 import com.crisordonez.registro.model.requests.ExamenVphRequest
 import com.crisordonez.registro.model.requests.ExamenResultadoRequest
 import com.crisordonez.registro.model.responses.ExamenVphResponse
+import org.springframework.web.multipart.MultipartFile
 import java.text.SimpleDateFormat
 
 object ExamenVphMapper {
 
     fun ExamenVphRequest.toEntity(sesion: SesionChatEntity, saludSexual: SaludSexualEntity): ExamenVphEntity {
         return ExamenVphEntity(
-            fechaExamen = SimpleDateFormat("dd/MM/yyyy").parse(this.fecha),
+            fechaExamen = this.fecha,
             dispositivo = this.dispositivo,
             sesionChat = sesion,
             saludSexual = saludSexual
         )
+    }
+
+    fun ExamenVphRequest.toEntityUpdated(examen: ExamenVphEntity): ExamenVphEntity {
+        examen.fechaExamen = this.fecha
+        examen.dispositivo = this.dispositivo
+        return examen
     }
 
     fun ExamenVphEntity.toResponse(): ExamenVphResponse {
@@ -30,7 +37,7 @@ object ExamenVphMapper {
             dispositivo = this.dispositivo,
             saludSexual = this.saludSexual.toResponse(),
             evolucion = this.evolucion.map { it.toResponse() },
-            tipo = this.tipo?.name,
+            tipo = this.tipo,
             contenido = this.contenido,
             tamano = this.tamano,
             nombre = this.nombre,
@@ -38,7 +45,6 @@ object ExamenVphMapper {
             genotipos = this.genotipos // <-- incluir genotipos en la respuesta
         )
     }
-
     fun ExamenVphEntity.toUpdateResultado(resultado: ExamenResultadoRequest, evolucion: EvolucionEntity?): ExamenVphEntity {
         this.fechaResultado = SimpleDateFormat("dd/MM/yyyy").parse(resultado.fechaResultado)
         if (resultado.archivo != null) {
@@ -50,6 +56,7 @@ object ExamenVphMapper {
         if (!resultado.diagnostico.isNullOrBlank()) {
             this.diagnostico = resultado.diagnostico // <-- app web
         }
+
         if (evolucion != null) {
             this.evolucion.add(evolucion)
         }

@@ -2,6 +2,8 @@ package com.crisordonez.registro.model.entities
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
+import jdk.jfr.Timestamp
+import java.time.LocalDateTime
 import java.util.UUID
 import java.time.LocalDateTime
 
@@ -27,6 +29,9 @@ data class EvolucionEntity(
 
     @Column(nullable = false)
     var peso: Double,
+
+    @Timestamp
+    var fecha: LocalDateTime,
 
     @JsonIgnore
     @ManyToOne

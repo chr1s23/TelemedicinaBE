@@ -1,7 +1,9 @@
 package com.crisordonez.registro.model.entities
 
 import com.crisordonez.registro.model.enums.SexoEnum
+
 import com.fasterxml.jackson.annotation.JsonIgnore
+
 import jakarta.persistence.*
 import java.util.UUID
 
@@ -35,6 +37,9 @@ data class MedicoEntity(
 
     @Column(name = "n_registro")
     var nRegistro: String? = null,
+    @Enumerated(EnumType.STRING)
+    var sexo: SexoEnum,
+
 
     @OneToMany(fetch = FetchType.LAZY)
     var evoluciones: MutableList<EvolucionEntity> = mutableListOf(),

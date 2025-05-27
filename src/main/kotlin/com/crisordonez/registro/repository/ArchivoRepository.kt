@@ -9,4 +9,6 @@ interface ArchivoRepository: CrudRepository<ArchivoEntity, Long> {
 
     fun findByPublicId(publicId: UUID): Optional<ArchivoEntity>
 
+    fun findByNombre(nombre: String): Optional<ArchivoEntity>
+
 }

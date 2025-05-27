@@ -24,13 +24,20 @@ object CuentaUsuarioMapper {
     fun CuentaUsuarioEntity.toResponse(token: String?): CuentaUsuarioResponse {
         return CuentaUsuarioResponse(
             publicId = this.publicId,
+            nombre = this.paciente?.nombre ?: "",
             nombreUsuario = this.nombreUsuario,
-            token = token
+            token = token,
+            dispositivo = this.paciente?.dispositivos?.firstOrNull()?.dispositivo
         )
     }
 
     fun CuentaUsuarioEntity.toUpdateUltimaSesion(): CuentaUsuarioEntity {
         this.ultimaSesion = LocalDateTime.now()
+        return this
+    }
+
+    fun CuentaUsuarioEntity.toUpdateContrasena(newPass: String): CuentaUsuarioEntity {
+        this.contrasena = newPass
         return this
     }
 }

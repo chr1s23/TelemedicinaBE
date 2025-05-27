@@ -7,6 +7,13 @@ import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
@@ -16,23 +23,20 @@ class ExamenVphController {
     @Autowired
     lateinit var examenVphServiceInterface: ExamenVphServiceInterface
 
-    // ─── endpoint: devuelve solo el nombre del paciente dado el código de dispositivo ───
+    // devuelve solo el nombre del paciente dado el código de dispositivo
     @GetMapping("/medico/nombre/{codigoDispositivo}")
     fun obtenerNombrePaciente(@PathVariable codigoDispositivo: String): ResponseEntity<String> {
         val nombre = examenVphServiceInterface.obtenerNombrePorCodigo(codigoDispositivo)
         return ResponseEntity.ok(nombre)
     }
 
-    // ─── Endpoints existentes ────────────────────────────────────────────────────
-
     @PutMapping("/admin/resultado/{publicId}")
     fun establecerResultado(
         @PathVariable publicId: String,
-        @Valid @RequestBody prueba: ExamenResultadoRequest
+        @Valid @RequestBody prueba: ExamenResultadoRequest,
+        @RequestParam("archivo") archivo: MultipartFile
     ): ResponseEntity<Unit> {
-        return ResponseEntity.ok(
-            examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba)
-        )
+        return ResponseEntity.ok(examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba, archivo))
     }
 
     @GetMapping("/admin/{publicId}")
@@ -64,7 +68,7 @@ class ExamenVphController {
         )
         return ResponseEntity.ok("Examen subido correctamente")
     }
-    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico ───
+    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico 
     @PatchMapping("/medico/clear-fields/{codigoDispositivo}")
     fun clearExamenFields(@PathVariable codigoDispositivo: String): ResponseEntity<Void> {
         examenVphServiceInterface.clearExamenFields(codigoDispositivo)

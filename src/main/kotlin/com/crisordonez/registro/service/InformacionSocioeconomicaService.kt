@@ -1,5 +1,6 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toResponse
@@ -21,47 +22,35 @@ class InformacionSocioeconomicaService(
     private val log = LoggerFactory.getLogger(this.javaClass)
 
     override fun editarInfoSocioeconomica(publicId: UUID, informacion: InformacionSocioeconomicaRequest) {
-        try {
-            log.info("Editando informacion socioeconomica - PublicId: $publicId")
-            val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
-                throw Exception("No existe la informacion del paciente solicitado")
-            }
-
-            val informacionEntity = if (paciente.informacionSocioeconomica != null) {
-                informacionSocioeconomicaRepository.save(informacion.toEntityUpdated(paciente.informacionSocioeconomica!!))
-            } else {
-                informacionSocioeconomicaRepository.save(informacion.toEntity(paciente))
-            }
-            paciente.informacionSocioeconomica = informacionEntity
-            pacienteRepository.save(paciente)
-            log.info("Informacion socioeconomica editada correctamente")
-        } catch (e: Exception) {
-            throw e
+        log.info("Editando informacion socioeconomica - PublicId: $publicId")
+        val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe la informacion del paciente solicitado")
         }
+
+        val informacionEntity = if (paciente.informacionSocioeconomica != null) {
+            informacionSocioeconomicaRepository.save(informacion.toEntityUpdated(paciente.informacionSocioeconomica!!))
+        } else {
+            informacionSocioeconomicaRepository.save(informacion.toEntity(paciente))
+        }
+        paciente.informacionSocioeconomica = informacionEntity
+        pacienteRepository.save(paciente)
+        log.info("Informacion socioeconomica editada correctamente")
     }
 
     override fun getInfoSocioeconomica(publicId: UUID): InformacionSocioeconomicaResponse? {
-        try {
-            log.info("Consultando informacion socioeconomica - PublicId: $publicId")
-            val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
-                throw Exception("No existe la informacion del paciente solicitado")
-            }
-            val informacion = paciente.informacionSocioeconomica
-            log.info("Informacion consultada correctamente")
-            return informacion?.toResponse()
-        } catch (e: Exception) {
-            throw e
+        log.info("Consultando informacion socioeconomica - PublicId: $publicId")
+        val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
+            throw NotFoundException("No existe la informacion del paciente solicitado")
         }
+        val informacion = paciente.informacionSocioeconomica
+        log.info("Informacion consultada correctamente")
+        return informacion?.toResponse()
     }
 
     override fun getTodosInfo(): List<InformacionSocioeconomicaResponse> {
-        try {
-            log.info("Consultando todos los registros de informacion socioeconomica")
-            val infos = informacionSocioeconomicaRepository.findAll().map { it.toResponse() }
-            log.info("Registros consultados correctamente - Total: ${infos.size}")
-            return infos
-        } catch (e: Exception) {
-            throw e
-        }
+        log.info("Consultando todos los registros de informacion socioeconomica")
+        val infos = informacionSocioeconomicaRepository.findAll().map { it.toResponse() }
+        log.info("Registros consultados correctamente - Total: ${infos.size}")
+        return infos
     }
 }

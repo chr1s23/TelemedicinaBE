@@ -16,14 +16,11 @@ class JwtUtil {
 
     private final val SECRET = "8A17B9AB37D9C2D8C82288FBEF1606A246F28557340F63802EDE551630A4AB2C75112CA50A3C87DAC9A57F1828E298DB05009425D6E26D4533A054B519CBC9C1"
 
-    private final val VALIDITY = TimeUnit.MINUTES.toMillis(180)
+    private final val VALIDITY = TimeUnit.MINUTES.toMillis(1440)
 
     fun generateToken(userDetails: UserDetails): String {
-        val claims = mutableMapOf<String, String>()
-        claims["iss"] = "https://www.ucuenca.edu.ec"
 
         return Jwts.builder()
-            .claims(claims)
             .subject(userDetails.username)
             .issuedAt(Date.from(Instant.now()))
             .expiration(Date.from(Instant.now().plusMillis(VALIDITY)))
@@ -52,5 +49,19 @@ class JwtUtil {
     fun isTokenValid(jwt: String): Boolean {
         val claims = getClaims(jwt)
         return claims.expiration.after(Date.from(Instant.now()))
+    }
+
+    fun refreshToken(jwt: String): String? {
+        if (!isTokenValid(jwt)) return null
+
+        val userName = extractUserName(jwt)
+
+        return Jwts.builder()
+            .subject(userName)
+            .issuedAt(Date.from(Instant.now()))
+            .expiration(Date.from(Instant.now().plusMillis(VALIDITY)))
+            .signWith(generateKey())
+            .compact()
+
     }
 }

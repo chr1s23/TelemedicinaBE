@@ -19,6 +19,13 @@ object SesionChatMapper {
         )
     }
 
+    fun SesionChatRequest.toEntityUpdated(sesion: SesionChatEntity): SesionChatEntity {
+        sesion.inicio = this.inicio
+        sesion.fin = this.fin
+        sesion.contenido = this.contenido
+        return sesion
+    }
+
     fun SesionChatEntity.toResponse(): SesionChatResponse {
         return SesionChatResponse(
             publicId = this.publicId,

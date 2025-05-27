@@ -1,12 +1,14 @@
 // ExamenVphService.kt
 package com.crisordonez.registro.service
 
+
 import com.crisordonez.registro.model.entities.ExamenVphEntity
 import com.crisordonez.registro.model.entities.PacienteEntity
 import com.crisordonez.registro.model.enums.TipoArchivoEnum
 import com.crisordonez.registro.model.requests.ExamenResultadoRequest
 import com.crisordonez.registro.model.responses.ExamenVphResponse
 import com.crisordonez.registro.repository.*
+import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.EvolucionMapper.toEntity
 import com.crisordonez.registro.model.mapper.ExamenVphMapper.toResponse
 import com.crisordonez.registro.model.mapper.ExamenVphMapper.toUpdateResultado
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+
 import java.util.NoSuchElementException
 import java.time.LocalDateTime
 import java.util.Date
@@ -59,6 +62,7 @@ class ExamenVphService(
         }
 
         examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion))
+
         log.info("Resultado establecido correctamente")
     }
 
@@ -67,6 +71,8 @@ class ExamenVphService(
         val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
             NoSuchElementException("No existe prueba relacionada con el dispositivo $publicId")
         }
+        log.info("Prueba consultada correctamente")
+
         return prueba.toResponse()
     }
 
@@ -144,11 +150,9 @@ class ExamenVphService(
             log.error("Error al subir resultado: ${e.message}")
             throw e
         }
+
     }
-    /**
-     * Vacía solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico
-     * del registro identificado por el código de dispositivo.
-     */
+    // Vacía solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico del registro identificado por el código de dispositivo.
     override fun clearExamenFields(codigoDispositivo: String) {
         log.info("Limpiando campos del examen VPH para dispositivo: $codigoDispositivo")
         val updated = examenVphRepository.clearFieldsByCodigo(codigoDispositivo)
@@ -158,9 +162,7 @@ class ExamenVphService(
         log.info("Campos vaciados correctamente ($updated fila(s) afectada(s))")
     }
 
-    /**
-     * Devuelve la lista de prefijos (p.ej. "010151-") desde dispositivos_registrados.dispositivo
-     */
+    // Devuelve la lista de prefijos (p.ej. "010151-") desde dispositivos_registrados.dispositivo
     override fun getDevicePrefixes(): List<String> {
         val registros = dispositivoRegistradoRepository.findAll()
         log.info("Total dispositivos registrados: ${registros.count()}")

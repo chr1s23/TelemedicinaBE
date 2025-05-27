@@ -14,7 +14,8 @@ object EvolucionMapper {
             pulso = this.pulso,
             talla = this.talla,
             peso = this.peso,
-            examenVph = examen
+            examenVph = examen,
+            fecha = this.fecha
         )
     }
 
@@ -24,7 +25,8 @@ object EvolucionMapper {
             temperatura = this.temperatura,
             pulso = this.pulso,
             talla = this.talla,
-            peso = this.peso
+            peso = this.peso,
+            fecha = this.fecha
         )
     }
 }
