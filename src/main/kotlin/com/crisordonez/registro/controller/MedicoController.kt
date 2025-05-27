@@ -3,48 +3,41 @@ package com.crisordonez.registro.controller
 import com.crisordonez.registro.model.requests.MedicoRequest
 import com.crisordonez.registro.model.responses.MedicoResponse
 import com.crisordonez.registro.service.MedicoServiceInterface
-import jakarta.validation.Valid
-import org.springframework.beans.factory.annotation.Autowired
+import com.crisordonez.registro.service.MedicoService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import java.util.UUID
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/medico")
-class MedicoController {
-
-    @Autowired
-    lateinit var medicoServiceInterface: MedicoServiceInterface
-
-    @PostMapping
-    fun createMedico(@Valid @RequestBody medico: MedicoRequest): ResponseEntity<Unit> {
-        return ResponseEntity.ok(medicoServiceInterface.createMedico(medico))
-    }
-
-    @GetMapping("/{publicId}")
-    fun getMedico(@PathVariable publicId: UUID): ResponseEntity<MedicoResponse> {
-        return ResponseEntity.ok(medicoServiceInterface.getMedico(publicId))
-    }
+@RequestMapping("/api/medicos")
+class MedicoController(
+    private val service: MedicoService
+) {
 
     @GetMapping
-    fun getAllMedicos(): ResponseEntity<List<MedicoResponse>> {
-        return ResponseEntity.ok(medicoServiceInterface.getAllMedicos())
-    }
+    fun listAll(): List<MedicoResponse> =
+        service.listarMedicos()
 
-    @PutMapping("/{publicId}")
-    fun updateMedico(@PathVariable publicId: UUID, @Valid @RequestBody medico: MedicoRequest): ResponseEntity<Unit> {
-        return ResponseEntity.ok(medicoServiceInterface.updateMedico(publicId, medico))
-    }
+    @PostMapping
+    fun create(@RequestBody req: MedicoRequest): ResponseEntity<MedicoResponse> =
+        ResponseEntity.status(HttpStatus.CREATED)
+            .body(service.crearMedico(req))
 
-    @DeleteMapping("/{publicId}")
-    fun deleteMedico(@PathVariable publicId: UUID): ResponseEntity<Unit> {
-        return ResponseEntity.ok(medicoServiceInterface.deleteMedico(publicId))
+    // Cambiado a Long para buscar por id numérico
+    @GetMapping("/{id}")
+    fun getOne(@PathVariable id: Long): MedicoResponse =
+        service.obtenerMedicoPorId(id)
+
+    @PutMapping("/{id}")
+    fun update(
+        @PathVariable id: String,  // UUID para actualizar
+        @RequestBody req: MedicoRequest
+    ): MedicoResponse =
+        service.actualizarMedico(id, req)
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: String): ResponseEntity<Void> {  // UUID para eliminar
+        service.eliminarMedico(id)
+        return ResponseEntity.noContent().build()
     }
 }

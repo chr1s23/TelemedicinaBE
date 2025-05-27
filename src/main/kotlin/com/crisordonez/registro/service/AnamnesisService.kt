@@ -15,11 +15,14 @@ import java.util.*
 
 @Service
 class AnamnesisService(
+
     @Autowired private val anamnesisRepository: AnamnesisRepository,
     @Autowired private val pacienteRepository: PacienteRepository
 ) : AnamnesisServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
+
+
 
     override fun crearAnamnesis(publicId: UUID, anamnesis: AnamnesisRequest) {
         log.info("Creando anamnesis")
@@ -65,4 +68,5 @@ class AnamnesisService(
         anamnesisRepository.delete(registro)
         log.info("Registro de anamnesis eliminado correctamente")
     }
+
 }

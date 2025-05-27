@@ -7,7 +7,9 @@ import java.util.UUID
 
 interface MedicoRepository: CrudRepository<MedicoEntity, Long> {
 
-    fun findByPublicId(publicId: UUID): Optional<MedicoEntity>
+    fun findByUsuario(usuario: String): MedicoEntity?
+    fun findByPublicId(publicId: UUID): MedicoEntity?
+
 
     fun findByNombre(nombre: String): Optional<MedicoEntity>
 

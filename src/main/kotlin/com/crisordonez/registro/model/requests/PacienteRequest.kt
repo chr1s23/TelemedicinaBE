@@ -26,6 +26,7 @@ data class PacienteRequest(
     @field:NotNull(message = "El sexo es requerido")
     val sexo: SexoEnum,
 
+
     val identificacion: String? = null,
 
     val infoSocioeconomica: InformacionSocioeconomicaRequest? = null

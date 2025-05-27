@@ -5,6 +5,7 @@ import jakarta.persistence.*
 import jdk.jfr.Timestamp
 import java.time.LocalDateTime
 import java.util.UUID
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "evolucion")
@@ -40,6 +41,7 @@ data class EvolucionEntity(
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "medico_id")
-    var medico: MedicoEntity? = null
+    var medico: MedicoEntity? = null,
+
 
 ) : AuditModel()

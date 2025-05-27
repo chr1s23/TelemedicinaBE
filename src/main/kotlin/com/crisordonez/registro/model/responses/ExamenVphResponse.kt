@@ -22,5 +22,10 @@ data class ExamenVphResponse(
 
     val nombre: String? = null,
 
-    val contenido: ByteArray? = null
+    val contenido: ByteArray? = null,
+
+    val diagnostico: String? = null,  //nuevo para app web
+
+    val genotipos: List<String> = emptyList() //nuevo para app web
+
 )

@@ -1,53 +1,180 @@
+// ExamenVphService.kt
 package com.crisordonez.registro.service
 
+
+import com.crisordonez.registro.model.entities.ExamenVphEntity
+import com.crisordonez.registro.model.entities.PacienteEntity
+import com.crisordonez.registro.model.enums.TipoArchivoEnum
+import com.crisordonez.registro.model.requests.ExamenResultadoRequest
+import com.crisordonez.registro.model.responses.ExamenVphResponse
+import com.crisordonez.registro.repository.*
 import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.EvolucionMapper.toEntity
 import com.crisordonez.registro.model.mapper.ExamenVphMapper.toResponse
 import com.crisordonez.registro.model.mapper.ExamenVphMapper.toUpdateResultado
-import com.crisordonez.registro.model.requests.ExamenResultadoRequest
-import com.crisordonez.registro.model.responses.ExamenVphResponse
-import com.crisordonez.registro.repository.EvolucionRepository
-import com.crisordonez.registro.repository.ExamenVphRepository
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
+import java.util.NoSuchElementException
+import java.time.LocalDateTime
+import java.util.Date
+
 @Service
 class ExamenVphService(
     @Autowired private val examenVphRepository: ExamenVphRepository,
-    @Autowired private val evolucionRepository: EvolucionRepository
-): ExamenVphServiceInterface {
+    @Autowired private val evolucionRepository: EvolucionRepository,
+    @Autowired private val saludSexualRepository: SaludSexualRepository,
+    @Autowired private val sesionChatRepository: SesionChatRepository,
+    @Autowired private val dispositivoRegistradoRepository: DispositivoRegistradoRepository
+) : ExamenVphServiceInterface {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest, archivo: MultipartFile) {
+    override fun obtenerNombrePorCodigo(codigoDispositivo: String): String {
+        log.info("Obteniendo nombre de paciente para dispositivo: $codigoDispositivo")
+
+        // 1) Buscar examen en examen_vph por código de dispositivo
+        val examen: ExamenVphEntity = examenVphRepository
+            .findByDispositivo(codigoDispositivo)
+            .orElseThrow { NoSuchElementException("Examen con código '$codigoDispositivo' no encontrado") }
+
+        // 2) Obtener la entidad SaludSexual relacionada
+        val saludSexual = examen.saludSexual
+
+        // 3) De la entidad SaludSexual obtener el paciente y su nombre
+        val paciente: PacienteEntity = saludSexual.paciente
+            ?: throw NoSuchElementException("No existe paciente asociado a la salud sexual del examen")
+
+        return paciente.nombre
+    }
+
+    override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest) {
         log.info("Estableciendo resultado - Prueba: $publicId")
         val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
-            throw NotFoundException("No existe un dispositivo relacionado")
+            NoSuchElementException("No existe un examen relacionado al dispositivo $publicId")
         }
 
-        val evolucion = if (pruebaRequest.evolucion != null) {
-            evolucionRepository.save(pruebaRequest.evolucion.toEntity(prueba))
-        } else { null }
+        val evolucion = pruebaRequest.evolucion?.let {
+            evolucionRepository.save(it.toEntity(prueba))
+        }
 
-        examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion, archivo))
+        examenVphRepository.save(prueba.toUpdateResultado(pruebaRequest, evolucion))
+
         log.info("Resultado establecido correctamente")
     }
 
     override fun getPrueba(publicId: String): ExamenVphResponse {
-        log.info("Consultando prueba por dispositivo relacionado - Dispositivo: $publicId")
+        log.info("Consultando prueba por dispositivo: $publicId")
         val prueba = examenVphRepository.findByDispositivo(publicId).orElseThrow {
-            throw NotFoundException("No existe prueba relacionada con el dispositivo")
+            NoSuchElementException("No existe prueba relacionada con el dispositivo $publicId")
         }
         log.info("Prueba consultada correctamente")
+
         return prueba.toResponse()
     }
 
     override fun getTodasPruebas(): List<ExamenVphResponse> {
-        log.info("Consultando todas las pruebas en el sistema")
-        val pruebas = examenVphRepository.findAll().map { it.toResponse() }
-        log.info("Pruebas consultadas correctamente - Total: ${pruebas.size} registros")
-        return pruebas
+        log.info("Consultando todas las pruebas")
+        return examenVphRepository.findAll().map { it.toResponse() }
     }
+
+    override fun subirResultadoPdf(
+        pacienteId: Long,
+        archivo: MultipartFile,
+        nombre: String,
+        dispositivo: String,
+        diagnostico: String,
+        genotiposStr: String?
+    ) {
+        try {
+            log.info("Subiendo resultado PDF para paciente ID $pacienteId")
+
+            val dispositivoEnt = dispositivoRegistradoRepository.findByDispositivo(dispositivo)
+                .orElseThrow { Exception("No se encontró el dispositivo con código $dispositivo") }
+
+            val paciente = dispositivoEnt.paciente
+                ?: throw Exception("El dispositivo no tiene paciente asociado")
+
+            val saludSexual = paciente.saludSexual
+                ?: throw Exception("El paciente no tiene información de salud sexual")
+
+            val sesionChat = paciente.sesionesChat.firstOrNull()
+                ?: throw Exception("El paciente no tiene sesiones de chat registradas")
+
+            val genotipos: List<String> = genotiposStr
+                ?.takeIf { it.isNotBlank() }
+                ?.let { jacksonObjectMapper().readValue(it, object : com.fasterxml.jackson.core.type.TypeReference<List<String>>() {}) }
+                ?: emptyList()
+
+            val examenExistente = examenVphRepository.findBySaludSexualId(saludSexual.id!!)
+
+            if (examenExistente.isPresent) {
+                val examen = examenExistente.get()
+                examen.apply {
+                    this.contenido = archivo.bytes
+                    this.nombre = nombre
+                    this.diagnostico = diagnostico
+                    this.tamano = archivo.size
+                    this.tipo = TipoArchivoEnum.PDF
+                    this.genotipos = genotipos
+                    this.fechaResultado = Date()
+                    this.actualizadoEn = LocalDateTime.now()
+                }
+                examenVphRepository.save(examen)
+                log.info("Resultado actualizado correctamente para examen existente")
+            } else {
+                val nuevoExamen = ExamenVphEntity(
+                    fechaExamen = Date(),
+                    dispositivo = dispositivoEnt.dispositivo,
+                    saludSexual = saludSexual,
+                    sesionChat = sesionChat,
+                    contenido = archivo.bytes,
+                    nombre = nombre,
+                    diagnostico = diagnostico,
+                    tamano = archivo.size,
+                    tipo = TipoArchivoEnum.PDF,
+                    genotipos = genotipos,
+                    fechaResultado = Date()
+                ).apply {
+                    creadoEn = LocalDateTime.now()
+                    actualizadoEn = LocalDateTime.now()
+                }
+                examenVphRepository.save(nuevoExamen)
+                log.info("Resultado subido correctamente como nuevo examen")
+            }
+
+        } catch (e: Exception) {
+            log.error("Error al subir resultado: ${e.message}")
+            throw e
+        }
+
+    }
+    // Vacía solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico del registro identificado por el código de dispositivo.
+    override fun clearExamenFields(codigoDispositivo: String) {
+        log.info("Limpiando campos del examen VPH para dispositivo: $codigoDispositivo")
+        val updated = examenVphRepository.clearFieldsByCodigo(codigoDispositivo)
+        if (updated == 0) {
+            throw NoSuchElementException("No se encontró examen con código $codigoDispositivo para limpiar campos")
+        }
+        log.info("Campos vaciados correctamente ($updated fila(s) afectada(s))")
+    }
+
+    // Devuelve la lista de prefijos (p.ej. "010151-") desde dispositivos_registrados.dispositivo
+    override fun getDevicePrefixes(): List<String> {
+        val registros = dispositivoRegistradoRepository.findAll()
+        log.info("Total dispositivos registrados: ${registros.count()}")
+        return registros
+            .map { dr ->
+                // extrae hasta el guión incluido
+                val code = dr.dispositivo
+                val dashIndex = code.indexOf('-')
+                if (dashIndex >= 0) code.substring(0, dashIndex + 1) else code
+            }
+            .distinct()
+            .also { log.info("Prefijos calculados: $it") }
+    }
+
 }

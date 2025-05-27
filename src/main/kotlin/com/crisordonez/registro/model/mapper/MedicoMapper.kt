@@ -1,38 +1,38 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.MedicoEntity
-import com.crisordonez.registro.model.mapper.EvolucionMapper.toResponse
 import com.crisordonez.registro.model.requests.MedicoRequest
 import com.crisordonez.registro.model.responses.MedicoResponse
+import org.springframework.security.crypto.password.PasswordEncoder
+import com.crisordonez.registro.model.mapper.EvolucionMapper.toResponse
 
 object MedicoMapper {
 
-    fun MedicoRequest.toEntity(): MedicoEntity {
+
+    fun MedicoRequest.toEntity(encoder: PasswordEncoder): MedicoEntity {
         return MedicoEntity(
-            nombre = this.nombre,
-            correo = this.correo,
+            usuario         = this.usuario,
+            contrasena      = encoder.encode(this.contrasena),
+            nombre          = this.nombre,
+            correo          = this.correo,
             especializacion = this.especializacion,
-            sexo = this.sexo
+            sexo            = this.sexo,
+            nRegistro       = this.nRegistro
         )
-    }
-
-    fun MedicoEntity.toEntityUpdated(medico: MedicoRequest): MedicoEntity {
-        this.nombre = medico.nombre
-        this.correo = medico.correo
-        this.sexo = medico.sexo
-        this.especializacion = medico.especializacion
-
-        return this
     }
 
     fun MedicoEntity.toResponse(): MedicoResponse {
         return MedicoResponse(
-            publicId = this.publicId,
-            nombre = this.nombre,
-            correo = this.correo,
+            publicId        = this.publicId,
+            usuario         = this.usuario,
+            nombre          = this.nombre,
+            correo          = this.correo,
             especializacion = this.especializacion,
-            sexo = this.sexo,
-            evoliciones = this.evoluciones.map { it.toResponse() }
+            sexo            = this.sexo,
+            // Si nRegistro es null en la entidad, devolvemos cadena vacía
+            nRegistro       = this.nRegistro ?: "",
+            // Es necesario importar EvolucionMapper.toResponse
+            evoluciones     = this.evoluciones.map { it.toResponse() }
         )
     }
 }

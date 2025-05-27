@@ -1,97 +1,70 @@
+// src/main/kotlin/com/crisordonez/registro/service/MedicoService.kt
 package com.crisordonez.registro.service
 
-import com.crisordonez.registro.model.errors.ConflictException
-import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.MedicoMapper.toEntity
-import com.crisordonez.registro.model.mapper.MedicoMapper.toEntityUpdated
 import com.crisordonez.registro.model.mapper.MedicoMapper.toResponse
 import com.crisordonez.registro.model.requests.MedicoRequest
 import com.crisordonez.registro.model.responses.MedicoResponse
 import com.crisordonez.registro.repository.MedicoRepository
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.NoSuchElementException
+import java.util.UUID
 
 @Service
-class MedicoService: MedicoServiceInterface {
+class MedicoService(
+    private val repo: MedicoRepository,
+    private val encoder: PasswordEncoder
+) {
 
-    @Autowired
-    lateinit var medicoRepository: MedicoRepository
-
-    private val log = LoggerFactory.getLogger(this.javaClass)
-
-    override fun createMedico(medico: MedicoRequest) {
-        log.info("Creando medico - Nombre: ${medico.nombre}")
-        val medicoNombre = medicoRepository.findByNombre(medico.nombre)
-
-        if (medicoNombre.isPresent) {
-            throw ConflictException("El nombre del médico ya está registrado")
-        }
-
-        val medicoCorreo = medicoRepository.findByCorreo(medico.correo)
-
-        if (medicoCorreo.isPresent) {
-            throw ConflictException("El correo ya está registrado")
-        }
-
-        medicoRepository.save(medico.toEntity())
-        log.info("Medico creado correctamente")
+    fun crearMedico(dto: MedicoRequest): MedicoResponse {
+        val entity = dto.toEntity(encoder)
+        val saved  = repo.save(entity)
+        return saved.toResponse()
     }
 
-    override fun getMedico(publicId: UUID): MedicoResponse {
-        log.info("Consultando medico - PublicId: $publicId")
+    fun listarMedicos(): List<MedicoResponse> =
+        repo.findAll().map { it.toResponse() }
 
-        val medicoEntity = medicoRepository.findByPublicId(publicId).orElseThrow {
-            throw NotFoundException("No se encontró el médico solicitado")
-        }
-
-        log.info("Médico consultado correctamente")
-        return medicoEntity.toResponse()
+    fun obtenerMedico(id: String): MedicoResponse {
+        val medico = repo.findByPublicId(UUID.fromString(id))
+            ?: throw NoSuchElementException("Médico id=$id no encontrado")
+        return medico.toResponse()
     }
 
-    override fun getAllMedicos(): List<MedicoResponse> {
-        log.info("Consultado todos los medicos registrados")
-
-        val medicos = medicoRepository.findAll().map { it.toResponse() }
-
-        log.info("Medicos consultados correctamente - Total: ${medicos.size}")
-        return medicos
+    fun actualizarMedico(id: String, dto: MedicoRequest): MedicoResponse {
+        val medico = repo.findByPublicId(UUID.fromString(id))
+            ?: throw NoSuchElementException("Médico id=$id no encontrado")
+        medico.apply {
+            usuario         = dto.usuario
+            contrasena      = encoder.encode(dto.contrasena)
+            nombre          = dto.nombre
+            correo          = dto.correo
+            especializacion = dto.especializacion
+            sexo            = dto.sexo
+            nRegistro       = dto.nRegistro
+        }
+        return repo.save(medico).toResponse()
+    }
+    
+    fun eliminarMedico(id: String) {
+        val medico = repo.findByPublicId(UUID.fromString(id))
+            ?: throw NoSuchElementException("Médico id=$id no encontrado")
+        repo.delete(medico)
     }
 
-    override fun updateMedico(publicId: UUID, medico: MedicoRequest) {
-        log.info("Actualizando medico - PublicId: $publicId")
-
-        val medicoEntity = medicoRepository.findByPublicId(publicId).orElseThrow {
-            throw NotFoundException("No se encontró el médico solicitado")
+    fun authenticateAndGet(usuario: String, rawPassword: String): MedicoResponse? {
+        val medicoEntity = repo.findByUsuario(usuario)
+        if (medicoEntity != null && encoder.matches(rawPassword, medicoEntity.contrasena)) {
+            return medicoEntity.toResponse()
         }
-
-        val medicoExistente = medicoRepository.findByNombre(medico.nombre)
-
-        if (medicoExistente.isPresent && medicoExistente.get().publicId != publicId) {
-            throw ConflictException("El nombre del medico ya está registrado")
-        }
-
-        val medicoCorreo = medicoRepository.findByCorreo(medico.correo)
-
-        if (medicoCorreo.isPresent && medicoCorreo.get().publicId != publicId) {
-            throw ConflictException("El correo ya está registrado")
-        }
-
-        medicoRepository.save(medicoEntity.toEntityUpdated(medico))
-
-        log.info("Médico actualizado correctamente")
+        return null
     }
 
-    override fun deleteMedico(publicId: UUID) {
-        log.info("Eliminando medico - PublicId: $publicId")
-
-        val medicoEntity = medicoRepository.findByPublicId(publicId).orElseThrow {
-            throw NotFoundException("No se encontró el médico solicitado")
-        }
-
-        medicoRepository.delete(medicoEntity)
-
-        log.info("Médico eliminado correctamente")
+    // Nuevo método para buscar por ID numérico (Long)
+    fun obtenerMedicoPorId(id: Long): MedicoResponse {
+        val medico = repo.findById(id)
+            .orElseThrow { NoSuchElementException("Médico id=$id no encontrado") }
+        return medico.toResponse()
     }
 }

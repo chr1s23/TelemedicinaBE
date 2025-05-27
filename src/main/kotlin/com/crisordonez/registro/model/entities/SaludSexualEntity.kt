@@ -41,6 +41,11 @@ data class SaludSexualEntity(
 
     @OneToOne
     @JoinColumn(name = "examen_vph_id")
-    var examenVph: ExamenVphEntity? = null
+    var examenVph: ExamenVphEntity? = null,
+
+    @OneToOne
+    @JoinColumn(name = "paciente_id")
+    var paciente: PacienteEntity? = null
+
 
 ) : AuditModel()

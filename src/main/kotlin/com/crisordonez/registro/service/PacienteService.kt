@@ -1,5 +1,9 @@
+// src/main/kotlin/com/crisordonez/registro/service/PacienteService.kt
 package com.crisordonez.registro.service
 
+
+import com.crisordonez.registro.model.entities.PacienteEntity
+import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.DispositivoMapper.toEntity
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
@@ -9,17 +13,19 @@ import com.crisordonez.registro.model.mapper.PacienteMapper.toResponse
 import com.crisordonez.registro.model.requests.DispositivoRequest
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
-import com.crisordonez.registro.repository.DispositivoRepository
+import com.crisordonez.registro.repository.DispositivoRegistradoRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
 import com.crisordonez.registro.repository.PacienteRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.UUID
 
 @Service
 class PacienteService(
     @Autowired private val pacienteRepository: PacienteRepository,
+
+    @Autowired private val dispositivoRepo: DispositivoRegistradoRepository
     @Autowired private val dispositivoRepository: DispositivoRepository,
     @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository
 ): PacienteServiceInterface {
@@ -47,6 +53,15 @@ class PacienteService(
         log.info("Informacion del paciente editada correctamente")
     }
 
+    override fun findByDispositivo(codigo: String): PacienteResponse? {
+        log.info("Buscando paciente por dispositivo: $codigo")
+        val disp = dispositivoRepo.findByDispositivo(codigo)
+            .orElseThrow { Exception("Dispositivo no registrado: $codigo") }
+        // aquí usamos la relación a PacienteEntity directamente
+        val pacienteEnt = disp.paciente
+        return pacienteEnt.toResponse()
+    }
+    
     override fun getPaciente(publicId: UUID): PacienteResponse {
         log.info("Consultando informacion paciente - PublicId: $publicId")
         val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {

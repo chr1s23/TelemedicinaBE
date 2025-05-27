@@ -7,12 +7,7 @@ import com.crisordonez.registro.service.PacienteServiceInterface
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.UUID
 
 @RestController
@@ -21,7 +16,7 @@ class PacienteController {
 
     @Autowired
     lateinit var pacienteServiceInterface: PacienteServiceInterface
-
+    // editar paciente
     @PutMapping("/editar/{publicId}")
     fun editarPaciente(@PathVariable publicId: UUID, @Valid @RequestBody paciente: PacienteRequest): ResponseEntity<Unit> {
         return ResponseEntity.ok(pacienteServiceInterface.editarPaciente(publicId, paciente))
@@ -37,9 +32,23 @@ class PacienteController {
         return ResponseEntity.ok(pacienteServiceInterface.getTodosPacientes())
     }
 
+    // crear paciente
+    @PostMapping
+    fun crearPaciente(@Valid @RequestBody paciente: PacienteRequest): ResponseEntity<Unit> {
+        pacienteServiceInterface.crearPaciente(paciente)
+        return ResponseEntity.ok().build()
+    }
+
+    //Busca el paciente asociado a un dispositivo registrado.
+    @GetMapping("/dispositivo/{codigo}")
+    fun getByDispositivo(@PathVariable codigo: String): ResponseEntity<PacienteResponse> {
+        val dto = pacienteServiceInterface.findByDispositivo(codigo)
+            ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(dto)
+    }
+
     @PutMapping("/registrar-dispositivo/{publicId}")
     fun registrarDispositivo(@PathVariable publicId: UUID, @Valid @RequestBody dispositivo: DispositivoRequest): ResponseEntity<String> {
         return ResponseEntity.ok(pacienteServiceInterface.registrarDispositivo(publicId, dispositivo))
     }
-
 }

@@ -6,3 +6,4 @@ enum class RangoTiempoEnum {
     MAS_3_ANIOS,
     NUNCA
 }
+

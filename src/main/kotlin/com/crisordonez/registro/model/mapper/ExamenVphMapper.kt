@@ -40,17 +40,22 @@ object ExamenVphMapper {
             tipo = this.tipo,
             contenido = this.contenido,
             tamano = this.tamano,
-            nombre = this.nombre
+            nombre = this.nombre,
+            diagnostico = this.diagnostico, // <-- app web
+            genotipos = this.genotipos // <-- incluir genotipos en la respuesta
         )
     }
-
-    fun ExamenVphEntity.toUpdateResultado(resultado: ExamenResultadoRequest, evolucion: EvolucionEntity?, archivo: MultipartFile): ExamenVphEntity {
-        this.fechaResultado = resultado.fechaResultado
-
-        this.tipo = archivo.contentType ?: "unknown"
-        this.contenido = archivo.bytes
-        this.nombre = archivo.originalFilename ?: "unknown"
-        this.tamano = archivo.size
+    fun ExamenVphEntity.toUpdateResultado(resultado: ExamenResultadoRequest, evolucion: EvolucionEntity?): ExamenVphEntity {
+        this.fechaResultado = SimpleDateFormat("dd/MM/yyyy").parse(resultado.fechaResultado)
+        if (resultado.archivo != null) {
+            this.tipo = resultado.archivo.tipo
+            this.contenido = resultado.archivo.contenido
+            this.nombre = resultado.archivo.nombre
+            this.tamano = resultado.archivo.contenido.size.toLong()
+        }
+        if (!resultado.diagnostico.isNullOrBlank()) {
+            this.diagnostico = resultado.diagnostico // <-- app web
+        }
 
         if (evolucion != null) {
             this.evolucion.add(evolucion)
