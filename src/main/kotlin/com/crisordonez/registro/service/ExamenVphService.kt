@@ -17,10 +17,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-
 import java.util.NoSuchElementException
 import java.time.LocalDateTime
 import java.util.Date
+
+
 
 @Service
 class ExamenVphService(
@@ -92,7 +93,8 @@ class ExamenVphService(
         try {
             log.info("Subiendo resultado PDF para paciente ID $pacienteId")
 
-            val dispositivoEnt = dispositivoRegistradoRepository.findByDispositivo(dispositivo)
+            val dispositivoEnt = dispositivoRegistradoRepository
+                .findByDispositivo(dispositivo)
                 .orElseThrow { Exception("No se encontró el dispositivo con código $dispositivo") }
 
             val paciente = dispositivoEnt.paciente
@@ -106,7 +108,12 @@ class ExamenVphService(
 
             val genotipos: List<String> = genotiposStr
                 ?.takeIf { it.isNotBlank() }
-                ?.let { jacksonObjectMapper().readValue(it, object : com.fasterxml.jackson.core.type.TypeReference<List<String>>() {}) }
+                ?.let {
+                    jacksonObjectMapper().readValue(
+                        it,
+                        object : com.fasterxml.jackson.core.type.TypeReference<List<String>>() {}
+                    )
+                }
                 ?: emptyList()
 
             val examenExistente = examenVphRepository.findBySaludSexualId(saludSexual.id!!)
@@ -114,34 +121,31 @@ class ExamenVphService(
             if (examenExistente.isPresent) {
                 val examen = examenExistente.get()
                 examen.apply {
-                    this.contenido = archivo.bytes
-                    this.nombre = nombre
+                    contenido      = archivo.bytes
+                    this.nombre    = nombre
                     this.diagnostico = diagnostico
-                    this.tamano = archivo.size
-                    this.tipo = TipoArchivoEnum.PDF
+                    tamano         = archivo.size.toLong()
+                    tipo           = TipoArchivoEnum.PDF
                     this.genotipos = genotipos
-                    this.fechaResultado = Date()
-                    this.actualizadoEn = LocalDateTime.now()
+                    fechaResultado = Date()
                 }
                 examenVphRepository.save(examen)
                 log.info("Resultado actualizado correctamente para examen existente")
             } else {
                 val nuevoExamen = ExamenVphEntity(
-                    fechaExamen = Date(),
-                    dispositivo = dispositivoEnt.dispositivo,
-                    saludSexual = saludSexual,
-                    sesionChat = sesionChat,
-                    contenido = archivo.bytes,
-                    nombre = nombre,
-                    diagnostico = diagnostico,
-                    tamano = archivo.size,
-                    tipo = TipoArchivoEnum.PDF,
-                    genotipos = genotipos,
-                    fechaResultado = Date()
-                ).apply {
-                    creadoEn = LocalDateTime.now()
-                    actualizadoEn = LocalDateTime.now()
-                }
+                   fechaExamen    = LocalDateTime.now(),
+                    fechaResultado = Date(),
+                    dispositivo    = dispositivoEnt.dispositivo,
+                    saludSexual    = saludSexual,
+                    sesionChat     = sesionChat,
+                    evolucion      = mutableListOf(),
+                    tipo           = TipoArchivoEnum.PDF,
+                    contenido      = archivo.bytes,
+                    tamano         = archivo.size.toLong(),
+                    nombre         = nombre,
+                    diagnostico    = diagnostico,
+                    genotipos      = genotipos
+                )
                 examenVphRepository.save(nuevoExamen)
                 log.info("Resultado subido correctamente como nuevo examen")
             }
@@ -150,8 +154,9 @@ class ExamenVphService(
             log.error("Error al subir resultado: ${e.message}")
             throw e
         }
-
     }
+
+
     // Vacía solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico del registro identificado por el código de dispositivo.
     override fun clearExamenFields(codigoDispositivo: String) {
         log.info("Limpiando campos del examen VPH para dispositivo: $codigoDispositivo")

@@ -1,8 +1,10 @@
 package com.crisordonez.registro.model.entities
 
+import com.crisordonez.registro.model.enums.TipoArchivoEnum
 import jakarta.persistence.*
 import jdk.jfr.Timestamp
 import java.time.LocalDateTime
+import java.util.Date
 import java.util.UUID
 
 @Entity
@@ -20,7 +22,7 @@ data class ExamenVphEntity(
     var fechaExamen: LocalDateTime,
 
     @Timestamp
-    var fechaResultado: LocalDateTime? = null,
+    var fechaResultado: Date? = null,
 
     @Column(nullable = false)
     var dispositivo: String,
@@ -36,9 +38,9 @@ data class ExamenVphEntity(
     @OneToMany(fetch = FetchType.LAZY)
     var evolucion: MutableList<EvolucionEntity> = mutableListOf(),
 
-    var tipo: String? = null,
+    @Enumerated(EnumType.STRING)
+    var tipo: TipoArchivoEnum? = null,
 
-    @Column(nullable = true, columnDefinition = "bytea")
     var contenido: ByteArray? = null,
 
     var tamano: Long? = null,

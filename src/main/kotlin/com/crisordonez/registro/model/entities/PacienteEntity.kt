@@ -54,13 +54,11 @@ data class PacienteEntity(
     var sesionesChat: MutableList<SesionChatEntity> = mutableListOf(),
 
     @OneToOne(mappedBy = "paciente", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    var saludSexual: SaludSexualEntity? = null
+    var saludSexual: SaludSexualEntity? = null,
 
     @OneToMany(fetch = FetchType.LAZY)
     var sesionChat: MutableList<SesionChatEntity> = mutableListOf(),
 
-    @OneToMany(fetch = FetchType.LAZY)
-    var dispositivos: MutableList<DispositivoEntity> = mutableListOf()
-
-
+    @OneToMany(mappedBy = "paciente", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var dispositivos: MutableList<DispositivoRegistradoEntity> = mutableListOf()
 ) : AuditModel()

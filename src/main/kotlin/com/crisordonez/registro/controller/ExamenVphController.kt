@@ -33,10 +33,10 @@ class ExamenVphController {
     @PutMapping("/admin/resultado/{publicId}")
     fun establecerResultado(
         @PathVariable publicId: String,
-        @Valid @RequestBody prueba: ExamenResultadoRequest,
-        @RequestParam("archivo") archivo: MultipartFile
-    ): ResponseEntity<Unit> {
-        return ResponseEntity.ok(examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba, archivo))
+        @Valid @RequestBody prueba: ExamenResultadoRequest
+        ): ResponseEntity<Unit> {
+        examenVphServiceInterface.establecerResultadoPrueba(publicId, prueba)
+        return ResponseEntity.ok().build()
     }
 
     @GetMapping("/admin/{publicId}")
@@ -68,7 +68,7 @@ class ExamenVphController {
         )
         return ResponseEntity.ok("Examen subido correctamente")
     }
-    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico 
+    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico ───
     @PatchMapping("/medico/clear-fields/{codigoDispositivo}")
     fun clearExamenFields(@PathVariable codigoDispositivo: String): ResponseEntity<Void> {
         examenVphServiceInterface.clearExamenFields(codigoDispositivo)

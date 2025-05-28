@@ -2,7 +2,7 @@
 package com.crisordonez.registro.service
 
 import com.crisordonez.registro.model.entities.PacienteEntity
-import com.crisordonez.registro.model.requests.DispositivoRequest
+import com.crisordonez.registro.model.requests.DispositivoRegistradoRequest
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
 import java.util.UUID
@@ -14,7 +14,7 @@ interface PacienteServiceInterface {
     fun getTodosPacientes(): List<PacienteResponse>
     // Busca un paciente a partir del código (dispositivo) registrado. 
     fun findByDispositivo(codigo: String): PacienteResponse?
-    fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRequest): String
+    fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRegistradoRequest): String
 
 }
 
