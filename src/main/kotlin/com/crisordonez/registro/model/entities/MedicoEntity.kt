@@ -37,9 +37,6 @@ data class MedicoEntity(
 
     @Column(name = "n_registro")
     var nRegistro: String? = null,
-    @Enumerated(EnumType.STRING)
-    var sexo: SexoEnum,
-
 
     @OneToMany(fetch = FetchType.LAZY)
     var evoluciones: MutableList<EvolucionEntity> = mutableListOf(),

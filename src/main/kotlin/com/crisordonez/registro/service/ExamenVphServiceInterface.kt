@@ -12,7 +12,6 @@ interface ExamenVphServiceInterface {
 
     fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest)
 
-
     fun getPrueba(publicId: String): ExamenVphResponse
 
     fun getTodasPruebas(): List<ExamenVphResponse>
@@ -27,6 +26,8 @@ interface ExamenVphServiceInterface {
     )
     // Vacía solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico del registro identificado por el código de dispositivo.
     fun clearExamenFields(codigoDispositivo: String)
+
+
     fun getDevicePrefixes(): List<String>
 
 }

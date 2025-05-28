@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 class RegistroApplication
 
 fun main(args: Array<String>) {
-	println("🚀 Iniciando servicio de registro...")
+	println("Iniciando servicio de registro...")
 	runApplication<RegistroApplication>(*args)
 	println("✅ Servicio de registro iniciado correctamente. ")
 }

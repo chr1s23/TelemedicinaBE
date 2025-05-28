@@ -37,13 +37,13 @@ class SecurityConfig {
             .cors { }
             .csrf { it.disable() }
             .authorizeHttpRequests { registry ->
-              
+
                 // 1) Permito todos los OPTIONS (CORS preflight)
                 registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // 2) Login y creación de administradores
                 registry.requestMatchers("/api/auth/login", "/api/users").permitAll()
-                
+
                 // 3) CRUD de administradores
                 registry.requestMatchers(HttpMethod.GET,    "/api/users/**").permitAll()
                 registry.requestMatchers(HttpMethod.POST,   "/api/users/**").permitAll()
@@ -52,7 +52,7 @@ class SecurityConfig {
 
                 // 4) Lectura de médicos
                 registry.requestMatchers(HttpMethod.GET,    "/api/medicos/**").permitAll()
-                
+
                 // 5) Creación, actualización y eliminación de médicos
                 registry.requestMatchers(HttpMethod.POST,   "/api/medicos/**").permitAll()
                 registry.requestMatchers(HttpMethod.PUT,    "/api/medicos/**").permitAll()
@@ -60,14 +60,14 @@ class SecurityConfig {
 
                 // 6) Consultas de códigos QR
                 registry.requestMatchers(HttpMethod.GET, "/api/dispositivos_registrados/**").permitAll()
-               
+
                 // 7) Lectura de pacientes
                 registry.requestMatchers(HttpMethod.GET, "/api/pacientes/**").permitAll()
 
                 // 8) Permitir subida de resultados por médico desde web
                 registry.requestMatchers(HttpMethod.POST, "/prueba/medico/subir/**").permitAll()
                 registry.requestMatchers(HttpMethod.GET, "/prueba/medico/nombre/**").permitAll()
-                
+
                 // CRUD de examenes
                 registry.requestMatchers(HttpMethod.PATCH, "/prueba/medico/clear-fields/**").permitAll()
 
@@ -147,5 +147,7 @@ class SecurityConfig {
             src.registerCorsConfiguration("/**", config)
         }
     }
+
+
 
 }

@@ -28,7 +28,7 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
     ) {
         val path = request.servletPath
 
-        // ←––––– SALTAR RUTAS PÚBLICAS SIN JWT –––––→
+        // ←––––– RUTAS APP WEB –––––→
         if (
             path.startsWith("/api/auth/login") ||
             (path.startsWith("/api/users") && request.method.equals("POST", ignoreCase = true)) ||

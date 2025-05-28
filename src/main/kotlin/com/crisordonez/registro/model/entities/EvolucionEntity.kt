@@ -5,7 +5,6 @@ import jakarta.persistence.*
 import jdk.jfr.Timestamp
 import java.time.LocalDateTime
 import java.util.UUID
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "evolucion")

@@ -2,7 +2,7 @@ package com.crisordonez.registro.model.responses
 
 import java.time.LocalDateTime
 import java.util.UUID
-import java.time.LocalDateTime
+
 
 data class EvolucionResponse(
 

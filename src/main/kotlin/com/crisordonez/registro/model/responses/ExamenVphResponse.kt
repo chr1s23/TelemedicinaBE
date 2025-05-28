@@ -1,12 +1,13 @@
 package com.crisordonez.registro.model.responses
 
 import java.util.UUID
+import java.time.LocalDateTime
 
 data class ExamenVphResponse(
 
     val publicId: UUID,
 
-    val fechaExamen: String,
+    val fechaExamen: LocalDateTime,
 
     val fechaResultado: String? = null,
 
