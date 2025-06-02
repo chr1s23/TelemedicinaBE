@@ -1,5 +1,6 @@
 package com.crisordonez.registro
 
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
@@ -8,8 +9,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 @SpringBootApplication
 class RegistroApplication
 
+private val log = LoggerFactory.getLogger(RegistroApplication::class.java)
+
 fun main(args: Array<String>) {
-	println("Iniciando servicio de registro...")
+	log.info("Iniciando servicio de registro...")
 	runApplication<RegistroApplication>(*args)
-	println("✅ Servicio de registro iniciado correctamente. ")
+	log.info("✅ Servicio de registro iniciado correctamente. ")
 }
