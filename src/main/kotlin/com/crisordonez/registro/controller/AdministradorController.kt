@@ -40,9 +40,10 @@ class AdministradorController(
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")
     fun createUser(@RequestBody req: CreateUserRequest): ResponseEntity<Administrador> {
-        val created = service.create(req.nombre, req.usuario, req.contrasena)
-        return ResponseEntity.status(201).body(created)
-    }
+    val created = service.create(req.nombre, req.usuario, req.contrasena)
+    return ResponseEntity.status(201).body(created)
+}
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")

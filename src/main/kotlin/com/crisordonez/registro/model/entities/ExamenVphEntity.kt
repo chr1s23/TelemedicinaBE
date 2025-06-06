@@ -35,6 +35,7 @@ data class ExamenVphEntity(
     @JoinColumn(name = "sesion_chat_id")
     var sesionChat: SesionChatEntity,
 
+
     @OneToMany(fetch = FetchType.LAZY)
     var evolucion: MutableList<EvolucionEntity> = mutableListOf(),
 

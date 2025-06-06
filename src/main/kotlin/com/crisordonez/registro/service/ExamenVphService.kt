@@ -34,23 +34,23 @@ class ExamenVphService(
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    override fun obtenerNombrePorCodigo(codigoDispositivo: String): String {
-        log.info("Obteniendo nombre de paciente para dispositivo: $codigoDispositivo")
+     override fun obtenerNombrePorCodigo(codigoDispositivo: String): String {
+        log.info("Usando SESION_CHAT para buscar paciente del dispositivo: $codigoDispositivo")
 
         // 1) Buscar examen en examen_vph por código de dispositivo
         val examen: ExamenVphEntity = examenVphRepository
             .findByDispositivo(codigoDispositivo)
             .orElseThrow { NoSuchElementException("Examen con código '$codigoDispositivo' no encontrado") }
 
-        // 2) Obtener la entidad SaludSexual relacionada
-        val saludSexual = examen.saludSexual
+        // 2) Obtener la entidad SesionChat relacionada
+        val sesionChat = examen.sesionChat
 
-        // 3) De la entidad SaludSexual obtener el paciente y su nombre
-        val paciente: PacienteEntity = saludSexual.paciente
-            ?: throw NoSuchElementException("No existe paciente asociado a la salud sexual del examen")
+        // 3) De la entidad SesionChat obtener el paciente y su nombre
+        val paciente: PacienteEntity = sesionChat.paciente
 
         return paciente.nombre
     }
+
 
     override fun establecerResultadoPrueba(publicId: String, pruebaRequest: ExamenResultadoRequest) {
         log.info("Estableciendo resultado - Prueba: $publicId")
@@ -82,7 +82,7 @@ class ExamenVphService(
         return examenVphRepository.findAll().map { it.toResponse() }
     }
 
-    override fun subirResultadoPdf(
+     override fun subirResultadoPdf(
         pacienteId: Long,
         archivo: MultipartFile,
         nombre: String,
