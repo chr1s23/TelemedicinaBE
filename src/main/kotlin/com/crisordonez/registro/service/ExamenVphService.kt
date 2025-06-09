@@ -82,8 +82,7 @@ class ExamenVphService(
         return examenVphRepository.findAll().map { it.toResponse() }
     }
 
-     override fun subirResultadoPdf(
-        pacienteId: Long,
+    override fun subirResultadoPdf(
         archivo: MultipartFile,
         nombre: String,
         dispositivo: String,
@@ -91,20 +90,17 @@ class ExamenVphService(
         genotiposStr: String?
     ) {
         try {
-            log.info("Subiendo resultado PDF para paciente ID $pacienteId")
+            log.info("Subiendo resultado PDF para dispositivo $dispositivo")
 
             val dispositivoEnt = dispositivoRegistradoRepository
                 .findByDispositivo(dispositivo)
                 .orElseThrow { Exception("No se encontró el dispositivo con código $dispositivo") }
 
-            val paciente = dispositivoEnt.paciente
-                ?: throw Exception("El dispositivo no tiene paciente asociado")
+            val examen = examenVphRepository.findByDispositivo(dispositivo)
+                .orElseThrow { Exception("No se encontró examen para el dispositivo $dispositivo") }
 
-            val saludSexual = paciente.saludSexual
-                ?: throw Exception("El paciente no tiene información de salud sexual")
-
-            val sesionChat = paciente.sesionesChat.firstOrNull()
-                ?: throw Exception("El paciente no tiene sesiones de chat registradas")
+            val sessionChat = examen.sesionChat
+                ?: throw Exception("El examen no tiene sesión de chat asociada")
 
             val genotipos: List<String> = genotiposStr
                 ?.takeIf { it.isNotBlank() }
@@ -116,39 +112,18 @@ class ExamenVphService(
                 }
                 ?: emptyList()
 
-            val examenExistente = examenVphRepository.findBySaludSexualId(saludSexual.id!!)
-
-            if (examenExistente.isPresent) {
-                val examen = examenExistente.get()
-                examen.apply {
-                    contenido      = archivo.bytes
-                    this.nombre    = nombre
-                    this.diagnostico = diagnostico
-                    tamano         = archivo.size.toLong()
-                    tipo           = TipoArchivoEnum.PDF
-                    this.genotipos = genotipos
-                    fechaResultado = Date()
-                }
-                examenVphRepository.save(examen)
-                log.info("Resultado actualizado correctamente para examen existente")
-            } else {
-                val nuevoExamen = ExamenVphEntity(
-                   fechaExamen    = LocalDateTime.now(),
-                    fechaResultado = Date(),
-                    dispositivo    = dispositivoEnt.dispositivo,
-                    saludSexual    = saludSexual,
-                    sesionChat     = sesionChat,
-                    evolucion      = mutableListOf(),
-                    tipo           = TipoArchivoEnum.PDF,
-                    contenido      = archivo.bytes,
-                    tamano         = archivo.size.toLong(),
-                    nombre         = nombre,
-                    diagnostico    = diagnostico,
-                    genotipos      = genotipos
-                )
-                examenVphRepository.save(nuevoExamen)
-                log.info("Resultado subido correctamente como nuevo examen")
+            examen.apply {
+                contenido      = archivo.bytes
+                this.nombre    = nombre
+                this.diagnostico = diagnostico
+                tamano         = archivo.size.toLong()
+                tipo           = TipoArchivoEnum.PDF
+                this.genotipos = genotipos
+                fechaResultado = Date()
             }
+            examenVphRepository.save(examen)
+            log.info("Resultado actualizado correctamente")
+
 
         } catch (e: Exception) {
             log.error("Error al subir resultado: ${e.message}")
