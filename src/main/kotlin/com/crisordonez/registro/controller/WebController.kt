@@ -8,7 +8,6 @@ class WebController {
 
     @GetMapping("/web")
     fun serveFrontend(): String {
-        // Redirige a la página principal de Flutter
         return "redirect:/index.html"
     }
 }

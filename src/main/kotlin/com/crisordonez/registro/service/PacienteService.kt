@@ -31,17 +31,8 @@ class PacienteService(
 
     @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository,
 
-): PacienteServiceInterface {
-
+    ): PacienteServiceInterface {
     private val log = LoggerFactory.getLogger(this.javaClass)
-
-    override fun crearPaciente(paciente: PacienteRequest): PacienteEntity {
-        log.info("Creando nuevo paciente")
-        val entidad = paciente.toEntity()
-        val guardado = pacienteRepository.save(entidad)
-        log.info("Paciente creado - publicId=${guardado.publicId}")
-        return guardado
-    }
 
     override fun editarPaciente(publicId: UUID, paciente: PacienteRequest) {
         log.info("Editando informacion paciente - PublicId: $publicId")
@@ -64,15 +55,6 @@ class PacienteService(
         log.info("Informacion del paciente editada correctamente")
     }
 
-    override fun findByDispositivo(codigo: String): PacienteResponse? {
-        log.info("Buscando paciente por dispositivo: $codigo")
-        val disp = dispositivoRegistradoRepository.findByDispositivo(codigo)
-            .orElseThrow { Exception("Dispositivo no registrado: $codigo") }
-        // aquí usamos la relación a PacienteEntity directamente
-        val pacienteEnt = disp.paciente
-        return pacienteEnt.toResponse()
-    }
-
     override fun getPaciente(publicId: UUID): PacienteResponse {
         log.info("Consultando informacion paciente - PublicId: $publicId")
         val paciente = pacienteRepository.findByCuentaPublicId(publicId).orElseThrow {
@@ -92,12 +74,12 @@ class PacienteService(
 
     override fun registrarDispositivo(
         publicId: UUID,
-        dispositivoReq: DispositivoRegistradoRequest
+        dispositivo: DispositivoRegistradoRequest
     ): String {
         val paciente = pacienteRepository.findByCuentaPublicId(publicId)
             .orElseThrow { NotFoundException("Paciente no encontrado") }
         val dispEnt: DispositivoRegistradoEntity =
-            dispositivoReq.toEntity(paciente)
+            dispositivo.toEntity(paciente)
         val guardado: DispositivoRegistradoEntity =
             dispositivoRegistradoRepository.save(dispEnt)
 
@@ -107,6 +89,11 @@ class PacienteService(
         return guardado.dispositivo
     }
 
-
+    override fun findByDispositivo(codigo: String): PacienteResponse? {
+        log.info("Buscando paciente por dispositivo: $codigo")
+        val disp = dispositivoRegistradoRepository.findByDispositivo(codigo)
+            .orElseThrow { Exception("Dispositivo no registrado: $codigo") }
+        val pacienteEnt = disp.paciente
+        return pacienteEnt.toResponse()
+    }
 }
-

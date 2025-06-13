@@ -17,10 +17,6 @@ class DispositivoRegistradoController(
     private val service: DispositivoRegistradoService
 ) {
 
-    /**
-     * GET /api/dispositivos_registrados/{dispositivo}
-     * Retorna el pacienteId asociado al código QR.
-     */
     @GetMapping("/{dispositivo}")
     fun getByDispositivo(@PathVariable dispositivo: String)
             : ResponseEntity<DispositivoRegistradoResponse> {

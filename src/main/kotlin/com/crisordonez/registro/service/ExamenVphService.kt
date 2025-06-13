@@ -99,7 +99,7 @@ class ExamenVphService(
             val examen = examenVphRepository.findByDispositivo(dispositivo)
                 .orElseThrow { Exception("No se encontró examen para el dispositivo $dispositivo") }
 
-            val sessionChat = examen.sesionChat
+            val sesionChat = examen.sesionChat
                 ?: throw Exception("El examen no tiene sesión de chat asociada")
 
             val genotipos: List<String> = genotiposStr

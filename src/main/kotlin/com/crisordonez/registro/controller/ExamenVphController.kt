@@ -66,7 +66,7 @@ class ExamenVphController {
         )
         return ResponseEntity.ok("Examen subido correctamente")
     }
-    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico ───
+    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico
     @PatchMapping("/medico/clear-fields/{codigoDispositivo}")
     fun clearExamenFields(@PathVariable codigoDispositivo: String): ResponseEntity<Void> {
         examenVphServiceInterface.clearExamenFields(codigoDispositivo)
