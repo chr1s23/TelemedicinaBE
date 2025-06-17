@@ -17,9 +17,21 @@ import com.crisordonez.registro.repository.DispositivoRegistradoRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
 import com.crisordonez.registro.repository.PacienteRepository
 import com.crisordonez.registro.model.entities.DispositivoRegistradoEntity
+import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
+import com.crisordonez.registro.model.requests.NotificacionProgramadaRequest
+import com.crisordonez.registro.model.requests.NotificacionRequest
+import com.crisordonez.registro.service.NotificacionServiceInterface
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_ACCION_NO_EXAMEN
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_MENSAJE_NO_EXAMEN
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_TIPO_ACCION_NO_EXAMEN
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_TITULO_NO_EXAMEN
+
+
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.UUID
 
 
@@ -30,6 +42,7 @@ class PacienteService(
     @Autowired private val dispositivoRegistradoRepository: DispositivoRegistradoRepository,
 
     @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository,
+    private val notificacionService: NotificacionServiceInterface
 
 ): PacienteServiceInterface {
 
@@ -103,6 +116,36 @@ class PacienteService(
 
         paciente.dispositivos.add(guardado)
         pacienteRepository.save(paciente)
+        // Paso 1: Notificación puntual
+        val notificacion = notificacionService.createNotification(
+            NotificacionRequest(
+                pacientePublicId = paciente.publicId,
+                tipoNotificacion = TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN,
+                titulo = NOT_TITULO_NO_EXAMEN,
+                mensaje = NOT_MENSAJE_NO_EXAMEN,
+                tipoAccion = TipoAccionNotificacionEnum.valueOf(NOT_TIPO_ACCION_NO_EXAMEN),
+                accion = NOT_ACCION_NO_EXAMEN
+            )
+        )
+
+        // Paso 2: Notificación programada
+        notificacionService.createScheduledNotification(
+            requestNotificacion = NotificacionRequest(
+                pacientePublicId = paciente.publicId,
+                tipoNotificacion = TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN,
+                titulo = NOT_TITULO_NO_EXAMEN,
+                mensaje = NOT_MENSAJE_NO_EXAMEN,
+                tipoAccion = TipoAccionNotificacionEnum.valueOf(NOT_TIPO_ACCION_NO_EXAMEN),
+                accion = NOT_ACCION_NO_EXAMEN
+            ),
+            requestProgramada = NotificacionProgramadaRequest(
+                notificacionPublicId = notificacion.publicId,
+                cronExpression = "0 */5 * * * *", // cada 5 minutos
+                proxFecha = LocalDateTime.now().plusDays(3),
+                limiteFecha = LocalDateTime.now().plusMonths(2)
+            )
+        )
+
 
         return guardado.dispositivo
     }

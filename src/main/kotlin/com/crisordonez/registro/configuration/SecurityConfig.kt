@@ -87,6 +87,12 @@ class SecurityConfig {
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena").permitAll()
 
+                //NOTIFICACIONES
+                registry.requestMatchers(HttpMethod.POST, "/notificaciones").permitAll()
+                registry.requestMatchers(HttpMethod.POST, "/notificaciones/programadas").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/notificaciones/*").permitAll()
+                registry.requestMatchers(HttpMethod.PUT, "/notificaciones/*/marcar-leida").permitAll()
+
                 registry.requestMatchers("/anamnesis/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/usuarios/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/evolucion/admin/**").hasRole("ADMIN")
