@@ -1,7 +1,5 @@
 package com.crisordonez.registro.model.mapper
 
-
-
 import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
 import com.crisordonez.registro.model.entities.PacienteEntity
 import com.crisordonez.registro.model.mapper.AnamnesisMapper.toResponse
@@ -14,16 +12,16 @@ import java.text.SimpleDateFormat
 
 object PacienteMapper {
 
-    fun PacienteRequest.toEntity(): PacienteEntity {
+    fun PacienteRequest.toEntity(cuenta: CuentaUsuarioEntity): PacienteEntity {
         return PacienteEntity(
             nombre = this.nombre,
-            fechaNacimiento = SimpleDateFormat("dd/MM/yyyy").parse(this.fechaNacimiento),
+            fechaNacimiento = SimpleDateFormat("dd/MM/yyy").parse(this.fechaNacimiento),
             pais = this.pais,
             lenguaMaterna = this.lenguaMaterna,
             estadoCivil = this.estadoCivil,
             sexo = this.sexo,
             identificacion = this.identificacion,
-            cuenta = null
+            cuenta = cuenta
         )
     }
 
@@ -51,7 +49,7 @@ object PacienteMapper {
             identificacion = this.identificacion,
             informacionSocioeconomica = this.informacionSocioeconomica?.toResponse(),
             anamnesis = this.anamnesis?.toResponse(),
-            sesionChat = this.sesionesChat.map { it.toResponse() }
+            sesionChat = this.sesionChat.map { it.toResponse() }
         )
     }
 }

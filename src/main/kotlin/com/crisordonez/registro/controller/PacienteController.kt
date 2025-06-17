@@ -32,12 +32,6 @@ class PacienteController {
         return ResponseEntity.ok(pacienteServiceInterface.getTodosPacientes())
     }
 
-    // crear paciente
-    @PostMapping
-    fun crearPaciente(@Valid @RequestBody paciente: PacienteRequest): ResponseEntity<Unit> {
-        pacienteServiceInterface.crearPaciente(paciente)
-        return ResponseEntity.ok().build()
-    }
 
     //Busca el paciente asociado a un dispositivo registrado.
     @GetMapping("/dispositivo/{codigo}")

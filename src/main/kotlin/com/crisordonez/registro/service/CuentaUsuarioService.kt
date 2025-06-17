@@ -45,65 +45,65 @@ class CuentaUsuarioService(
     private val log = LoggerFactory.getLogger(CuentaUsuarioService::class.java)
 
     override fun crearCuentaUsuario(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse {
-            log.info("Creando cuenta de usuario - Nombre: ${cuentaUsuario.nombreUsuario}")
-            val usuarioDuplicado = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
+        log.info("Creando cuenta de usuario - Nombre: ${cuentaUsuario.nombreUsuario}")
+        val usuarioDuplicado = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
 
-            if (usuarioDuplicado.isPresent) {
-                log.error("La informacion ya esta registrada")
-                throw ConflictException("El nombre de usuario ya está registrado")
-            }
-            if (cuentaUsuario.paciente == null) {
-                throw BadRequestException("La informacion del paciente no puede ser nula")
-            }
-            val cuenta = cuentaUsuarioRepository.save(cuentaUsuario.toEntity(passwordEncoder.encode(cuentaUsuario.contrasena)))
-            val paciente = pacienteRepository.save(cuentaUsuario.paciente.toEntity())
-            cuenta.paciente = paciente
-            cuentaUsuarioRepository.save(cuenta)
-            if (cuentaUsuario.paciente.infoSocioeconomica != null) {
-                val info = informacionSocioeconomicaRepository.save(cuentaUsuario.paciente.infoSocioeconomica.toEntity(paciente))
-                paciente.informacionSocioeconomica = info
-                pacienteRepository.save(paciente)
-            }
-            log.info("Cuenta de usuario creada exitosamente, iniciando sesion")
-            val token = autenticar(cuentaUsuario)
-            return token
+        if (usuarioDuplicado.isPresent) {
+            log.error("La informacion ya esta registrada")
+            throw ConflictException("El nombre de usuario ya está registrado")
+        }
+        if (cuentaUsuario.paciente == null) {
+            throw BadRequestException("La informacion del paciente no puede ser nula")
+        }
+        val cuenta = cuentaUsuarioRepository.save(cuentaUsuario.toEntity(passwordEncoder.encode(cuentaUsuario.contrasena)))
+        val paciente = pacienteRepository.save(cuentaUsuario.paciente.toEntity(cuenta))
+        cuenta.paciente = paciente
+        cuentaUsuarioRepository.save(cuenta)
+        if (cuentaUsuario.paciente.infoSocioeconomica != null) {
+            val info = informacionSocioeconomicaRepository.save(cuentaUsuario.paciente.infoSocioeconomica.toEntity(paciente))
+            paciente.informacionSocioeconomica = info
+            pacienteRepository.save(paciente)
+        }
+        log.info("Cuenta de usuario creada exitosamente, iniciando sesion")
+        val token = autenticar(cuentaUsuario)
+        return token
     }
 
     override fun editarCuentaUsuario(publicId: UUID, cuentaUsuario: CuentaUsuarioRequest) {
-            log.info("Editando cuenta de usuario - PublicId: $publicId")
+        log.info("Editando cuenta de usuario - PublicId: $publicId")
 
-            val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
+        val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
 
-            if (!cuenta.isPresent) {
-                throw NotFoundException("La cuenta de usuario no existe")
-            }
+        if (!cuenta.isPresent) {
+            throw NotFoundException("La cuenta de usuario no existe")
+        }
 
-            val cuentaExistente = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
+        val cuentaExistente = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
 
-            if (cuentaExistente.isPresent && cuentaExistente.get().publicId != publicId) {
-                throw ConflictException("El nombre de usuario ya está registrado")
-            }
-            cuentaUsuarioRepository.save(cuentaUsuario.toEntityUpdated(cuenta.get()))
-            log.info("Cuenta de usuario actualizada correctamente")
+        if (cuentaExistente.isPresent && cuentaExistente.get().publicId != publicId) {
+            throw ConflictException("El nombre de usuario ya está registrado")
+        }
+        cuentaUsuarioRepository.save(cuentaUsuario.toEntityUpdated(cuenta.get()))
+        log.info("Cuenta de usuario actualizada correctamente")
     }
 
     override fun getAllCuentas(): List<CuentaUsuarioResponse> {
-            log.info("Consultando todas las cuentas de usuario")
-            val cuentas = cuentaUsuarioRepository.findAll().map { it.toResponse(null) }
-            log.info("Cuentas de usuario consultadas - Total: ${cuentas.size}")
-            return cuentas
+        log.info("Consultando todas las cuentas de usuario")
+        val cuentas = cuentaUsuarioRepository.findAll().map { it.toResponse(null) }
+        log.info("Cuentas de usuario consultadas - Total: ${cuentas.size}")
+        return cuentas
     }
 
     override fun getCuentaUsuario(publicId: UUID): CuentaUsuarioResponse {
-            log.info("Consultando cuenta de usuario - PublicId: $publicId")
-            val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
+        log.info("Consultando cuenta de usuario - PublicId: $publicId")
+        val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
 
-            if (!cuenta.isPresent) {
-                throw NotFoundException("La cuenta de usuario no existe")
-            }
+        if (!cuenta.isPresent) {
+            throw NotFoundException("La cuenta de usuario no existe")
+        }
 
-            log.info("Cuenta de usuario consultada correctamemte")
-            return cuenta.get().toResponse(null)
+        log.info("Cuenta de usuario consultada correctamemte")
+        return cuenta.get().toResponse(null)
     }
 
     override fun autenticar(cuentaUsuario: CuentaUsuarioRequest): CuentaUsuarioResponse {
@@ -124,15 +124,15 @@ class CuentaUsuarioService(
     }
 
     override fun eliminarCuentaUsuario(publicId: UUID) {
-            log.info("Eliminando cuenta de usuario - PublicId: $publicId")
-            val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
+        log.info("Eliminando cuenta de usuario - PublicId: $publicId")
+        val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
 
-            if (!cuenta.isPresent) {
-                throw NotFoundException("La cuenta de usuario no existe")
-            }
+        if (!cuenta.isPresent) {
+            throw NotFoundException("La cuenta de usuario no existe")
+        }
 
-            cuentaUsuarioRepository.delete(cuenta.get())
-            log.info("Cuenta de usuario eliminada correctamente")
+        cuentaUsuarioRepository.delete(cuenta.get())
+        log.info("Cuenta de usuario eliminada correctamente")
     }
 
     override fun validarExpiracionToken(token: String): String? {
@@ -147,14 +147,14 @@ class CuentaUsuarioService(
     }
 
     override fun updateContrasena(cuentaUsuario: CuentaUsuarioRequest) {
-            log.info("Cambiando contrasena de la cuenta ${cuentaUsuario.nombreUsuario}")
-            val cuenta = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
+        log.info("Cambiando contrasena de la cuenta ${cuentaUsuario.nombreUsuario}")
+        val cuenta = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario)
 
-            if (!cuenta.isPresent) {
-                throw NotFoundException("La cuenta de usuario ${cuentaUsuario.nombreUsuario} no existe")
-            }
+        if (!cuenta.isPresent) {
+            throw NotFoundException("La cuenta de usuario ${cuentaUsuario.nombreUsuario} no existe")
+        }
 
-            cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(passwordEncoder.encode(cuentaUsuario.contrasena)))
-            log.info("Contrasena cambiada correctamente")
+        cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(passwordEncoder.encode(cuentaUsuario.contrasena)))
+        log.info("Contrasena cambiada correctamente")
     }
 }

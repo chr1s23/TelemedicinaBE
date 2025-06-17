@@ -17,7 +17,6 @@ interface ExamenVphServiceInterface {
     fun getTodasPruebas(): List<ExamenVphResponse>
 
     fun subirResultadoPdf(
-        pacienteId: Long,
         archivo: MultipartFile,
         nombre: String,
         dispositivo: String,

@@ -37,6 +37,8 @@ class SecurityConfig {
             .cors { }
             .csrf { it.disable() }
             .authorizeHttpRequests { registry ->
+                // para el build web
+                registry.requestMatchers("/web/**", "/static/**", "/index.html", "/favicon.png", "/icons/**", "/flutter_bootstrap.js", "/flutter_service_worker.js", "/main.dart.js", "/favicon.ico", "/assets/**").permitAll();
 
                 // 1) Permito todos los OPTIONS (CORS preflight)
                 registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()

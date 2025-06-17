@@ -17,20 +17,15 @@ data class DispositivoRegistradoEntity(
     @Column(nullable = false)
     val dispositivo: String,
 
-    // FK numérica
     @Column(name = "paciente_id", nullable = false)
     val pacienteId: Long,
 
-
-    // aquí la relación
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "paciente_id", insertable = false, updatable = false)
     val paciente: PacienteEntity,
 
-
     @Column(nullable = false, unique = true)
     val publicId: UUID = UUID.randomUUID(),
-
 
     @Column(nullable = false)
     val fechaRegistro: LocalDateTime = LocalDateTime.now(),

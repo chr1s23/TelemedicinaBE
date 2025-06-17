@@ -14,9 +14,6 @@ class AdministradorService(
     private val encoder: PasswordEncoder
 ) {
 
-    /**
-     * Crea un nuevo Administrador con hash de contraseña.
-     */
     fun create(nombre: String, usuario: String, rawPassword: String): Administrador {
         val admin = Administrador(
             nombre = nombre,
@@ -26,18 +23,11 @@ class AdministradorService(
         return repo.save(admin)
     }
 
-    /** Lista todos los administradores. */
     fun listAll(): List<Administrador> = repo.findAll()
 
-    /**
-     * Obtiene un Administrador por su publicId (UUID en String).
-     */
     fun getById(id: String): Administrador? =
         repo.findByPublicId(UUID.fromString(id))
 
-    /**
-     * Actualiza un Administrador existente.
-     */
     fun update(id: String, nombre: String, usuario: String, rawPassword: String): Administrador? {
         val existing = getById(id) ?: return null
         existing.apply {
@@ -48,18 +38,12 @@ class AdministradorService(
         return repo.save(existing)
     }
 
-    /**
-     * Elimina un Administrador por publicId.
-     */
     fun delete(id: String): Boolean {
         val existing = getById(id) ?: return false
         repo.delete(existing)
         return true
     }
 
-    /**
-     * Autentica y devuelve el Administrador completo si las credenciales son válidas.
-     */
     fun authenticateAndGet(usuario: String, rawPassword: String): Administrador? {
         val adminEntity = repo.findByUsuario(usuario)
         if (adminEntity != null && encoder.matches(rawPassword, adminEntity.contrasenaHash)) {
