@@ -1,6 +1,6 @@
 package com.crisordonez.registro.controller
 
-import com.crisordonez.registro.model.dto.UbicacionRequest
+import com.crisordonez.registro.model.requests.UbicacionRequest
 import com.crisordonez.registro.model.enums.EstablecimientoEnum
 import com.crisordonez.registro.model.responses.UbicacionResponse
 import com.crisordonez.registro.service.UbicacionServiceInterface
