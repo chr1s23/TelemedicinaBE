@@ -17,33 +17,21 @@ class MedicoService(
     private val encoder: PasswordEncoder
 ) {
 
-    /**
-     * Crea un nuevo médico.
-     */
     fun crearMedico(dto: MedicoRequest): MedicoResponse {
         val entity = dto.toEntity(encoder)
         val saved  = repo.save(entity)
         return saved.toResponse()
     }
 
-    /**
-     * Lista todos los médicos.
-     */
     fun listarMedicos(): List<MedicoResponse> =
         repo.findAll().map { it.toResponse() }
 
-    /**
-     * Obtiene un médico por su ID UUID (string).
-     */
     fun obtenerMedico(id: String): MedicoResponse {
         val medico = repo.findByPublicId(UUID.fromString(id))
             ?: throw NoSuchElementException("Médico id=$id no encontrado")
         return medico.toResponse()
     }
 
-    /**
-     * Actualiza un médico existente.
-     */
     fun actualizarMedico(id: String, dto: MedicoRequest): MedicoResponse {
         val medico = repo.findByPublicId(UUID.fromString(id))
             ?: throw NoSuchElementException("Médico id=$id no encontrado")
@@ -59,18 +47,13 @@ class MedicoService(
         return repo.save(medico).toResponse()
     }
 
-    /**
-     * Elimina un médico por ID UUID (string).
-     */
+
     fun eliminarMedico(id: String) {
         val medico = repo.findByPublicId(UUID.fromString(id))
             ?: throw NoSuchElementException("Médico id=$id no encontrado")
         repo.delete(medico)
     }
 
-    /**
-     * Autentica médico por usuario/contraseña y devuelve su DTO, o null si falla.
-     */
     fun authenticateAndGet(usuario: String, rawPassword: String): MedicoResponse? {
         val medicoEntity = repo.findByUsuario(usuario)
         if (medicoEntity != null && encoder.matches(rawPassword, medicoEntity.contrasena)) {
@@ -79,7 +62,6 @@ class MedicoService(
         return null
     }
 
-    // Nuevo método para buscar por ID numérico (Long)
     fun obtenerMedicoPorId(id: Long): MedicoResponse {
         val medico = repo.findById(id)
             .orElseThrow { NoSuchElementException("Médico id=$id no encontrado") }

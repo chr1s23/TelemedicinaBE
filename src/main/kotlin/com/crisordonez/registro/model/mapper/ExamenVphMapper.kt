@@ -15,9 +15,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
 
-
-
-
 private val REQUEST_DATE_FMT = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
 
@@ -50,8 +47,8 @@ object ExamenVphMapper {
             contenido = this.contenido,
             tamano = this.tamano,
             nombre = this.nombre,
-            diagnostico = this.diagnostico, // <-- app web
-            genotipos = this.genotipos // <-- incluir genotipos en la respuesta
+            diagnostico = this.diagnostico, // app web
+            genotipos = this.genotipos // app web
         )
     }
 
@@ -64,7 +61,7 @@ object ExamenVphMapper {
             this.tamano = resultado.archivo.contenido.size.toLong()
         }
         if (!resultado.diagnostico.isNullOrBlank()) {
-            this.diagnostico = resultado.diagnostico // <-- app web
+            this.diagnostico = resultado.diagnostico
         }
         if (evolucion != null) {
             this.evolucion.add(evolucion)

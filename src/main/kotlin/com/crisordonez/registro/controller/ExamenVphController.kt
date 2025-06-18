@@ -49,9 +49,8 @@ class ExamenVphController {
         return ResponseEntity.ok(examenVphServiceInterface.getTodasPruebas())
     }
 
-    @PostMapping("/medico/subir/{pacienteId}")
-    fun subirExamen(
-        @PathVariable pacienteId: Long,
+    @PostMapping("/medico/subir")
+    fun subirExamenSinPacienteId(
         @RequestParam("file") file: MultipartFile,
         @RequestParam("nombre") nombre: String,
         @RequestParam("dispositivo") dispositivo: String,
@@ -59,7 +58,6 @@ class ExamenVphController {
         @RequestParam("genotipos", required = false) genotiposStr: String?
     ): ResponseEntity<String> {
         examenVphServiceInterface.subirResultadoPdf(
-            pacienteId = pacienteId,
             archivo = file,
             nombre = nombre,
             dispositivo = dispositivo,
@@ -68,7 +66,7 @@ class ExamenVphController {
         )
         return ResponseEntity.ok("Examen subido correctamente")
     }
-    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico ───
+    //  limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico
     @PatchMapping("/medico/clear-fields/{codigoDispositivo}")
     fun clearExamenFields(@PathVariable codigoDispositivo: String): ResponseEntity<Void> {
         examenVphServiceInterface.clearExamenFields(codigoDispositivo)

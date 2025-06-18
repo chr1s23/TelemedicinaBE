@@ -38,9 +38,13 @@ data class PacienteEntity(
 
     var identificacion: String? = null,
 
-    @OneToOne
-    @JoinColumn(name = "cuenta_id")
-    var cuenta: CuentaUsuarioEntity? = null,
+    @OneToOne(fetch = FetchType.LAZY,optional = false, cascade = [CascadeType.MERGE])
+    @JoinColumn(
+        name = "cuenta_id",
+        referencedColumnName = "id",
+        nullable = false
+    )
+    var cuenta: CuentaUsuarioEntity,
 
     @OneToOne
     @JoinColumn(name = "info_socioeconomica_id")
@@ -50,15 +54,14 @@ data class PacienteEntity(
     @JoinColumn(name = "anamnesis_id")
     var anamnesis: AnamnesisEntity? = null,
 
-    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)
-    var sesionesChat: MutableList<SesionChatEntity> = mutableListOf(),
-
     @OneToOne(mappedBy = "paciente", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var saludSexual: SaludSexualEntity? = null,
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)
     var sesionChat: MutableList<SesionChatEntity> = mutableListOf(),
 
     @OneToMany(mappedBy = "paciente", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var dispositivos: MutableList<DispositivoRegistradoEntity> = mutableListOf()
+
 ) : AuditModel()
+

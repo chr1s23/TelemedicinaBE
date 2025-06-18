@@ -11,24 +11,12 @@ import org.springframework.transaction.annotation.Transactional
 
 interface ExamenVphRepository : CrudRepository<ExamenVphEntity, Long> {
 
-    /**
-     * Permite buscar un examen VPH a partir del código de dispositivo.
-     */
     fun findByDispositivo(dispositivo: String): Optional<ExamenVphEntity>
 
-    /**
-     * Permite buscar un examen VPH a partir de su publicId.
-     */
     fun findByPublicId(publicId: UUID): ExamenVphEntity?
-
-    // Nuevo método para buscar examen por saludSexual.id
     @Query("SELECT e FROM ExamenVphEntity e WHERE e.saludSexual.id = :saludSexualId")
-    fun findBySaludSexualId(@Param("saludSexualId") saludSexualId: Long): Optional<ExamenVphEntity>
 
-    /**
-     * Limpia solo los campos de contenido, fechaResultado, nombre, tamano, tipo y diagnostico
-     * para el examen identificado por el código de dispositivo.
-     */
+    fun findBySaludSexualId(@Param("saludSexualId") saludSexualId: Long): Optional<ExamenVphEntity>
     @Modifying
     @Transactional
     @Query(

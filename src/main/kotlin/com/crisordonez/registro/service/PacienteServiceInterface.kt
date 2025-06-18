@@ -9,12 +9,10 @@ import java.util.UUID
 
 interface PacienteServiceInterface {
     fun editarPaciente(publicId: UUID, paciente: PacienteRequest)
-    fun crearPaciente(paciente: PacienteRequest): PacienteEntity
     fun getPaciente(publicId: UUID): PacienteResponse
     fun getTodosPacientes(): List<PacienteResponse>
-    // Busca un paciente a partir del código (dispositivo) registrado. 
+    // Busca un paciente a partir del código (dispositivo) registrado.
     fun findByDispositivo(codigo: String): PacienteResponse?
     fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRegistradoRequest): String
-
 }
 

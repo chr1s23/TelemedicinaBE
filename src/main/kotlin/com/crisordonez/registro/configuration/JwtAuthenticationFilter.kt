@@ -35,9 +35,10 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
             (path.startsWith("/api/codigosqr") && (request.method.equals("POST", ignoreCase = true) || request.method.equals("GET", ignoreCase = true))) ||
             (path.startsWith("/prueba/admin") && request.method.equals("GET", ignoreCase = true)) ||
             (path.startsWith("/prueba/medico/nombre/") && request.method.equals("GET", ignoreCase = true)) ||
-            (path.startsWith("/prueba/medico/subir") && request.method.equals("POST", ignoreCase = true))
+            (path.startsWith("/prueba/medico/subir") && request.method.equals("POST", ignoreCase = true)) ||
+            path.startsWith("/web/") ||
+            path.startsWith("/static/")
         ) {
-            println("Ruta pública detectada: $path, saltando filtro JWT")
             filterChain.doFilter(request, response)
             return
         }
