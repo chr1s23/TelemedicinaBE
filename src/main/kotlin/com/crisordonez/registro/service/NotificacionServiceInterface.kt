@@ -12,7 +12,7 @@ interface NotificacionServiceInterface {
         requestProgramada: NotificacionProgramadaRequest
     ): NotificacionResponse
     fun processScheduledNotifications()
-    fun obtenerHistorialNotificaciones(pacientePublicId: UUID): List<NotificacionResponse>
+    fun obtenerHistorialNotificaciones(cuentaUsuarioPublicId: UUID): List<NotificacionResponse>
     fun marcarNotificacionComoLeida(publicId: UUID)
 
 }

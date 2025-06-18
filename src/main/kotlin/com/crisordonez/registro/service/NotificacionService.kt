@@ -9,6 +9,7 @@ import com.crisordonez.registro.repository.PacienteRepository
 import com.crisordonez.registro.model.requests.NotificacionProgramadaRequest
 import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.NotificacionResponse
+import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.service.NotificacionServiceInterface
 import com.crisordonez.registro.service.PushNotificacionServiceInterface
 import org.slf4j.LoggerFactory
@@ -21,7 +22,7 @@ import java.util.UUID
 class NotificacionService(
     private val notificacionRepository: NotificacionRepository,
     private val notificacionProgramadaRepository: NotificacionProgramadaRepository,
-    private val pacienteRepository: PacienteRepository,
+    private val cuentaUsuarioRepository: CuentaUsuarioRepository,
     private val pushNotificacionService: PushNotificacionServiceInterface
 ) : NotificacionServiceInterface {
 
@@ -29,12 +30,14 @@ class NotificacionService(
 
     @Transactional
     override fun createNotification(request: NotificacionRequest): NotificacionResponse {
-        val paciente = pacienteRepository.findByPublicId(request.pacientePublicId)
-            .orElseThrow { IllegalArgumentException("Paciente no encontrado") }
-        val notificacion = request.toEntity(paciente)
+        val cuentaUsuario = cuentaUsuarioRepository.findByPublicId(request.cuentaUsuarioPublicId)
+            .orElseThrow { IllegalArgumentException("CuentaUsuario no encontrado") }
+
+        val notificacion = request.toEntity(cuentaUsuario)
         val guardada = notificacionRepository.save(notificacion)
 
-        pushNotificacionService.enviarPush(guardada.titulo, guardada.mensaje, paciente)
+        pushNotificacionService.enviarPush(guardada.titulo, guardada.mensaje, cuentaUsuario)
+
 
         return guardada.toResponse()
     }
@@ -44,16 +47,17 @@ class NotificacionService(
         requestNotificacion: NotificacionRequest,
         requestProgramada: NotificacionProgramadaRequest
     ): NotificacionResponse {
-        val paciente = pacienteRepository.findByPublicId(requestNotificacion.pacientePublicId)
-            .orElseThrow { IllegalArgumentException("Paciente no encontrado - CreacionSchedule") }
+        val cuentaUsuario = cuentaUsuarioRepository.findByPublicId(requestNotificacion.cuentaUsuarioPublicId)
+            .orElseThrow { IllegalArgumentException("CuentaUsuario no encontrado - CreacionSchedule") }
 
-        val plantilla = requestNotificacion.toEntity(paciente)
+        val plantilla = requestNotificacion.toEntity(cuentaUsuario)
         val guardada = notificacionRepository.save(plantilla)
 
         val programada = requestProgramada.toEntity(guardada)
         notificacionProgramadaRepository.save(programada)
 
         return guardada.toResponse()
+
     }
 
     @Transactional
@@ -63,7 +67,7 @@ class NotificacionService(
 
         pendientes.forEach { prog ->
             val plantilla = prog.notificacion
-            val paciente = plantilla.paciente
+            val cuentaUsuario = plantilla.cuentaUsuario
 
             val nueva = notificacionRepository.save(
                 plantilla.copy(
@@ -74,19 +78,20 @@ class NotificacionService(
                 )
             )
 
-            pushNotificacionService.enviarPush(nueva.titulo, nueva.mensaje, paciente)
+            pushNotificacionService.enviarPush(nueva.titulo, nueva.mensaje, cuentaUsuario)
 
             prog.prox_fecha = prog.prox_fecha.plusDays(3) // por ahora fijo a 3 días
             notificacionProgramadaRepository.save(prog)
 
-            logger.info("[Programada] Notificación generada para ${paciente.id} desde plantilla ${plantilla.publicId}")
+            logger.info("[Programada] Notificación generada para ${cuentaUsuario.id} desde plantilla ${plantilla.publicId}")
         }
     }
 
-    override fun obtenerHistorialNotificaciones(pacientePublicId: UUID): List<NotificacionResponse> {
-        val notificaciones = notificacionRepository.findAllByPacientePublicIdOrderByFechaCreacionDesc(pacientePublicId)
+    override fun obtenerHistorialNotificaciones(cuentaUsuarioPublicId: UUID): List<NotificacionResponse> {
+        val notificaciones = notificacionRepository.findAllByCuentaUsuarioPublicIdOrderByFechaCreacionDesc(cuentaUsuarioPublicId)
         return notificaciones.map { it.toResponse() }
     }
+
 
     override fun marcarNotificacionComoLeida(publicId: UUID) {
         val notificacion = notificacionRepository.findByPublicId(publicId)

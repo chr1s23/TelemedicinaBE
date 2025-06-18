@@ -21,9 +21,9 @@ data class NotificacionEntity(
     @Column(nullable = false, unique = true)
     val publicId: UUID = UUID.randomUUID(),
 
-    @ManyToOne(fetch = FetchType.LAZY) //PacienteEntity (1) ←→ (N) NotificacionEntity
-    @JoinColumn(name = "paciente_id", nullable = false)
-    val paciente: PacienteEntity, //Relationship to PacienteEntity (Patient to be notified)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cuentausuario_id", nullable = false)
+    val cuentaUsuario: CuentaUsuarioEntity,
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

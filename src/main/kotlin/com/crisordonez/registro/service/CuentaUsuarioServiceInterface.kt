@@ -21,5 +21,6 @@ interface CuentaUsuarioServiceInterface {
     fun validarExpiracionToken(token: String): String?
 
     fun updateContrasena(cuentaUsuario: CuentaUsuarioRequest)
+    fun obtenerPublicIdPorIdInterno(id: Long): UUID
 
 }

@@ -45,4 +45,11 @@ class PacienteController {
     fun registrarDispositivo(@PathVariable publicId: UUID, @Valid @RequestBody dispositivo: DispositivoRegistradoRequest): ResponseEntity<String> {
         return ResponseEntity.ok(pacienteServiceInterface.registrarDispositivo(publicId, dispositivo))
     }
+
+    @GetMapping("/public-indent/{idInterno}")
+    fun obtenerPublicId(@PathVariable idInterno: Long): ResponseEntity<UUID> {
+        val publicId = pacienteServiceInterface.obtenerPublicIdPorIdInterno(idInterno)
+        return ResponseEntity.ok(publicId)
+    }
+
 }

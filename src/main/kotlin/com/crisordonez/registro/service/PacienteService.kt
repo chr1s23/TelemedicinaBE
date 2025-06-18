@@ -98,37 +98,7 @@ class PacienteService(
 
         paciente.dispositivos.add(guardado)
         pacienteRepository.save(paciente)
-        // Paso 1: Notificación puntual
-        val notificacion = notificacionService.createNotification(
-            NotificacionRequest(
-                pacientePublicId = paciente.publicId,
-                tipoNotificacion = TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN,
-                titulo = NOT_TITULO_NO_EXAMEN,
-                mensaje = NOT_MENSAJE_NO_EXAMEN,
-                tipoAccion = TipoAccionNotificacionEnum.valueOf(NOT_TIPO_ACCION_NO_EXAMEN),
-                accion = NOT_ACCION_NO_EXAMEN
-            )
-        )
-
-        // Paso 2: Notificación programada
-        notificacionService.createScheduledNotification(
-            requestNotificacion = NotificacionRequest(
-                pacientePublicId = paciente.publicId,
-                tipoNotificacion = TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN,
-                titulo = NOT_TITULO_NO_EXAMEN,
-                mensaje = NOT_MENSAJE_NO_EXAMEN,
-                tipoAccion = TipoAccionNotificacionEnum.valueOf(NOT_TIPO_ACCION_NO_EXAMEN),
-                accion = NOT_ACCION_NO_EXAMEN
-            ),
-            requestProgramada = NotificacionProgramadaRequest(
-                notificacionPublicId = notificacion.publicId,
-                cronExpression = "0 */5 * * * *", // cada 5 minutos
-                proxFecha = LocalDateTime.now().plusDays(3),
-                limiteFecha = LocalDateTime.now().plusMonths(2)
-            )
-        )
-
-
+        //POSIBILIDAD DE NOTIFICACIÓN AQUÍ
         return guardado.dispositivo
     }
 
@@ -139,4 +109,11 @@ class PacienteService(
         val pacienteEnt = disp.paciente
         return pacienteEnt.toResponse()
     }
+
+    override fun obtenerPublicIdPorIdInterno(id: Long): UUID {
+        return pacienteRepository.findPublicIdById(id)
+            ?: throw NotFoundException("No se encontró el paciente con ese identificador_i.")
+    }
+
+
 }

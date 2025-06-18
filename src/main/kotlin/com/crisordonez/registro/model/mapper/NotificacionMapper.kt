@@ -1,15 +1,15 @@
 package com.crisordonez.registro.model.mapper
 
 import com.crisordonez.registro.model.entities.NotificacionEntity
-import com.crisordonez.registro.model.entities.PacienteEntity
+import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
 import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.NotificacionResponse
 
 object NotificacionMapper {
 
-    fun NotificacionRequest.toEntity(paciente: PacienteEntity): NotificacionEntity {
+    fun NotificacionRequest.toEntity(cuentaUsuario: CuentaUsuarioEntity): NotificacionEntity {
         return NotificacionEntity(
-            paciente = paciente,
+            cuentaUsuario = cuentaUsuario,
             tipo_notificacion = this.tipoNotificacion,
             titulo = this.titulo,
             mensaje = this.mensaje,

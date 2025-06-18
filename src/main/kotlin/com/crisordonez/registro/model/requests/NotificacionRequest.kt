@@ -10,8 +10,8 @@ import java.util.UUID
  */
 data class NotificacionRequest(
 
-    @field:NotNull(message = "El ID del paciente es requerido")
-    val pacientePublicId: UUID,
+    @field:NotNull(message = "El ID de la cuenta de usuario es requerido")
+    val cuentaUsuarioPublicId: UUID,
 
     @field:NotNull(message = "El tipo de notificación es requerido")
     val tipoNotificacion: TipoNotificacionEnum,

@@ -42,9 +42,9 @@ class NotificationController(
     /**
      * Historial de notificaciones de un paciente usando su publicId
      */
-    @GetMapping("/{pacientePublicId}")
-    fun obtenerHistorial(@PathVariable pacientePublicId: UUID): List<NotificacionResponse> {
-        return notificacionService.obtenerHistorialNotificaciones(pacientePublicId)
+    @GetMapping("/{cuentaUsuarioPublicId}")
+    fun obtenerHistorial(@PathVariable cuentaUsuarioPublicId: UUID): List<NotificacionResponse> {
+        return notificacionService.obtenerHistorialNotificaciones(cuentaUsuarioPublicId)
     }
 
     @PutMapping("/{notificacionPublicId}/marcar-leida")

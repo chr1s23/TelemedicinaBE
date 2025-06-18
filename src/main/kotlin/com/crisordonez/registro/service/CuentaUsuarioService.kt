@@ -157,4 +157,10 @@ class CuentaUsuarioService(
         cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(passwordEncoder.encode(cuentaUsuario.contrasena)))
         log.info("Contrasena cambiada correctamente")
     }
+
+    override fun obtenerPublicIdPorIdInterno(id: Long): UUID {
+        return cuentaUsuarioRepository.findPublicIdById(id)
+            ?: throw NotFoundException("No se encontró el usuario con ese ID interno")
+    }
+
 }
