@@ -85,6 +85,14 @@ class SecurityConfig {
                 // 12) Listar prefijos
                 registry.requestMatchers(HttpMethod.GET,  "/prueba/medico/prefixes").permitAll()
 
+                // 13) CRUD de ubicaciones
+                registry.requestMatchers(HttpMethod.GET, "/api/ubicaciones/**").permitAll()
+                registry.requestMatchers(HttpMethod.POST, "/api/ubicaciones/**").permitAll()
+                registry.requestMatchers(HttpMethod.PUT, "/api/ubicaciones/**").permitAll()
+                registry.requestMatchers(HttpMethod.DELETE, "/api/ubicaciones/**").permitAll()
+
+
+
                 // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena").permitAll()
