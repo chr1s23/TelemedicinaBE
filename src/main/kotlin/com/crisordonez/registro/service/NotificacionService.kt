@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import java.util.UUID
+import java.time.Duration
+
 
 @Service
 class NotificacionService(
@@ -107,16 +109,16 @@ class NotificacionService(
             val diasTranscurridos = java.time.Duration.between(prog.fechaInicio, ahora).toMinutes()
 
             // 4. Elegir intervalo dinámico
-            val nuevoIntervalo = when {
-                diasTranscurridos < 9 -> 3L // Simulación de primer mes (3 min)
-                diasTranscurridos < 18 -> 5L // Simulación segundo mes (5 min)
-                else -> null // Más de 2 meses, detener
+            val nuevoIntervaloEnDias = when {
+                diasTranscurridos < 30 -> 3L  // Primer mes → cada 3 días
+                diasTranscurridos < 60 -> 7L  // Segundo mes → cada 7 días
+                else -> null                  // Tercer mes → parar
             }
 
-            if (nuevoIntervalo == null) {
+            if (nuevoIntervaloEnDias == null || (prog.limiteFecha != null && ahora.isAfter(prog.limiteFecha))) {
                 prog.programacionActiva = false
             } else {
-                prog.proxFecha = ahora.plusMinutes(nuevoIntervalo)
+                prog.proxFecha = ahora.plusDays(nuevoIntervaloEnDias)
             }
 
             notificacionProgramadaRepository.save(prog)
