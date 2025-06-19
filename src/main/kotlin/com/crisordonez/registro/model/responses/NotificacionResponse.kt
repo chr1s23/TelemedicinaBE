@@ -4,6 +4,7 @@ import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
 import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import java.time.LocalDateTime
 import java.util.UUID
+import com.fasterxml.jackson.annotation.JsonProperty
 
 data class NotificacionResponse(
     val publicId: UUID,
@@ -14,6 +15,6 @@ data class NotificacionResponse(
     val tipoAccion: TipoAccionNotificacionEnum,
     val accion: String?,
     val fechaCreacion: LocalDateTime,
-    val notificacionLeida: Boolean,
-
+    @JsonProperty("leido")
+    val notificacionLeida: Boolean
 )
