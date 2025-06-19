@@ -1,9 +1,6 @@
 // src/main/kotlin/com/crisordonez/registro/service/PacienteService.kt
 package com.crisordonez.registro.service
 
-
-import com.crisordonez.registro.model.entities.PacienteEntity
-import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.DispositivoRegistradoMapper.toEntity
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
@@ -17,9 +14,17 @@ import com.crisordonez.registro.repository.DispositivoRegistradoRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
 import com.crisordonez.registro.repository.PacienteRepository
 import com.crisordonez.registro.model.entities.DispositivoRegistradoEntity
+import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
+import com.crisordonez.registro.model.requests.NotificacionProgramadaRequest
+import com.crisordonez.registro.model.requests.NotificacionRequest
+import com.crisordonez.registro.utils.MensajesNotificacion
+
+
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.UUID
 
 
@@ -30,6 +35,7 @@ class PacienteService(
     @Autowired private val dispositivoRegistradoRepository: DispositivoRegistradoRepository,
 
     @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository,
+    private val notificacionService: NotificacionServiceInterface
 
     ): PacienteServiceInterface {
     private val log = LoggerFactory.getLogger(this.javaClass)
@@ -76,8 +82,10 @@ class PacienteService(
         publicId: UUID,
         dispositivo: DispositivoRegistradoRequest
     ): String {
+        println("UUID Recibido para el registro del dispositivo: $publicId")
         val paciente = pacienteRepository.findByCuentaPublicId(publicId)
             .orElseThrow { NotFoundException("Paciente no encontrado") }
+
         val dispEnt: DispositivoRegistradoEntity =
             dispositivo.toEntity(paciente)
         val guardado: DispositivoRegistradoEntity =
@@ -85,6 +93,32 @@ class PacienteService(
 
         paciente.dispositivos.add(guardado)
         pacienteRepository.save(paciente)
+        // 🔔 Agregar notificación programada
+        val now = LocalDateTime.now()
+
+        val request = NotificacionProgramadaRequest(
+            notificacionPublicId = UUID.randomUUID(), // no se usa realmente
+            tipoNotificacion = TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN,
+            titulo = MensajesNotificacion.NOT_TITULO_NO_EXAMEN,
+            mensaje = MensajesNotificacion.NOT_MENSAJE_NO_EXAMEN,
+            tipoAccion = TipoAccionNotificacionEnum.valueOf(MensajesNotificacion.NOT_TIPO_ACCION_NO_EXAMEN),
+            accion = MensajesNotificacion.NOT_ACCION_NO_EXAMEN,
+            proxFecha = now.plusDays(3), // Simulación de 3 días
+            limiteFecha = now.plusDays(59) // Simulación de 2 meses
+        )
+
+        notificacionService.crearNotificacionProgramada(
+            requestNotificacion = NotificacionRequest(
+                cuentaUsuarioPublicId = publicId,
+                tipoNotificacion = request.tipoNotificacion,
+                titulo = request.titulo,
+                mensaje = request.mensaje,
+                tipoAccion = request.tipoAccion,
+                accion = request.accion
+            ),
+            requestProgramada = request
+        )
+
 
         return guardado.dispositivo
     }
@@ -96,4 +130,11 @@ class PacienteService(
         val pacienteEnt = disp.paciente
         return pacienteEnt.toResponse()
     }
+
+    override fun obtenerPublicIdPorIdInterno(id: Long): UUID {
+        return pacienteRepository.findPublicIdById(id)
+            ?: throw NotFoundException("No se encontró el paciente con ese identificador_i.")
+    }
+
+
 }

@@ -43,6 +43,9 @@ class PacienteController {
 
     @PutMapping("/registrar-dispositivo/{publicId}")
     fun registrarDispositivo(@PathVariable publicId: UUID, @Valid @RequestBody dispositivo: DispositivoRegistradoRequest): ResponseEntity<String> {
+        //Prueba de notificicación  de estímulo
         return ResponseEntity.ok(pacienteServiceInterface.registrarDispositivo(publicId, dispositivo))
     }
+
+
 }

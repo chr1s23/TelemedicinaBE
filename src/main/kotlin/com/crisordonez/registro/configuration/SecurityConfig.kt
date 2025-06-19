@@ -65,6 +65,8 @@ class SecurityConfig {
 
                 // 7) Lectura de pacientes
                 registry.requestMatchers(HttpMethod.GET, "/api/pacientes/**").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/usuarios/public-indent/*").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/public-indent/*").permitAll()
 
                 // 8) Permitir subida de resultados por médico desde web
                 registry.requestMatchers(HttpMethod.POST, "/prueba/medico/subir/**").permitAll()
@@ -96,6 +98,15 @@ class SecurityConfig {
                 // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena").permitAll()
+
+                //NOTIFICACIONES
+                registry.requestMatchers(HttpMethod.POST, "/notificaciones").permitAll()
+                registry.requestMatchers(HttpMethod.POST, "/notificaciones/programadas").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/notificaciones/*").permitAll()
+                registry.requestMatchers(HttpMethod.PUT, "/notificaciones/*/marcar-leida").permitAll()
+                //REGISTRO- DISPOSITIVOS CON LA APP
+                registry.requestMatchers(HttpMethod.POST, "/dispositivo").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/dispositivo/*").permitAll()
 
                 registry.requestMatchers("/anamnesis/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/usuarios/admin/**").hasRole("ADMIN")

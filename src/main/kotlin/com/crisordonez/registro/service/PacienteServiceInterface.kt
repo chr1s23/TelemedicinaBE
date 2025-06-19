@@ -14,5 +14,7 @@ interface PacienteServiceInterface {
     // Busca un paciente a partir del código (dispositivo) registrado.
     fun findByDispositivo(codigo: String): PacienteResponse?
     fun registrarDispositivo(publicId: UUID, dispositivo: DispositivoRegistradoRequest): String
+    fun obtenerPublicIdPorIdInterno(id: Long): UUID
+
 }
 

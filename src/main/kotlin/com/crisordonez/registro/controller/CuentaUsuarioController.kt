@@ -64,4 +64,9 @@ class CuentaUsuarioController {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.updateContrasena(cuenta))
     }
 
+    @GetMapping("/public-indent/{idInterno}")
+    fun obtenerPublicIdDesdeIdInterno(@PathVariable idInterno: Long): ResponseEntity<UUID> {
+        val publicId = cuentaUsuarioServiceInterface.obtenerPublicIdPorIdInterno(idInterno)
+        return ResponseEntity.ok(publicId)
+    }
 }

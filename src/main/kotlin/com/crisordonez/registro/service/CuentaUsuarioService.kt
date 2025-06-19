@@ -114,6 +114,7 @@ class CuentaUsuarioService(
             ))
 
             val token = jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
+            println("Token Generado $token del usuario $cuentaUsuario.nombreUsuario")
             val usuario = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario).get()
             return usuario.toResponse(token)
         } catch (ex: BadCredentialsException) {
@@ -157,4 +158,10 @@ class CuentaUsuarioService(
         cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(passwordEncoder.encode(cuentaUsuario.contrasena)))
         log.info("Contrasena cambiada correctamente")
     }
+
+    override fun obtenerPublicIdPorIdInterno(id: Long): UUID {
+        return cuentaUsuarioRepository.findPublicIdById(id)
+            ?: throw NotFoundException("No se encontró el usuario con ese ID interno")
+    }
+
 }
