@@ -27,7 +27,8 @@ object NotificacionMapper {
             tipoAccion = this.tipo_accion,
             accion = this.accion,
             fechaCreacion = this.fecha_creacion,
-            leida = this.notificacion_leida
+            notificacionLeida = this.notificacion_leida,
+            cuentaUsuarioPublicId = this.cuentaUsuario.publicId
         )
     }
 }

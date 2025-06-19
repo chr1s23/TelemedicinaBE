@@ -1,9 +1,6 @@
 // src/main/kotlin/com/crisordonez/registro/service/PacienteService.kt
 package com.crisordonez.registro.service
 
-
-import com.crisordonez.registro.model.entities.PacienteEntity
-import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.errors.NotFoundException
 import com.crisordonez.registro.model.mapper.DispositivoRegistradoMapper.toEntity
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
@@ -21,11 +18,7 @@ import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
 import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import com.crisordonez.registro.model.requests.NotificacionProgramadaRequest
 import com.crisordonez.registro.model.requests.NotificacionRequest
-import com.crisordonez.registro.service.NotificacionServiceInterface
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_ACCION_NO_EXAMEN
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_MENSAJE_NO_EXAMEN
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_TIPO_ACCION_NO_EXAMEN
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_TITULO_NO_EXAMEN
+import com.crisordonez.registro.utils.MensajesNotificacion
 
 
 import org.slf4j.LoggerFactory
@@ -89,8 +82,10 @@ class PacienteService(
         publicId: UUID,
         dispositivo: DispositivoRegistradoRequest
     ): String {
+        println("UUID Recibido para el registro del dispositivo: $publicId")
         val paciente = pacienteRepository.findByCuentaPublicId(publicId)
             .orElseThrow { NotFoundException("Paciente no encontrado") }
+
         val dispEnt: DispositivoRegistradoEntity =
             dispositivo.toEntity(paciente)
         val guardado: DispositivoRegistradoEntity =
@@ -98,7 +93,33 @@ class PacienteService(
 
         paciente.dispositivos.add(guardado)
         pacienteRepository.save(paciente)
-        //POSIBILIDAD DE NOTIFICACIÓN AQUÍ
+        // 🔔 Agregar notificación programada
+        val now = LocalDateTime.now()
+
+        val request = NotificacionProgramadaRequest(
+            notificacionPublicId = UUID.randomUUID(), // no se usa realmente
+            tipoNotificacion = TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN,
+            titulo = MensajesNotificacion.NOT_TITULO_NO_EXAMEN,
+            mensaje = MensajesNotificacion.NOT_MENSAJE_NO_EXAMEN,
+            tipoAccion = TipoAccionNotificacionEnum.valueOf(MensajesNotificacion.NOT_TIPO_ACCION_NO_EXAMEN),
+            accion = MensajesNotificacion.NOT_ACCION_NO_EXAMEN,
+            proxFecha = now.plusMinutes(3), // Simulación de 3 días
+            limiteFecha = now.plusMinutes(15) // Simulación de 2 meses
+        )
+
+        notificacionService.crearNotificacionProgramada(
+            requestNotificacion = NotificacionRequest(
+                cuentaUsuarioPublicId = publicId,
+                tipoNotificacion = request.tipoNotificacion,
+                titulo = request.titulo,
+                mensaje = request.mensaje,
+                tipoAccion = request.tipoAccion,
+                accion = request.accion
+            ),
+            requestProgramada = request
+        )
+
+
         return guardado.dispositivo
     }
 

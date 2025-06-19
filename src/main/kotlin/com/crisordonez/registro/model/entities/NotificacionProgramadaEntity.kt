@@ -1,5 +1,7 @@
 package com.crisordonez.registro.model.entities
 
+import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import jakarta.persistence.*
 import java.time.LocalDateTime
 import java.util.UUID
@@ -18,36 +20,39 @@ data class NotificacionProgramadaEntity(
 
     @Column(nullable = false, unique = true)
     val publicId: UUID = UUID.randomUUID(),
-    /**
-     * Relación uno a uno con la plantilla base.
-     */
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "notificacion_id", nullable = false, unique = true)
-    val notificacion: NotificacionEntity,
 
-    /**
-     * Expresión cron o patrón de repetición
-   */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cuenta_usuario_id", nullable = false)
+    val cuentaUsuario: CuentaUsuarioEntity,
+
     @Column(nullable = false)
-    val cronExpression: String,
+    val titulo: String,
 
-    /**
-     * Próxima fecha y hora en que debe generarse una nueva instancia en la tabla base.
-     */
+    @Column(nullable = false, columnDefinition = "TEXT")
+    val mensaje: String,
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    var prox_fecha: LocalDateTime,
+    val tipoNotificacion: TipoNotificacionEnum,
 
-    /**
-     * Indicador para pausar o reanudar esta programación.
-     */
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    var programacion_activa: Boolean = true,
+    val tipoAccion: TipoAccionNotificacionEnum,
 
-    /**
-     * Fecha límite para ejecuciones (por ejemplo, 2 meses después de la primera).
-     */
     @Column(nullable = true)
-    val limite_fecha: LocalDateTime? = null
+    val accion: String? = null,
+
+    @Column(nullable = false)
+    var programacionActiva: Boolean = true,
+
+    @Column(nullable = false)
+    val fechaInicio: LocalDateTime = LocalDateTime.now(),
+
+    @Column(nullable = false)
+    var proxFecha: LocalDateTime,
+
+    @Column(nullable = true)
+    val limiteFecha: LocalDateTime? = null
 
 
 )

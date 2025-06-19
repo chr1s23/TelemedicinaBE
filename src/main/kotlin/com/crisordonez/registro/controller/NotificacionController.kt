@@ -21,24 +21,9 @@ class NotificationController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun crearNotificacion(@Valid @RequestBody request: NotificacionRequest): NotificacionResponse {
-        return notificacionService.createNotification(request)
+        return notificacionService.crearNotificacion(request)
     }
-    /**
-     * Crea una notificación programada (solo pruebas internas)
-     */
-    @PostMapping("/programadas")
-    @ResponseStatus(HttpStatus.CREATED)
-    fun crearNotificacionProgramada(
-        @Valid @RequestBody requestNotificacion: NotificacionRequest,
-        @Valid @RequestBody requestProgramada: NotificacionProgramadaRequest
-    ): NotificacionResponse {
-        return notificacionService.createScheduledNotification(
-            requestNotificacion = requestNotificacion,
-            requestProgramada = requestProgramada
-        )
-    }
-
-
+    
     /**
      * Historial de notificaciones de un paciente usando su publicId
      */

@@ -22,7 +22,7 @@ data class NotificacionEntity(
     val publicId: UUID = UUID.randomUUID(),
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cuentausuario_id", nullable = false)
+    @JoinColumn(name = "cuentaUsuario_id", nullable = false)
     val cuentaUsuario: CuentaUsuarioEntity,
 
     @Enumerated(EnumType.STRING)

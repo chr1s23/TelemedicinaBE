@@ -11,14 +11,17 @@ import java.util.*
 interface NotificacionProgramadaRepository : JpaRepository<NotificacionProgramadaEntity, Long> {
 
     @Query("""
-        SELECT np 
-        FROM NotificacionProgramadaEntity np 
-        WHERE np.prox_fecha <= :now 
-          AND np.programacion_activa = true
-    """)
+    SELECT np 
+    FROM NotificacionProgramadaEntity np 
+    WHERE np.proxFecha <= :now 
+      AND np.programacionActiva = true
+""")
     fun findAllByProxFechaBeforeAndProgramacionActivaIsTrue(
         @Param("now") now: LocalDateTime
     ): List<NotificacionProgramadaEntity>
 
-    fun findByNotificacionId(notificacionId: Long): NotificacionProgramadaEntity?
+
+    fun findByPublicId(publicId: UUID): Optional<NotificacionProgramadaEntity>
+
+
 }

@@ -6,13 +6,16 @@ import com.crisordonez.registro.model.responses.NotificacionResponse
 import java.util.UUID
 
 interface NotificacionServiceInterface {
-    fun createNotification(request: NotificacionRequest): NotificacionResponse
-    fun createScheduledNotification(
+    fun crearNotificacion(request: NotificacionRequest): NotificacionResponse
+
+    fun obtenerHistorialNotificaciones(cuentaUsuarioPublicId: UUID): List<NotificacionResponse>
+    fun marcarNotificacionComoLeida(publicId: UUID)
+
+    fun crearNotificacionProgramada(
         requestNotificacion: NotificacionRequest,
         requestProgramada: NotificacionProgramadaRequest
     ): NotificacionResponse
-    fun processScheduledNotifications()
-    fun obtenerHistorialNotificaciones(cuentaUsuarioPublicId: UUID): List<NotificacionResponse>
-    fun marcarNotificacionComoLeida(publicId: UUID)
+
+    fun procesarNotificacionesProgramadas()
 
 }

@@ -7,11 +7,13 @@ import java.util.UUID
 
 data class NotificacionResponse(
     val publicId: UUID,
+    val cuentaUsuarioPublicId: UUID,
     val tipoNotificacion: TipoNotificacionEnum,
     val titulo: String,
     val mensaje: String,
     val tipoAccion: TipoAccionNotificacionEnum,
     val accion: String?,
     val fechaCreacion: LocalDateTime,
-    val leida: Boolean
+    val notificacionLeida: Boolean,
+
 )
