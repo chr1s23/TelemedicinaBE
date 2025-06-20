@@ -38,7 +38,7 @@ class SecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { registry ->
                 // para el build web
-                registry.requestMatchers("/web/**", "/static/**", "/index.html", "/favicon.png", "/icons/**", "/flutter_bootstrap.js", "/flutter_service_worker.js", "/main.dart.js", "/favicon.ico", "/assets/**").permitAll();
+                registry.requestMatchers("/web/**", "/static/**", "/index.html", "/favicon.png", "/icons/**", "/flutter_bootstrap.js", "/web/flutter_service_worker.js", "/web/main.dart.js", "/favicon.ico", "/assets/**").permitAll();
 
                 // 1) Permito todos los OPTIONS (CORS preflight)
                 registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -96,7 +96,7 @@ class SecurityConfig {
 
 
                 // APP MOVIL
-                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar").permitAll()
+                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena").permitAll()
 
                 //NOTIFICACIONES
