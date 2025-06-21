@@ -16,5 +16,5 @@ private val log = LoggerFactory.getLogger(RegistroApplication::class.java)
 fun main(args: Array<String>) {
 	log.info("Iniciando servicio de registro...")
 	runApplication<RegistroApplication>(*args)
-	log.info("\n✅ Servicio de registro iniciado correctamente. ")
+	log.info("✅ Servicio de registro iniciado correctamente. ")
 }

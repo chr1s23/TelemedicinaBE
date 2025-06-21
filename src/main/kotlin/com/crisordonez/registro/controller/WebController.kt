@@ -8,7 +8,7 @@ class WebController {
 
     @GetMapping("/web")
     fun serveFrontend(): String {
-        return "redirect:/index.html"
+        return "redirect:/web/index.html"
     }
 }
 
