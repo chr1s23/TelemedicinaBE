@@ -1,38 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="telemedicina_web">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>telemedicina_web</title>
-  <link rel="manifest" href="manifest.json">
+  <title>AppClias</title>
+  <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+    }
+    .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+    header {
+        background-color: rgb(0, 40, 86);
+        color: white;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+    }
+    header img {
+        height: 60px;
+        margin-right: 20px;
+    }
+    main {
+            flex: 1;
+            padding: 30px 20px;
+        }
+    .descarga {
+        margin-top: 30px;
+        padding: 15px;
+        background-color: #f0f0f0;
+        border-left: 5px solid rgb(0, 102, 204);
+    }
+    footer {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        text-align: center;
+        padding: 15px 10px;
+    }
+  </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+<div class="wrapper">
+  <header>
+    <img src="/images/logo.png" alt="Logo Institucional">
+    <h1>Asistente Virtual para la promoción del Automuestreo de VPH</h1>
+  </header>
+
+  <main>
+    <h2>¿De qué trata este proyecto?</h2>
+    <p>
+      Esta aplicación móvil tiene como objetivo principal impulsar y fomentar el automuestreo para la detección del Virus del Papiloma Humano (VPH), así como proporcionar información educativa sobre el VPH, el cáncer de cuello uterino, el automuestreo, y la salud sexual y reproductiva en general.
+      Desarrollada como parte de un proyecto de investigación en la Universidad de Cuenca, con el financiamiento del CLIAS, esta herramienta busca empoderar a las mujeres al ofrecerles una opción accesible y segura para realizarse el automuestreo en la comodidad de su hogar.
+      El proyecto tiene como fin promover la prevención temprana del cáncer de cuello uterino, sensibilizar a la población sobre la importancia de la detección oportuna del VPH, y contribuir a la educación continua en temas de salud sexual y reproductiva.
+      A través de esta plataforma, queremos brindar a las usuarias recursos claros, confiables y fáciles de entender, que les permitan tomar decisiones informadas sobre su salud.
+    </p>
+
+    <div class="descarga">
+      <h3>Descargar Aplicación Móvil</h3>
+      <p>Puedes descargar la aplicación móvil desde el siguiente enlace:</p>
+      <a href="https://docs.google.com/uc?export=download&id=1pd4SWnTjIUu8I1rHXP8ivZFnmR0xIFNb" target="_blank">Descargar App</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>Universidad de Cuenca - Grupo de Investigación en Infraestructura de Datos Espaciales</p>
+    <p>Facultad de Ingeniería. Departamento de Cuencias de la Computación</p>
+    <p>Av.12 de Abril S/N y Agustin Cueva | Teléfono: +593 405 1000 ext 2363</p>
+    <p>Ing. Villie Morocho, PhD. | villie.morocho@ucuenca.edu.ec</p>
+  </footer>
+
+</div>
 </body>
 </html>
