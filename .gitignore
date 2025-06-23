@@ -38,3 +38,5 @@ build/
 # Log file
 *.log
 logs/
+
+src/main/resources/application.properties
