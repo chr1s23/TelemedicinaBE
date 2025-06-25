@@ -40,4 +40,3 @@ build/
 logs/
 
 src/main/resources/application.properties
-src/main/resources/*.json
