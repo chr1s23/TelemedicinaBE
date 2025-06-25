@@ -48,18 +48,15 @@ class NotificacionService(
         logger.info("El token del dispositivo es: $token")
 
         if (token != null) {
+            val notificacionResponse = guardada.toResponse()
             pushNotificacionService.enviarPushFCM(
                 token,
-                guardada.titulo,
-                guardada.mensaje
+                notificacionResponse
             )
-        } else {
+        }
+        else {
             logger.warn("⚠️ No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
         }
-
-
-
-
 
         return guardada.toResponse()
     }
