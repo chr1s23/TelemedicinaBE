@@ -7,6 +7,5 @@ data class DispositivoAppUsuarioResponse(
     val publicId: UUID,
     val usuarioPublicId: UUID,
     val fcmToken: String,
-    val dispositivoId: String?,
     val fechaRegistro: LocalDateTime
 )

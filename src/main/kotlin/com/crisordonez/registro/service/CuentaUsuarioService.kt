@@ -114,7 +114,7 @@ class CuentaUsuarioService(
             ))
 
             val token = jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
-            println("Token Generado $token del usuario $cuentaUsuario.nombreUsuario")
+            println("Token Generado $token del usuario $cuentaUsuario.nombreUsuario") //BORRAR
             val usuario = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario).get()
             return usuario.toResponse(token)
         } catch (ex: BadCredentialsException) {

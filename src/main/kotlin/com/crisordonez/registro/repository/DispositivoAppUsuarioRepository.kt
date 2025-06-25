@@ -7,4 +7,6 @@ import java.util.*
 interface DispositivoAppUsuarioRepository : CrudRepository<DispositivoAppUsuarioEntity, Long> {
     fun findByPublicId(publicId: UUID): Optional<DispositivoAppUsuarioEntity>
     fun findAllByUsuarioPublicId(usuarioPublicId: UUID): List<DispositivoAppUsuarioEntity>
+    fun findTopByUsuarioPublicIdOrderByFechaRegistroDesc(usuarioPublicId: UUID): DispositivoAppUsuarioEntity?
+
 }

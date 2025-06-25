@@ -21,9 +21,6 @@ data class DispositivoAppUsuarioEntity(
     @Column(nullable = false)
     val fcmToken: String,
 
-    @Column(nullable = true)
-    val dispositivoId: String? = null,
-
     @Column(nullable = false)
     val fechaRegistro: LocalDateTime = LocalDateTime.now()
 )

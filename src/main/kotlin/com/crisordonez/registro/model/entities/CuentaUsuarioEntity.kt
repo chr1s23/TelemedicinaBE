@@ -27,9 +27,6 @@ data class CuentaUsuarioEntity(
 
     var ultimaSesion: LocalDateTime? = null,
 
-    @Column(nullable = true)
-    var fcmToken: String? = null,
-
     @OneToOne
     @JoinColumn(name = "paciente_id")
     var paciente: PacienteEntity? = null
