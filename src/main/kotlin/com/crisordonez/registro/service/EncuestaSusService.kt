@@ -40,4 +40,14 @@ class EncuestaSusService(
         encuestaRepository.save(encuesta)
         return true
     }
+
+    override fun estaEncuestaCompletada(cuentaUsuarioId: String): Boolean {
+        val cuenta = cuentaUsuarioRepository.findByPublicId(UUID.fromString(cuentaUsuarioId)).orElse(null)
+        if (cuenta == null) {
+            return false // Si no existe la cuenta
+        }
+
+        val encuesta = encuestaRepository.findByCuentaUsuario(cuenta)
+        return encuesta != null // Si existe una encuesta para esa cuenta, la considera como completada
+    }
 }
