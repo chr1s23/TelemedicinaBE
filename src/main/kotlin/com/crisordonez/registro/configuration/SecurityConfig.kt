@@ -113,7 +113,7 @@ class SecurityConfig {
                 registry.requestMatchers("/evolucion/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/info-socioeconomica/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/paciente/admin/**").hasRole("ADMIN")
-                registry.requestMatchers("/prueba/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/prueba/admin/**").permitAll()
                 registry.requestMatchers("/salud-sexual/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/sesion-chat/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/archivo/admin/**").hasRole("ADMIN")
