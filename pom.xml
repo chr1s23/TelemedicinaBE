@@ -102,6 +102,11 @@
 			<artifactId>hapi-fhir-structures-r4</artifactId>
 			<version>6.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.2.0</version> <!-- Puedes ajustar a la versión más reciente si lo deseas -->
+		</dependency>
 
 	</dependencies>
 

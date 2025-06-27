@@ -1,6 +1,8 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.entities.DispositivoAppUsuarioEntity
 import com.crisordonez.registro.model.entities.NotificacionEntity
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import com.crisordonez.registro.model.mapper.NotificacionMapper.toEntity
 import com.crisordonez.registro.model.mapper.NotificacionMapper.toResponse
 import com.crisordonez.registro.model.mapper.NotificacionProgramadaMapper.toEntity
@@ -10,6 +12,7 @@ import com.crisordonez.registro.model.requests.NotificacionProgramadaRequest
 import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.NotificacionResponse
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
+import com.crisordonez.registro.repository.DispositivoAppUsuarioRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,7 +26,8 @@ class NotificacionService(
     private val notificacionRepository: NotificacionRepository,
     private val notificacionProgramadaRepository: NotificacionProgramadaRepository,
     private val cuentaUsuarioRepository: CuentaUsuarioRepository,
-    private val pushNotificacionService: PushNotificacionServiceInterface
+    private val pushNotificacionService: PushNotificacionServiceInterface,
+    private val dispositivoAppUsuarioRepository: DispositivoAppUsuarioRepository
 ) : NotificacionServiceInterface {
 
     private val logger = LoggerFactory.getLogger(NotificacionService::class.java)
@@ -36,7 +40,24 @@ class NotificacionService(
         val notificacion = request.toEntity(cuentaUsuario)
         val guardada = notificacionRepository.save(notificacion)
 
-        pushNotificacionService.enviarPush(guardada.titulo, guardada.mensaje, cuentaUsuario)
+
+        //Recuperamos el token del dispositivo
+        val dispositivo = dispositivoAppUsuarioRepository
+            .findTopByUsuarioPublicIdOrderByFechaRegistroDesc(cuentaUsuario.publicId)
+
+        val token = dispositivo?.fcmToken
+        logger.info("El token del dispositivo es: $token")
+
+        if (token != null) {
+            val notificacionResponse = guardada.toResponse()
+            pushNotificacionService.enviarPushFCM(
+                token,
+                notificacionResponse
+            )
+        }
+        else {
+            logger.warn("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
+        }
 
         return guardada.toResponse()
     }
@@ -54,6 +75,22 @@ class NotificacionService(
         notificacion.notificacion_leida = true
         notificacionRepository.save(notificacion)
     }
+    override fun desactivarRecordatorioNoEntregaDispositivo(cuentaUsuarioPublicId: UUID) {
+        val notificacion = notificacionProgramadaRepository
+            .findActivaByCuentaUsuarioPublicIdAndTipoNotificacion(
+                cuentaUsuarioPublicId,
+                TipoNotificacionEnum.RECORDATORIO_NO_ENTREGA_DISPOSITIVO
+            )
+            .orElse(null)
+
+        if (notificacion != null && notificacion.programacionActiva) {
+            notificacionProgramadaRepository.updateActivaById(false, notificacion.id)
+            println("[OK] Notificación desactivada.")
+        } else {
+            println("[!] Ya estaba desactivada o no existe. No se realizó ningún cambio.")
+        }
+    }
+
 
     @Transactional
     override fun crearNotificacionProgramada(
@@ -103,7 +140,7 @@ class NotificacionService(
             )
 
             // 2. Enviar push (simulado)
-            pushNotificacionService.enviarPush(notificacionReal.titulo, notificacionReal.mensaje, cuentaUsuario)
+           // pushNotificacionService.enviarPushFCM(notificacionReal.titulo, notificacionReal.mensaje, cuentaUsuario)
 
             // 3. Calcular el tiempo transcurrido desde inicio
             val diasTranscurridos = java.time.Duration.between(prog.fechaInicio, ahora).toMinutes()

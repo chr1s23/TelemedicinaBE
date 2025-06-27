@@ -27,7 +27,7 @@ data class EncuestaSusEntity(
     var item13: Int,
     var item14: Int,
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "cuenta_usuario_id", nullable = false)
     val cuentaUsuario: CuentaUsuarioEntity
 

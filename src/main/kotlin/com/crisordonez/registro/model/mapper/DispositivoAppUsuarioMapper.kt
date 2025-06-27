@@ -10,7 +10,7 @@ object DispositivoAppUsuarioMapper {
         return DispositivoAppUsuarioEntity(
             usuarioPublicId = this.usuarioPublicId,
             fcmToken = this.fcmToken,
-            dispositivoId = this.dispositivoId
+
         )
     }
 
@@ -19,7 +19,6 @@ object DispositivoAppUsuarioMapper {
             publicId = this.publicId,
             usuarioPublicId = this.usuarioPublicId,
             fcmToken = this.fcmToken,
-            dispositivoId = this.dispositivoId,
             fechaRegistro = this.fechaRegistro
         )
     }

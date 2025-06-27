@@ -11,5 +11,4 @@ data class DispositivoAppUsuarioRequest(
     @field:NotBlank(message = "El token FCM es requerido")
     val fcmToken: String,
 
-    val dispositivoId: String? = null
 )

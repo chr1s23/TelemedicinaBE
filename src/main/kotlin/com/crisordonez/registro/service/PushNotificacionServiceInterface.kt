@@ -1,7 +1,8 @@
 package com.crisordonez.registro.service
 
 import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
+import com.crisordonez.registro.model.responses.NotificacionResponse
 
 interface PushNotificacionServiceInterface {
-    fun enviarPush(titulo: String, mensaje: String, cuentaUsuario: CuentaUsuarioEntity)
+    fun enviarPushFCM(token: String?, notificacion: NotificacionResponse): String?
 }

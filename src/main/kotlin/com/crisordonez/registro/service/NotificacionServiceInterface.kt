@@ -7,7 +7,6 @@ import java.util.UUID
 
 interface NotificacionServiceInterface {
     fun crearNotificacion(request: NotificacionRequest): NotificacionResponse
-
     fun obtenerHistorialNotificaciones(cuentaUsuarioPublicId: UUID): List<NotificacionResponse>
     fun marcarNotificacionComoLeida(publicId: UUID)
 
@@ -17,5 +16,6 @@ interface NotificacionServiceInterface {
     ): NotificacionResponse
 
     fun procesarNotificacionesProgramadas()
+    fun desactivarRecordatorioNoEntregaDispositivo(cuentaUsuarioPublicId: UUID)
 
 }
