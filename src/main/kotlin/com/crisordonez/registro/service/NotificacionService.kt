@@ -2,6 +2,7 @@ package com.crisordonez.registro.service
 
 import com.crisordonez.registro.model.entities.DispositivoAppUsuarioEntity
 import com.crisordonez.registro.model.entities.NotificacionEntity
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import com.crisordonez.registro.model.mapper.NotificacionMapper.toEntity
 import com.crisordonez.registro.model.mapper.NotificacionMapper.toResponse
 import com.crisordonez.registro.model.mapper.NotificacionProgramadaMapper.toEntity
@@ -55,7 +56,7 @@ class NotificacionService(
             )
         }
         else {
-            logger.warn("⚠️ No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
+            logger.warn("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
         }
 
         return guardada.toResponse()
@@ -73,6 +74,20 @@ class NotificacionService(
 
         notificacion.notificacion_leida = true
         notificacionRepository.save(notificacion)
+    }
+    override fun desactivarRecordatorioNoEntregaDispositivo(cuentaUsuarioPublicId: UUID) {
+        val notificacion = notificacionProgramadaRepository
+            .findActivaByCuentaUsuarioPublicIdAndTipoNotificacion(
+                cuentaUsuarioPublicId,
+                TipoNotificacionEnum.RECORDATORIO_NO_ENTREGA_DISPOSITIVO
+            )
+            .orElseThrow {
+                NoSuchElementException("[X] No se encontró una notificación activa de tipo RECORDATORIO_NO_ENTREGA_DISPOSITIVO para el usuario con ID $cuentaUsuarioPublicId")
+            }
+
+        notificacion.programacionActiva = false
+        notificacionProgramadaRepository.updateActivaById(false, notificacion.id)
+
     }
 
     @Transactional

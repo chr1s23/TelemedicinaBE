@@ -104,6 +104,9 @@ class SecurityConfig {
                 registry.requestMatchers(HttpMethod.POST, "/notificaciones/programadas").permitAll()
                 registry.requestMatchers(HttpMethod.GET, "/notificaciones/*").permitAll()
                 registry.requestMatchers(HttpMethod.PUT, "/notificaciones/*/marcar-leida").permitAll()
+                registry.requestMatchers(HttpMethod.PUT, "/notificaciones/programada/desactivar-entrega/*").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/info-socioeconomica/ficha/existe/*").permitAll()
+
                 //REGISTRO- DISPOSITIVOS CON LA APP
                 registry.requestMatchers(HttpMethod.POST, "/dispositivo").permitAll()
                 registry.requestMatchers(HttpMethod.GET, "/dispositivo/*").permitAll()

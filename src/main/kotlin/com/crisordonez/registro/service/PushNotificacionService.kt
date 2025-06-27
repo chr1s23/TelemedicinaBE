@@ -44,7 +44,4 @@ open class PushNotificacionService(
         }
     }
 
-
-
-
 }

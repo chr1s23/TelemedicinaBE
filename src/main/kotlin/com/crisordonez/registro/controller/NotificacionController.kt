@@ -38,5 +38,12 @@ class NotificationController(
         notificacionService.marcarNotificacionComoLeida(notificacionPublicId)
     }
 
+    @PutMapping("/programada/desactivar-entrega/{cuentaUsuarioPublicId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun desactivarRecordatorioEntregaDispositivo(@PathVariable cuentaUsuarioPublicId: UUID) {
+        notificacionService.desactivarRecordatorioNoEntregaDispositivo(cuentaUsuarioPublicId)
+    }
+
+
 
 }
