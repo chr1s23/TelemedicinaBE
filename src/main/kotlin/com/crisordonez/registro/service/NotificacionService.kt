@@ -81,14 +81,16 @@ class NotificacionService(
                 cuentaUsuarioPublicId,
                 TipoNotificacionEnum.RECORDATORIO_NO_ENTREGA_DISPOSITIVO
             )
-            .orElseThrow {
-                NoSuchElementException("[X] No se encontró una notificación activa de tipo RECORDATORIO_NO_ENTREGA_DISPOSITIVO para el usuario con ID $cuentaUsuarioPublicId")
-            }
+            .orElse(null)
 
-        notificacion.programacionActiva = false
-        notificacionProgramadaRepository.updateActivaById(false, notificacion.id)
-
+        if (notificacion != null && notificacion.programacionActiva) {
+            notificacionProgramadaRepository.updateActivaById(false, notificacion.id)
+            println("[OK] Notificación desactivada.")
+        } else {
+            println("[!] Ya estaba desactivada o no existe. No se realizó ningún cambio.")
+        }
     }
+
 
     @Transactional
     override fun crearNotificacionProgramada(
