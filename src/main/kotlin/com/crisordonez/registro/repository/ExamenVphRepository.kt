@@ -33,4 +33,13 @@ interface ExamenVphRepository : CrudRepository<ExamenVphEntity, Long> {
         """
     )
     fun clearFieldsByCodigo(@Param("dispositivo") dispositivo: String): Int
+
+    @Query("""
+    SELECT COUNT(e) > 0 
+    FROM ExamenVphEntity e 
+    WHERE e.saludSexual.paciente.id = :pacienteId
+""")
+    fun existsExamenByPacienteId(@Param("pacienteId") pacienteId: Long): Boolean
+
+
 }
