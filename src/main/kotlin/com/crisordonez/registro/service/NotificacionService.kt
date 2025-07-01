@@ -13,6 +13,7 @@ import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.NotificacionResponse
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.repository.DispositivoAppUsuarioRepository
+import com.crisordonez.registro.repository.ExamenVphRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,7 +28,8 @@ class NotificacionService(
     private val notificacionProgramadaRepository: NotificacionProgramadaRepository,
     private val cuentaUsuarioRepository: CuentaUsuarioRepository,
     private val pushNotificacionService: PushNotificacionServiceInterface,
-    private val dispositivoAppUsuarioRepository: DispositivoAppUsuarioRepository
+    private val dispositivoAppUsuarioRepository: DispositivoAppUsuarioRepository,
+    private val examenVphRepository: ExamenVphRepository,
 ) : NotificacionServiceInterface {
 
     private val logger = LoggerFactory.getLogger(NotificacionService::class.java)
@@ -122,44 +124,69 @@ class NotificacionService(
         val ahora = LocalDateTime.now()
         val pendientes = notificacionProgramadaRepository.findAllByProxFechaBeforeAndProgramacionActivaIsTrue(ahora)
 
+
+
         pendientes.forEach { prog ->
             val cuentaUsuario = prog.cuentaUsuario
+            if (prog.tipoNotificacion == TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN) {
+                val paciente = prog.cuentaUsuario.paciente
+                if (paciente != null && examenVphRepository.existsExamenByPacienteId(paciente.id!!)) {
+                    logger.info("Paciente ${paciente.id} ya tiene examen, se cancela la notificación programada (${prog.publicId})")
+                    prog.programacionActiva = false
+                    notificacionProgramadaRepository.save(prog)
+                    return@forEach
+                }
+            }
 
             // 1. Crear notificación real
-            val notificacionReal = notificacionRepository.save(
-                NotificacionEntity(
-                    cuentaUsuario = cuentaUsuario,
-                    tipo_notificacion = prog.tipoNotificacion,
+            crearNotificacion(
+                NotificacionRequest(
+                    cuentaUsuarioPublicId = cuentaUsuario.publicId,
+                    tipoNotificacion = prog.tipoNotificacion,
                     titulo = prog.titulo,
                     mensaje = prog.mensaje,
-                    tipo_accion = prog.tipoAccion,
-                    accion = prog.accion,
-                    fecha_creacion = ahora,
-                    notificacion_leida = false
+                    tipoAccion = prog.tipoAccion,
+                    accion = prog.accion
                 )
             )
 
-            // 2. Enviar push (simulado)
-           // pushNotificacionService.enviarPushFCM(notificacionReal.titulo, notificacionReal.mensaje, cuentaUsuario)
 
-            // 3. Calcular el tiempo transcurrido desde inicio
+            // 2. Calcular el tiempo transcurrido desde inicio
             val diasTranscurridos = java.time.Duration.between(prog.fechaInicio, ahora).toMinutes()
+            /*
 
-            // 4. Elegir intervalo dinámico
+            // 3. Elegir intervalo dinámico para próximo envío
             val nuevoIntervaloEnDias = when {
                 diasTranscurridos < 30 -> 3L  // Primer mes → cada 3 días
                 diasTranscurridos < 60 -> 7L  // Segundo mes → cada 7 días
                 else -> null                  // Tercer mes → parar
             }
 
+
+
             if (nuevoIntervaloEnDias == null || (prog.limiteFecha != null && ahora.isAfter(prog.limiteFecha))) {
                 prog.programacionActiva = false
             } else {
                 prog.proxFecha = ahora.plusDays(nuevoIntervaloEnDias)
             }
+            */
+            val segundosTranscurridos = Duration.between(prog.fechaInicio, ahora).toSeconds()
+
+            val nuevoIntervaloEnSegundos = when {
+                segundosTranscurridos < 40 -> 20L  // Simulación: primeros 40s → cada 20s
+                segundosTranscurridos < 80 -> 30L  // Después → cada 30s
+                else -> null                       // Luego detener
+            }
+
+            if (nuevoIntervaloEnSegundos == null || (prog.limiteFecha != null && ahora.isAfter(prog.limiteFecha))) {
+                prog.programacionActiva = false
+            } else {
+                prog.proxFecha = ahora.plusSeconds(nuevoIntervaloEnSegundos)
+            }
+
 
             notificacionProgramadaRepository.save(prog)
-            logger.info("[Programada] Notificación enviada y reprogramada (${prog.publicId}) para ${cuentaUsuario.id}")
+            logger.info("[Programada] Notificación enviada y reprogramada (${prog.titulo}) para ${cuentaUsuario.id}, comenzando en [${prog.fechaInicio}] -> [${prog.proxFecha}]")
         }
     }
 

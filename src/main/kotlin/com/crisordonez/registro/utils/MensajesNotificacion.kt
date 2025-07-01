@@ -16,8 +16,8 @@ object MensajesNotificacion {
     const val  CRON_EXPRESSION_NO_ENTREGA="0 0 10/3 * * *" // cada 3 días desde las 10am
 
     // Para BIENVENIDA
-    const val NOT_TITULO_BIENVENIDA = "¡Bienvenida a CLIAS!"
-    const val NOT_MENSAJE_BIENVENIDA = "Aquí puedes ver cómo funciona la app."
-    const val NOT_TIPO_ACCION_BIENVENIDA = "VER_VIDEO"
+    const val NOT_TITULO_BIENVENIDA = "¡Bienvenida a SISA!"
+    const val NOT_MENSAJE_BIENVENIDA = "Cuidar de tu salud siempre estará primero. Hemos preparado recursos útiles para ti."
+    const val NOT_TIPO_ACCION_BIENVENIDA = "VENTANA_RECURSOS"
     const val NOT_ACCION_BIENVENIDA = "https://miapp.com/bienvenida"
 }

@@ -1,5 +1,7 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import com.crisordonez.registro.model.errors.BadRequestException
 import com.crisordonez.registro.model.errors.ConflictException
 import com.crisordonez.registro.model.errors.NotFoundException
@@ -10,11 +12,15 @@ import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toUpdateContras
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
+import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
 import com.crisordonez.registro.repository.PacienteRepository
 import com.crisordonez.registro.utils.JwtUtil
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_ACCION_BIENVENIDA
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_MENSAJE_BIENVENIDA
+import com.crisordonez.registro.utils.MensajesNotificacion.NOT_TITULO_BIENVENIDA
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
@@ -25,12 +31,14 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
+
 @Service
 class CuentaUsuarioService(
     @Autowired private val cuentaUsuarioRepository: CuentaUsuarioRepository,
     @Autowired private val pacienteRepository: PacienteRepository,
     @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository,
-    @Autowired private val passwordEncoder: PasswordEncoder
+    @Autowired private val passwordEncoder: PasswordEncoder,
+    private val notificacionService: NotificacionServiceInterface
 ): CuentaUsuarioServiceInterface {
 
     @Autowired
@@ -66,6 +74,17 @@ class CuentaUsuarioService(
         }
         log.info("Cuenta de usuario creada exitosamente, iniciando sesion")
         val token = autenticar(cuentaUsuario)
+
+        val bienvenidaRequest = NotificacionRequest(
+            cuentaUsuarioPublicId = cuenta.publicId,
+            tipoNotificacion = TipoNotificacionEnum.BIENVENIDA,
+            titulo = NOT_TITULO_BIENVENIDA,
+            mensaje = NOT_MENSAJE_BIENVENIDA,
+            tipoAccion = TipoAccionNotificacionEnum.VENTANA_RECURSOS,
+            accion = NOT_ACCION_BIENVENIDA
+        )
+        notificacionService.crearNotificacion(bienvenidaRequest)
+
         return token
     }
 
