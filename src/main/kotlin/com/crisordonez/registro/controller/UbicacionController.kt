@@ -5,6 +5,8 @@ import com.crisordonez.registro.model.enums.EstablecimientoEnum
 import com.crisordonez.registro.model.responses.UbicacionResponse
 import com.crisordonez.registro.service.UbicacionServiceInterface
 import com.crisordonez.registro.model.mapper.UbicacionMapper
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -43,12 +45,12 @@ class UbicacionController(
     @PutMapping("/{publicId}")
     fun actualizarUbicacion(
         @PathVariable publicId: UUID,
-        @RequestBody ubicacionRequest: UbicacionRequest
+        @Valid @RequestBody ubicacionRequest: UbicacionRequest
     ): UbicacionResponse? {
         val entity = ubicacionService.actualizarUbicacion(publicId, UbicacionMapper.toEntity(ubicacionRequest))
         return entity?.let { UbicacionMapper.toResponse(it) }
     }
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{publicId}")
     fun eliminarUbicacion(@PathVariable publicId: UUID) {
         ubicacionService.eliminarUbicacion(publicId)

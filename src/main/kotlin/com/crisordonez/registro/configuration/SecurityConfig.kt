@@ -92,8 +92,7 @@ class SecurityConfig {
                 registry.requestMatchers(HttpMethod.POST, "/api/ubicaciones/**").permitAll()
                 registry.requestMatchers(HttpMethod.PUT, "/api/ubicaciones/**").permitAll()
                 registry.requestMatchers(HttpMethod.DELETE, "/api/ubicaciones/**").permitAll()
-
-
+                //registry.requestMatchers("/api/ubicaciones/**").hasRole("ADMIN")
 
                 // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
