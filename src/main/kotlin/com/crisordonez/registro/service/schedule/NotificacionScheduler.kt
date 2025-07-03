@@ -13,7 +13,7 @@ class NotificacionScheduler(
 
 
    // @Scheduled(cron = "0 0,30 * * * *") // Cada hora en el minuto 0 y minuto 30
-    @Scheduled(fixedRate = 10000) // cada 30 segundos
+    @Scheduled(fixedRate = 10000) // cada 10 segundos
     fun ejecutarNotificacionesProgramadas() {
         log.info("1. Ejecutando tareas programadas de notificaciones...")
         notificacionService.procesarNotificacionesProgramadas()
