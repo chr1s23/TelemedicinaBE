@@ -11,16 +11,11 @@ class NotificacionScheduler(
 ) {
     private val log = LoggerFactory.getLogger(NotificacionScheduler::class.java)
 
-
    // @Scheduled(cron = "0 0,30 * * * *") // Cada hora en el minuto 0 y minuto 30
-    @Scheduled(fixedRate = 10000) // cada 10 segundos
-    fun ejecutarNotificacionesProgramadas() {
+   @Scheduled(cron = "0 0 * * * *") // todos los días, cada hora en punto (por ejemplo: 01:00, 02:00, etc.)
+   fun ejecutarNotificacionesProgramadas() {
         log.info("1. Ejecutando tareas programadas de notificaciones...")
         notificacionService.procesarNotificacionesProgramadas()
         log.info("2. Ejecución de tareas programadas finalizada.")
     }
-
-
-
-
 }

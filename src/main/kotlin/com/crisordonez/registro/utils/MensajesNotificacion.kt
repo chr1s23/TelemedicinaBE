@@ -14,9 +14,4 @@ object MensajesNotificacion {
     const val NOT_TIPO_ACCION_NO_ENTREGA = "VENTANA_EMERGENTE"
     const val NOT_ACCION_NO_ENTREGA = "https://miapp.com/confirmar-entrega"
 
-    // Para BIENVENIDA
-    const val NOT_TITULO_BIENVENIDA = "¡Bienvenida a SISA!"
-    const val NOT_MENSAJE_BIENVENIDA = "Cuidar de tu salud siempre estará primero. Hemos preparado recursos útiles para ti."
-    const val NOT_TIPO_ACCION_BIENVENIDA = "VENTANA_RECURSOS"
-    const val NOT_ACCION_BIENVENIDA = "https://miapp.com/bienvenida"
 }

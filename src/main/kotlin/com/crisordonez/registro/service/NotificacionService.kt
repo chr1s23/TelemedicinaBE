@@ -48,7 +48,7 @@ class NotificacionService(
             .findTopByUsuarioPublicIdOrderByFechaRegistroDesc(cuentaUsuario.publicId)
 
         val token = dispositivo?.fcmToken
-        logger.info("El token del dispositivo es: $token")
+        logger.info("[!] El token del dispositivo es: $token")
 
         if (token != null) {
             val notificacionResponse = guardada.toResponse()
@@ -58,7 +58,7 @@ class NotificacionService(
             )
         }
         else {
-            logger.warn("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
+            logger.info("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
         }
 
         return guardada.toResponse()

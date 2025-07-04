@@ -86,8 +86,8 @@ class SesionChatService(
                 mensaje = notificacion.mensaje,
                 tipoAccion = notificacion.tipoAccion,
                 accion = notificacion.accion,
-                proxFecha = now.plusSeconds(15),  // Simulación de 3 días
-                limiteFecha = now.plusSeconds(100) // Para pruebas (3 ciclos aprox.)
+                proxFecha = now.plusDays(7), // Próxima vez en 7 días
+                limiteFecha = now.plusDays(59) // Máximo hasta 2 meses
             )
 
             notificacionService.crearNotificacionProgramada(
