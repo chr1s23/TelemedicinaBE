@@ -112842,7 +112842,7 @@ return A.S(new A.hX("http://localhost:8080/api").E0(i),$async$tG)
 case 12:l=b
 A.lc("\ud83d\udccc Public ID del paciente: "+A.m(l))
 s=13
-return A.S(new A.hX("http://localhost:8080/api").DW("https://miapp.com/video-tutorial",l,"Si tu ficha socioecon\xf3mica ya est\xe1 ingresada, puedes ver el resultado ahora.","VER_RESULTADOS","\xa1Tus resultados ya est\xe1n listos!**"),$async$tG)
+return A.S(new A.hX("http://localhost:8080/api").DW("https://miapp.com/video-tutorial",l,"Ya puedes consultar el resultado de tu examen desde la aplicaci\xf3n. Haz clic aqu\xed para revisarlo.","VER_RESULTADOS","\xa1Tu resultado est\xe1 disponible!"),$async$tG)
 case 13:m.os("\xc9xito","Resultado subido y notificaci\xf3n enviada.")
 p=4
 s=11

@@ -18,9 +18,6 @@ import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
 import com.crisordonez.registro.repository.PacienteRepository
 import com.crisordonez.registro.utils.JwtUtil
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_ACCION_BIENVENIDA
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_MENSAJE_BIENVENIDA
-import com.crisordonez.registro.utils.MensajesNotificacion.NOT_TITULO_BIENVENIDA
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
@@ -74,17 +71,6 @@ class CuentaUsuarioService(
         }
         log.info("Cuenta de usuario creada exitosamente, iniciando sesion")
         val token = autenticar(cuentaUsuario)
-
-        val bienvenidaRequest = NotificacionRequest(
-            cuentaUsuarioPublicId = cuenta.publicId,
-            tipoNotificacion = TipoNotificacionEnum.BIENVENIDA,
-            titulo = NOT_TITULO_BIENVENIDA,
-            mensaje = NOT_MENSAJE_BIENVENIDA,
-            tipoAccion = TipoAccionNotificacionEnum.VENTANA_RECURSOS,
-            accion = NOT_ACCION_BIENVENIDA
-        )
-        notificacionService.crearNotificacion(bienvenidaRequest)
-
         return token
     }
 

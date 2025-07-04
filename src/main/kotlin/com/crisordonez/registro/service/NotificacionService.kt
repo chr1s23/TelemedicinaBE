@@ -48,7 +48,7 @@ class NotificacionService(
             .findTopByUsuarioPublicIdOrderByFechaRegistroDesc(cuentaUsuario.publicId)
 
         val token = dispositivo?.fcmToken
-        logger.info("El token del dispositivo es: $token")
+        logger.info("[!] El token del dispositivo es: $token")
 
         if (token != null) {
             val notificacionResponse = guardada.toResponse()
@@ -58,7 +58,7 @@ class NotificacionService(
             )
         }
         else {
-            logger.warn("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
+            logger.info("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
         }
 
         return guardada.toResponse()
@@ -137,6 +137,16 @@ class NotificacionService(
                     return@forEach
                 }
             }
+            if (prog.tipoNotificacion == TipoNotificacionEnum.RECORDATORIO_NO_ENTREGA_DISPOSITIVO) {
+                val cuentaUsuarioPublicId = prog.cuentaUsuario.publicId
+                if (examenVphRepository.existsExamenEntregadoByCuentaUsuarioPublicId(cuentaUsuarioPublicId)) {
+                    logger.info("El examen ya fue entregado (contenido != null) para cuenta $cuentaUsuarioPublicId, desactivando notificación programada.")
+                    prog.programacionActiva = false
+                    notificacionProgramadaRepository.save(prog)
+                    return@forEach
+                }
+            }
+
 
             // 1. Crear notificación real
             crearNotificacion(

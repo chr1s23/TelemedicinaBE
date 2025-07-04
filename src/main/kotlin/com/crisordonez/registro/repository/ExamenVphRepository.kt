@@ -41,5 +41,16 @@ interface ExamenVphRepository : CrudRepository<ExamenVphEntity, Long> {
 """)
     fun existsExamenByPacienteId(@Param("pacienteId") pacienteId: Long): Boolean
 
+    @Query("""
+    SELECT COUNT(ev) > 0
+    FROM ExamenVphEntity ev
+    WHERE ev.contenido IS NOT NULL
+    AND ev.sesionChat.paciente.cuenta.publicId = :cuentaUsuarioPublicId
+""")
+    fun existsExamenEntregadoByCuentaUsuarioPublicId(
+        @Param("cuentaUsuarioPublicId") cuentaUsuarioPublicId: UUID
+    ): Boolean
+
+
 
 }
