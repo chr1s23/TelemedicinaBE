@@ -33153,7 +33153,7 @@ s=r+1}r=B.p.ii(a,b)
 for(;r!==-1;){q=r===0?0:B.p.EJ(a,"\n",r-1)+1
 if(c===r-q)return q
 r=B.p.lC(a,b,r+1)}return null},
-aYN(){return"http://localhost:8080"}},B={}
+aYN(){return"https://clias.ucuenca.edu.ec"}},B={}
 var w=[A,J,B]
 var $={}
 A.Bx.prototype={
@@ -112017,7 +112017,7 @@ s=10
 return A.S(n.vj(k),$async$pZ)
 case 10:j=b5
 s=11
-return A.S(new A.hX("http://localhost:8080/api").vx(k,m),$async$pZ)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").vx(k,m),$async$pZ)
 case 11:a4=A.m(k)+".png"
 a5=J.bJ(j)
 a6=j
@@ -112153,7 +112153,7 @@ q=3
 l=n.x
 if(l==="todos")l=null
 s=6
-return A.S(new A.hX("http://localhost:8080/api").F_(l),$async$rX)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").F_(l),$async$rX)
 case 6:m=b
 n.a4(new A.axa(n,m))
 o.push(5)
@@ -112424,7 +112424,7 @@ var $async$pR=A.M(function(a,b){if(a===1){p.push(b)
 s=q}while(true)switch(s){case 0:n.a4(new A.aCz(n))
 q=3
 s=6
-return A.S(new A.hX("http://localhost:8080/api").Ae(),$async$pR)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").Ae(),$async$pR)
 case 6:m=b
 n.a4(new A.aCA(n,m))
 o.push(5)
@@ -112453,7 +112453,7 @@ asL(a){var s=0,r=A.Q(t.H),q=1,p=[],o=this,n,m,l,k
 var $async$x7=A.M(function(b,c){if(b===1){p.push(c)
 s=q}while(true)switch(s){case 0:q=3
 s=6
-return A.S(new A.hX("http://localhost:8080/api").xC(a),$async$x7)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").xC(a),$async$x7)
 case 6:o.c.ak(t.Pu).f.nZ(B.aW1)
 s=7
 return A.S(o.pR(),$async$x7)
@@ -112485,7 +112485,7 @@ case 4:s=c===!0?2:3
 break
 case 2:q=6
 s=9
-return A.S(new A.hX("http://localhost:8080/api").xC(a),$async$t2)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").xC(a),$async$t2)
 case 9:o.c.ak(t.Pu).f.nZ(B.aW2)
 s=10
 return A.S(o.pR(),$async$t2)
@@ -112670,7 +112670,7 @@ BR(){var s=0,r=A.Q(t.H),q=1,p=[],o=this,n,m,l
 var $async$BR=A.M(function(a,b){if(a===1){p.push(b)
 s=q}while(true)switch(s){case 0:q=3
 s=6
-return A.S(new A.hX("http://localhost:8080/api").DX(),$async$BR)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").DX(),$async$BR)
 case 6:n=b
 o.a4(new A.aDw(o,n))
 q=1
@@ -112701,10 +112701,10 @@ break}l=g+h
 m.a4(new A.aDy(m))
 p=4
 s=7
-return A.S(new A.hX("http://localhost:8080/api").E_(l),$async$q6)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").E_(l),$async$q6)
 case 7:k=b
 s=8
-return A.S(new A.hX("http://localhost:8080/api").DZ(l),$async$q6)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").DZ(l),$async$q6)
 case 8:j=b
 m.a4(new A.aDz(m,k,j))
 n.push(6)
@@ -112737,7 +112737,7 @@ s=1
 break}if(p.CW==null){p.os("Error","La fuente a\xfan no se ha cargado, por favor intenta de nuevo.")
 s=1
 break}s=3
-return A.S(new A.hX("http://localhost:8080/api").DY(1),$async$m7)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").DY(1),$async$m7)
 case 3:o=b4
 n=J.ar(o)
 m=A.bQ(n.h(o,"nombre"))
@@ -112833,16 +112833,16 @@ g=m.e
 f=m.as
 f.toString
 s=7
-return A.S(new A.hX("http://localhost:8080/api").A_(f,A.m(g)+h,i,"resultado_vph_"+h+".pdf",m.ay),$async$tG)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").A_(f,A.m(g)+h,i,"resultado_vph_"+h+".pdf",m.ay),$async$tG)
 case 7:p=9
 i=m.Q
 i.toString
 s=12
-return A.S(new A.hX("http://localhost:8080/api").E0(i),$async$tG)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").E0(i),$async$tG)
 case 12:l=b
 A.lc("\ud83d\udccc Public ID del paciente: "+A.m(l))
 s=13
-return A.S(new A.hX("http://localhost:8080/api").DW("https://miapp.com/video-tutorial",l,"Ya puedes consultar el resultado de tu examen desde la aplicaci\xf3n. Haz clic aqu\xed para revisarlo.","VER_RESULTADOS","\xa1Tu resultado est\xe1 disponible!"),$async$tG)
+return A.S(new A.hX("https://clias.ucuenca.edu.ec/api").DW("https://miapp.com/video-tutorial",l,"Ya puedes consultar el resultado de tu examen desde la aplicaci\xf3n. Haz clic aqu\xed para revisarlo.","VER_RESULTADOS","\xa1Tu resultado est\xe1 disponible!"),$async$tG)
 case 13:m.os("\xc9xito","Resultado subido y notificaci\xf3n enviada.")
 p=4
 s=11
@@ -113112,7 +113112,7 @@ return A.wR(s,s,A.cC(A.b0H(s,this.a),600,800),s,s,B.e4,B.h6,s,s,s)},
 $S:74}
 A.v7.prototype={
 ar(){var s=$.az()
-return new A.Mq("http://localhost:8080/api",new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.bH(null,t.am),A.a(["MASCULINO","FEMENINO","OTRO"],t.s))}}
+return new A.Mq("https://clias.ucuenca.edu.ec/api",new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.hK(B.cH,s),new A.bH(null,t.am),A.a(["MASCULINO","FEMENINO","OTRO"],t.s))}}
 A.Mq.prototype={
 aF(){this.aT()
 this.Jk()},
@@ -113469,7 +113469,7 @@ return A.P($async$DW,r)},
 A_(a,b,c,d,e){return this.aCQ(a,b,c,d,e)},
 aCQ(a,b,c,d,e){var s=0,r=A.Q(t.H),q,p,o,n,m,l,k,j
 var $async$A_=A.M(function(f,g){if(f===1)return A.N(g,r)
-while(true)switch(s){case 0:o=A.aPP("POST",A.dT("http://localhost:8080/prueba/medico/subir"))
+while(true)switch(s){case 0:o=A.aPP("POST",A.dT("https://clias.ucuenca.edu.ec/prueba/medico/subir"))
 n=A.Sw("application","pdf",null)
 m=A.aUL(new A.mH(A.aKK(c,t.J)))
 o.y.push(new A.SH("file",c.length,d,n,m))
@@ -113564,7 +113564,7 @@ E_(a){return this.awL(a)},
 awL(a){var s=0,r=A.Q(t.N),q,p,o
 var $async$E_=A.M(function(b,c){if(b===1)return A.N(c,r)
 while(true)switch(s){case 0:s=3
-return A.S(A.qV(A.dT("http://localhost:8080/prueba/medico/nombre/"+a),null),$async$E_)
+return A.S(A.qV(A.dT("https://clias.ucuenca.edu.ec/prueba/medico/nombre/"+a),null),$async$E_)
 case 3:p=c
 o=p.b
 if(o===200){q=A.os(A.ok(p.e).c.a.h(0,"charset")).cH(0,p.w)
@@ -113575,7 +113575,7 @@ return A.P($async$E_,r)},
 xC(a){return this.auf(a)},
 auf(a){var s=0,r=A.Q(t.H),q,p,o,n
 var $async$xC=A.M(function(b,c){if(b===1)return A.N(c,r)
-while(true)switch(s){case 0:p=A.dT("http://localhost:8080/prueba/medico/clear-fields/"+a)
+while(true)switch(s){case 0:p=A.dT("https://clias.ucuenca.edu.ec/prueba/medico/clear-fields/"+a)
 o=window.localStorage.getItem("jwt")
 n=t.N
 n=A.r(n,n)
@@ -113590,7 +113590,7 @@ return A.O(null,r)}})
 return A.P($async$xC,r)},
 DX(){var s=0,r=A.Q(t.yp),q,p,o,n,m,l
 var $async$DX=A.M(function(a,b){if(a===1)return A.N(b,r)
-while(true)switch(s){case 0:o=A.dT("http://localhost:8080/prueba/medico/prefixes")
+while(true)switch(s){case 0:o=A.dT("https://clias.ucuenca.edu.ec/prueba/medico/prefixes")
 n=window.localStorage.getItem("jwt")
 m=t.N
 l=A.r(m,m)
