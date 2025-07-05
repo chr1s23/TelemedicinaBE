@@ -3,8 +3,8 @@ import jakarta.validation.constraints.*
 data class UbicacionRequest(
     @field:NotBlank val nombre: String,
     @field:NotBlank val direccion: String,
-    @field:NotBlank val telefono: String,
-    @field:NotBlank val horario: String,
+    val telefono: String,
+    val horario: String,
     val sitioWeb: String,
     val latitud: Double,
     val longitud: Double,
