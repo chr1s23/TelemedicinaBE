@@ -20,4 +20,10 @@ class EncuestaSusController(
             ResponseEntity.badRequest().body("No se pudo guardar la encuesta")
         }
     }
+
+    @GetMapping("/completada/{cuentaUsuarioId}")
+    fun verificarEncuestaCompletada(@PathVariable cuentaUsuarioId: String): ResponseEntity<Boolean> {
+        val completada = encuestaService.estaEncuestaCompletada(cuentaUsuarioId)  // Cambio aquí para ser consistente
+        return ResponseEntity.ok(completada)
+    }
 }

@@ -1,5 +1,7 @@
 package com.crisordonez.registro.service
 
+import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
+import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import com.crisordonez.registro.model.errors.BadRequestException
 import com.crisordonez.registro.model.errors.ConflictException
 import com.crisordonez.registro.model.errors.NotFoundException
@@ -10,6 +12,7 @@ import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toUpdateContras
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
+import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
@@ -25,12 +28,14 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
+
 @Service
 class CuentaUsuarioService(
     @Autowired private val cuentaUsuarioRepository: CuentaUsuarioRepository,
     @Autowired private val pacienteRepository: PacienteRepository,
     @Autowired private val informacionSocioeconomicaRepository: InformacionSocioeconomicaRepository,
-    @Autowired private val passwordEncoder: PasswordEncoder
+    @Autowired private val passwordEncoder: PasswordEncoder,
+    private val notificacionService: NotificacionServiceInterface
 ): CuentaUsuarioServiceInterface {
 
     @Autowired
@@ -114,7 +119,7 @@ class CuentaUsuarioService(
             ))
 
             val token = jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
-            println("Token Generado $token del usuario $cuentaUsuario.nombreUsuario")
+            println("Token Generado $token del usuario $cuentaUsuario.nombreUsuario") //BORRAR
             val usuario = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario).get()
             return usuario.toResponse(token)
         } catch (ex: BadCredentialsException) {

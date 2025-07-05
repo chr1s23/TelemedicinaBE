@@ -103,8 +103,8 @@ class PacienteService(
             mensaje = MensajesNotificacion.NOT_MENSAJE_NO_EXAMEN,
             tipoAccion = TipoAccionNotificacionEnum.valueOf(MensajesNotificacion.NOT_TIPO_ACCION_NO_EXAMEN),
             accion = MensajesNotificacion.NOT_ACCION_NO_EXAMEN,
-            proxFecha = now.plusDays(3), // Simulación de 3 días
-            limiteFecha = now.plusDays(59) // Simulación de 2 meses
+            proxFecha = now.plusDays(3), // Próxima vez en 3 días
+            limiteFecha = now.plusDays(59) // Máximo hasta 2 meses
         )
 
         notificacionService.crearNotificacionProgramada(

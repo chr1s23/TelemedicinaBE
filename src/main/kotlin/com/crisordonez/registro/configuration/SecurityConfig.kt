@@ -103,6 +103,9 @@ class SecurityConfig {
                 registry.requestMatchers(HttpMethod.POST, "/notificaciones/programadas").permitAll()
                 registry.requestMatchers(HttpMethod.GET, "/notificaciones/*").permitAll()
                 registry.requestMatchers(HttpMethod.PUT, "/notificaciones/*/marcar-leida").permitAll()
+                registry.requestMatchers(HttpMethod.PUT, "/notificaciones/programada/desactivar-entrega/*").permitAll()
+                registry.requestMatchers(HttpMethod.GET, "/info-socioeconomica/ficha/existe/*").permitAll()
+
                 //REGISTRO- DISPOSITIVOS CON LA APP
                 registry.requestMatchers(HttpMethod.POST, "/dispositivo").permitAll()
                 registry.requestMatchers(HttpMethod.GET, "/dispositivo/*").permitAll()
@@ -112,7 +115,7 @@ class SecurityConfig {
                 registry.requestMatchers("/evolucion/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/info-socioeconomica/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/paciente/admin/**").hasRole("ADMIN")
-                registry.requestMatchers("/prueba/admin/**").hasRole("ADMIN")
+                registry.requestMatchers("/prueba/admin/**").permitAll()
                 registry.requestMatchers("/salud-sexual/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/sesion-chat/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/archivo/admin/**").hasRole("ADMIN")

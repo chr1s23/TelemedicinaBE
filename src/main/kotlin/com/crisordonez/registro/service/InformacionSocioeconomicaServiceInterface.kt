@@ -11,5 +11,7 @@ interface InformacionSocioeconomicaServiceInterface {
     fun getInfoSocioeconomica(publicId: UUID): InformacionSocioeconomicaResponse?
 
     fun getTodosInfo(): List<InformacionSocioeconomicaResponse>
+    fun existeFichaSocioeconomica(publicId: UUID): Boolean
+
 
 }
