@@ -1,7 +1,7 @@
 package com.crisordonez.registro.controller
 
 import com.crisordonez.registro.model.requests.AppVersionRequest
-import com.crisordonez.registro.model.requests.ChatTimestampRequest
+import com.crisordonez.registro.model.requests.TiempoChatRequest
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import com.crisordonez.registro.service.CuentaUsuarioServiceInterface
@@ -69,9 +69,9 @@ class CuentaUsuarioController {
     @PutMapping("/chat-time/{publicId}")
     fun actualizarTimestampsChat(
         @PathVariable publicId: UUID,
-        @Valid @RequestBody chatTimestampRequest: ChatTimestampRequest
+        @Valid @RequestBody tiempoChatRequest: TiempoChatRequest
     ): ResponseEntity<Unit> {
-        return ResponseEntity.ok(cuentaUsuarioServiceInterface.updateChatTimestamps(publicId, chatTimestampRequest))
+        return ResponseEntity.ok(cuentaUsuarioServiceInterface.updateTiempoChat(publicId, tiempoChatRequest))
     }
 
     @GetMapping("/chat-time-average")

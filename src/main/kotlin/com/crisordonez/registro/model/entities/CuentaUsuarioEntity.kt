@@ -30,11 +30,11 @@ data class CuentaUsuarioEntity(
 
     var appVersion: String? = null,
 
-    @Timestamp
-    var inicioChat: LocalDateTime? = null,
+    var sesionesExitosas: Int? = null,
 
-    @Timestamp
-    var finChat: LocalDateTime? = null,
+    var sesionesNoExitosas: Int? = null,
+
+    var tiempoUsoChat: Double? = null,
 
     @OneToOne
     @JoinColumn(name = "paciente_id")

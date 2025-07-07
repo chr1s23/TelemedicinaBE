@@ -1,7 +1,5 @@
 package com.crisordonez.registro.service
 
-import com.crisordonez.registro.model.enums.TipoAccionNotificacionEnum
-import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import com.crisordonez.registro.model.errors.BadRequestException
 import com.crisordonez.registro.model.errors.ConflictException
 import com.crisordonez.registro.model.errors.NotFoundException
@@ -12,9 +10,8 @@ import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toUpdateContras
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
 import com.crisordonez.registro.model.requests.AppVersionRequest
-import com.crisordonez.registro.model.requests.ChatTimestampRequest
+import com.crisordonez.registro.model.requests.TiempoChatRequest
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
-import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.repository.InformacionSocioeconomicaRepository
@@ -186,41 +183,36 @@ class CuentaUsuarioService(
             ?: throw NotFoundException("No se encontró el usuario con ese ID interno")
     }
 
-    override fun updateChatTimestamps(publicId: UUID, chatTimestampRequest: ChatTimestampRequest) {
-        log.info("Actualizando timestamps de chat para el usuario - PublicId: $publicId")
+    override fun updateTiempoChat(publicId: UUID, tiempoChatRequest: TiempoChatRequest) {
+        log.info("Actualizando tiempo de uso de chat para el usuario - PublicId: $publicId")
         val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
 
         if (!cuenta.isPresent) {
             throw NotFoundException("La cuenta de usuario no existe")
         }
         val cuentaUsuario = cuenta.get()
-        val zoneId = ZoneId.systemDefault()
-        if (Duration.between(chatTimestampRequest.initTimestamp.atZone(zoneId) , chatTimestampRequest.endTimestamp.atZone(zoneId)).toMinutes() < 1) {
-            throw BadRequestException("El tiempo de chat debe ser al menos de 1 minuto")
+
+        if (tiempoChatRequest.tiempo <= 1) {
+            cuentaUsuario.sesionesNoExitosas = cuentaUsuario.sesionesNoExitosas?.plus(1) ?: 1
+        } else {
+            cuentaUsuario.sesionesExitosas = cuentaUsuario.sesionesExitosas?.plus(1) ?: 1
+            cuentaUsuario.tiempoUsoChat
         }
-        cuentaUsuario.inicioChat = chatTimestampRequest.initTimestamp
-        cuentaUsuario.finChat = chatTimestampRequest.endTimestamp
         cuentaUsuarioRepository.save(cuentaUsuario)
-        log.info("Timestamps de chat actualizados correctamente para el usuario - PublicId: $publicId")
+        log.info("Tiempo de uso de chat actualizado correctamente para el usuario - PublicId: $publicId")
     }
 
     override fun getChatTimeAvergae(): Double {
         log.info("Calculando el tiempo promedio de chat de todos los usuarios del sistema")
-        val cuentas = cuentaUsuarioRepository.findByInicioChatIsNotNullAndFinChatIsNotNull()
+        val cuentas = cuentaUsuarioRepository.findByTiempoUsoChatIsNotNull()
         if (cuentas.isEmpty()) {
-            log.warn("No hay cuentas de usuario registradas")
+            log.warn("No hay tiempo de chat registrado para los usuarios")
             return 0.0
         }
-        val zoneId = ZoneId.systemDefault()
 
-        val totalChatTime = cuentas.sumOf { cuenta ->
-            val inicio = cuenta.inicioChat
-            val fin = cuenta.finChat
-            val duration = Duration.between(inicio!!.atZone(zoneId), fin!!.atZone(zoneId))
-            duration.toMillis().toDouble()
-        }
+        val totalChatTime = cuentas.sumOf { it.tiempoUsoChat ?: 0.0 }
 
-        val averageChatTime = totalChatTime / cuentas.size / 60000.0
+        val averageChatTime = totalChatTime / cuentas.size
         log.info("Tiempo promedio de chat calculado: $averageChatTime min(s)")
         return averageChatTime
     }
