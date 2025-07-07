@@ -196,7 +196,7 @@ class CuentaUsuarioService(
             cuentaUsuario.sesionesNoExitosas = cuentaUsuario.sesionesNoExitosas?.plus(1) ?: 1
         } else {
             cuentaUsuario.sesionesExitosas = cuentaUsuario.sesionesExitosas?.plus(1) ?: 1
-            cuentaUsuario.tiempoUsoChat
+            cuentaUsuario.tiempoUsoChat = tiempoChatRequest.tiempo
         }
         cuentaUsuarioRepository.save(cuentaUsuario)
         log.info("Tiempo de uso de chat actualizado correctamente para el usuario - PublicId: $publicId")
