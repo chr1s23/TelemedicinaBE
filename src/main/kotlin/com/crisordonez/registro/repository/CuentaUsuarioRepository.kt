@@ -16,6 +16,6 @@ interface CuentaUsuarioRepository: CrudRepository<CuentaUsuarioEntity, Long> {
     @Query("SELECT c.publicId FROM CuentaUsuarioEntity c WHERE c.id = :id")
     fun findPublicIdById(@Param("id") id: Long): UUID?
 
-
+    fun findByInicioChatIsNotNullAndFinChatIsNotNull(): List<CuentaUsuarioEntity>
 
 }
