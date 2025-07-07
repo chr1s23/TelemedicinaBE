@@ -121,8 +121,18 @@ class CuentaUsuarioService(
             ))
 
             val token = jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
-            println("Token Generado $token del usuario $cuentaUsuario.nombreUsuario") //BORRAR
             val usuario = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario).get()
+            if (cuentaUsuario.appVersion != null) {
+                if (usuario.appVersion == null) {
+                    usuario.appVersion = cuentaUsuario.appVersion
+                    cuentaUsuarioRepository.save(usuario)
+                } else {
+                    if (usuario.appVersion != cuentaUsuario.appVersion) {
+                        usuario.appVersion = cuentaUsuario.appVersion
+                        cuentaUsuarioRepository.save(usuario)
+                    }
+                }
+            }
             return usuario.toResponse(token)
         } catch (ex: BadCredentialsException) {
             throw BadRequestException("Nombre de usuario o contraseña incorrectos")

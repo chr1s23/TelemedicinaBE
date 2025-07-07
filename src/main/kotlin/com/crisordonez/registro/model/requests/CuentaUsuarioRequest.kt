@@ -16,6 +16,8 @@ data class CuentaUsuarioRequest(
 
     val rol: String = "USER",
 
-    val paciente: PacienteRequest? = null
+    val paciente: PacienteRequest? = null,
+
+    val appVersion: String? = null
 
 )
