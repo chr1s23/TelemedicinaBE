@@ -11,6 +11,8 @@ import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toResponse
 import com.crisordonez.registro.model.mapper.CuentaUsuarioMapper.toUpdateContrasena
 import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toEntity
 import com.crisordonez.registro.model.mapper.PacienteMapper.toEntity
+import com.crisordonez.registro.model.requests.AppVersionRequest
+import com.crisordonez.registro.model.requests.ChatTimestampRequest
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
 import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
@@ -26,6 +28,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.ZoneId
 import java.util.*
 
 
@@ -160,6 +165,18 @@ class CuentaUsuarioService(
             throw NotFoundException("La cuenta de usuario ${cuentaUsuario.nombreUsuario} no existe")
         }
 
+        if (cuentaUsuario.fechaNacimientoCambioPass.isNullOrEmpty()) {
+            throw BadRequestException("La fecha de nacimiento es requerida para cambiar la contraseña")
+        }
+
+        val fechaNacimiento = cuentaUsuario.fechaNacimientoCambioPass
+
+        log.info(cuenta.get().paciente!!.fechaNacimiento.toString())
+
+        if (SimpleDateFormat("dd/MM/yyyy").format(cuenta.get().paciente!!.fechaNacimiento) != fechaNacimiento) {
+            throw BadRequestException("Datos incorrectos, no es posible cambiar la contraseña")
+        }
+
         cuentaUsuarioRepository.save(cuenta.get().toUpdateContrasena(passwordEncoder.encode(cuentaUsuario.contrasena)))
         log.info("Contrasena cambiada correctamente")
     }
@@ -167,6 +184,58 @@ class CuentaUsuarioService(
     override fun obtenerPublicIdPorIdInterno(id: Long): UUID {
         return cuentaUsuarioRepository.findPublicIdById(id)
             ?: throw NotFoundException("No se encontró el usuario con ese ID interno")
+    }
+
+    override fun updateChatTimestamps(publicId: UUID, chatTimestampRequest: ChatTimestampRequest) {
+        log.info("Actualizando timestamps de chat para el usuario - PublicId: $publicId")
+        val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
+
+        if (!cuenta.isPresent) {
+            throw NotFoundException("La cuenta de usuario no existe")
+        }
+        val cuentaUsuario = cuenta.get()
+        val zoneId = ZoneId.systemDefault()
+        if (Duration.between(chatTimestampRequest.initTimestamp.atZone(zoneId) , chatTimestampRequest.endTimestamp.atZone(zoneId)).toMinutes() < 1) {
+            throw BadRequestException("El tiempo de chat debe ser al menos de 1 minuto")
+        }
+        cuentaUsuario.inicioChat = chatTimestampRequest.initTimestamp
+        cuentaUsuario.finChat = chatTimestampRequest.endTimestamp
+        cuentaUsuarioRepository.save(cuentaUsuario)
+        log.info("Timestamps de chat actualizados correctamente para el usuario - PublicId: $publicId")
+    }
+
+    override fun getChatTimeAvergae(): Double {
+        log.info("Calculando el tiempo promedio de chat de todos los usuarios del sistema")
+        val cuentas = cuentaUsuarioRepository.findByInicioChatIsNotNullAndFinChatIsNotNull()
+        if (cuentas.isEmpty()) {
+            log.warn("No hay cuentas de usuario registradas")
+            return 0.0
+        }
+        val zoneId = ZoneId.systemDefault()
+
+        val totalChatTime = cuentas.sumOf { cuenta ->
+            val inicio = cuenta.inicioChat
+            val fin = cuenta.finChat
+            val duration = Duration.between(inicio!!.atZone(zoneId), fin!!.atZone(zoneId))
+            duration.toMillis().toDouble()
+        }
+
+        val averageChatTime = totalChatTime / cuentas.size / 60000.0
+        log.info("Tiempo promedio de chat calculado: $averageChatTime min(s)")
+        return averageChatTime
+    }
+
+    override fun stablishAppVersion(publicId: UUID, appVersion: AppVersionRequest) {
+        log.info("Estableciendo version de la app para el usuario - PublicId: $publicId, Version: ${appVersion.version}")
+        val cuenta = cuentaUsuarioRepository.findByPublicId(publicId)
+
+        if (!cuenta.isPresent) {
+            throw NotFoundException("La cuenta de usuario no existe")
+        }
+        val cuentaUsuario = cuenta.get()
+        cuentaUsuario.appVersion = appVersion.version
+        cuentaUsuarioRepository.save(cuentaUsuario)
+        log.info("Version de la app establecida correctamente para el usuario - PublicId: $publicId")
     }
 
 }
