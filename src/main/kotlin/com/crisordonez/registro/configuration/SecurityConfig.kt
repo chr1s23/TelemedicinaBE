@@ -96,7 +96,7 @@ class SecurityConfig {
 
                 // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
-                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena").permitAll()
+                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena", "/usuarios/chat-time-average").permitAll()
 
                 //NOTIFICACIONES
                 registry.requestMatchers(HttpMethod.POST, "/notificaciones").permitAll()
@@ -120,7 +120,7 @@ class SecurityConfig {
                 registry.requestMatchers("/sesion-chat/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/archivo/admin/**").hasRole("ADMIN")
                 registry.requestMatchers("/medico/*", "/medico").hasRole("ADMIN")
-                registry.requestMatchers("/usuarios/editar/**").hasRole("USER")
+                registry.requestMatchers("/usuarios/editar/**", "/usuarios/chat-time/**", "/usuarios/app-version/**").hasRole("USER")
                 registry.requestMatchers("/info-socioeconomica/editar/**", "/info-socioeconomica/usuario/**").hasRole("USER")
                 registry.requestMatchers("/paciente/usuario/**", "/paciente/editar/**", "/registrar-dispositivo/**").hasRole("USER")
                 registry.requestMatchers("/sesion-chat/usuario/**").hasRole("USER")

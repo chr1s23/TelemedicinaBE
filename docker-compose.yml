@@ -32,3 +32,5 @@ services:
 
 volumes:
   postgres_data:
+    external: true
+    name: telemedicinabe_postgres_data

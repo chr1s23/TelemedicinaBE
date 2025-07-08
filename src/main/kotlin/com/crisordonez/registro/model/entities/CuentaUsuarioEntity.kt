@@ -1,6 +1,7 @@
 package com.crisordonez.registro.model.entities
 
 import jakarta.persistence.*
+import jdk.jfr.Timestamp
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -27,11 +28,16 @@ data class CuentaUsuarioEntity(
 
     var ultimaSesion: LocalDateTime? = null,
 
+    var appVersion: String? = null,
+
+    var sesionesExitosas: Int? = null,
+
+    var sesionesNoExitosas: Int? = null,
+
+    var tiempoUsoChat: Double? = null,
+
     @OneToOne
     @JoinColumn(name = "paciente_id")
     var paciente: PacienteEntity? = null
-
-
-
 
 ) : AuditModel()
