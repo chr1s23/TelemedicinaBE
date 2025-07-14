@@ -13,6 +13,7 @@ import com.crisordonez.registro.model.requests.NotificacionRequest
 import com.crisordonez.registro.model.responses.NotificacionResponse
 import com.crisordonez.registro.repository.CuentaUsuarioRepository
 import com.crisordonez.registro.repository.DispositivoAppUsuarioRepository
+import com.crisordonez.registro.repository.EncuestaSusRepository
 import com.crisordonez.registro.repository.ExamenVphRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -30,6 +31,7 @@ class NotificacionService(
     private val pushNotificacionService: PushNotificacionServiceInterface,
     private val dispositivoAppUsuarioRepository: DispositivoAppUsuarioRepository,
     private val examenVphRepository: ExamenVphRepository,
+    private val encuestaSusRepository: EncuestaSusRepository,
 ) : NotificacionServiceInterface {
 
     private val logger = LoggerFactory.getLogger(NotificacionService::class.java)
@@ -43,12 +45,12 @@ class NotificacionService(
         val guardada = notificacionRepository.save(notificacion)
 
 
-        //Recuperamos el token del dispositivo
+        /* *
+         * Inicio del Proceso para enviar una notificación de Tipo PUSH
+         */
         val dispositivo = dispositivoAppUsuarioRepository
             .findTopByUsuarioPublicIdOrderByFechaRegistroDesc(cuentaUsuario.publicId)
-
         val token = dispositivo?.fcmToken
-        logger.info("[!] El token del dispositivo es: $token")
 
         if (token != null) {
             val notificacionResponse = guardada.toResponse()
@@ -60,6 +62,38 @@ class NotificacionService(
         else {
             logger.info("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
         }
+
+        /**
+         * Proceso de crear un notificación programada para la notificación de tipo RESULTADO
+         */
+        if (request.tipoNotificacion == TipoNotificacionEnum.RESULTADO) {
+            val yaExiste = notificacionProgramadaRepository
+                .existsByCuentaUsuarioAndTipoNotificacionAndProgramacionActivaTrue(
+                    cuentaUsuario,
+                    TipoNotificacionEnum.RESULTADO
+                )
+
+            if (!yaExiste) {
+                logger.info("[Programada] Iniciando programación recurrente para notificación de RESULTADO")
+
+                val ahora = LocalDateTime.now()
+                val requestProgramada = NotificacionProgramadaRequest(
+                    notificacionPublicId = UUID.randomUUID(),
+                    tipoNotificacion = notificacion.tipo_notificacion,
+                    titulo = notificacion.titulo,
+                    mensaje = notificacion.mensaje,
+                    tipoAccion = notificacion.tipo_accion,
+                    accion = notificacion.accion,
+                    proxFecha = ahora.plusDays(1), //Al siguiente día de haber recibido el resultado
+                    limiteFecha = ahora.plusDays(14)
+                )
+                crearNotificacionProgramada(request, requestProgramada)
+            } else {
+                logger.info("[Programada] Ya existe una notificación programada de tipo RESULTADO para ${cuentaUsuario.id}, no se crea otra.")
+            }
+        }
+
+
 
         return guardada.toResponse()
     }
@@ -124,8 +158,6 @@ class NotificacionService(
         val ahora = LocalDateTime.now()
         val pendientes = notificacionProgramadaRepository.findAllByProxFechaBeforeAndProgramacionActivaIsTrue(ahora)
 
-
-
         pendientes.forEach { prog ->
             val cuentaUsuario = prog.cuentaUsuario
             if (prog.tipoNotificacion == TipoNotificacionEnum.RECORDATORIO_NO_EXAMEN) {
@@ -147,6 +179,16 @@ class NotificacionService(
                 }
             }
 
+            if (prog.tipoNotificacion == TipoNotificacionEnum.RESULTADO) {
+                val cuentaUsuarioPublicId = prog.cuentaUsuario.publicId
+                val yaRespondioEncuesta = encuestaSusRepository.existsByCuentaUsuarioPublicId(cuentaUsuarioPublicId)
+                if (yaRespondioEncuesta) {
+                    logger.info("Usuario ${cuentaUsuario.id} ya respondió la encuesta SUS, se desactiva notificación programada (${prog.publicId})")
+                    prog.programacionActiva = false
+                    notificacionProgramadaRepository.save(prog)
+                    return@forEach
+                }
+            }
 
             // 1. Crear notificación real
             crearNotificacion(
@@ -161,39 +203,22 @@ class NotificacionService(
             )
 
 
-            // 2. Calcular el tiempo transcurrido desde inicio
-            val diasTranscurridos = java.time.Duration.between(prog.fechaInicio, ahora).toMinutes()
-            /*
+            // 1. Calcula cuántos días han pasado desde la fecha de inicio
+            val diasTranscurridos = Duration.between(prog.fechaInicio, ahora).toDays()
 
-            // 3. Elegir intervalo dinámico para próximo envío
+            // 2. Decide con qué frecuencia se debe volver a enviar la notificación
             val nuevoIntervaloEnDias = when {
-                diasTranscurridos < 30 -> 3L  // Primer mes → cada 3 días
-                diasTranscurridos < 60 -> 7L  // Segundo mes → cada 7 días
-                else -> null                  // Tercer mes → parar
+                diasTranscurridos < 30 -> 3L  // Durante el primer mes, enviar cada 3 días
+                diasTranscurridos < 60 -> 7L  // Segundo mes, enviar cada 7 días
+                else -> null                  // Después de 2 meses, dejar de enviar
             }
 
-
-
+            // 3. Verifica si ya se cumplió el tiempo límite o si ya debe dejar de enviarse
             if (nuevoIntervaloEnDias == null || (prog.limiteFecha != null && ahora.isAfter(prog.limiteFecha))) {
                 prog.programacionActiva = false
             } else {
                 prog.proxFecha = ahora.plusDays(nuevoIntervaloEnDias)
             }
-            */
-            val segundosTranscurridos = Duration.between(prog.fechaInicio, ahora).toSeconds()
-
-            val nuevoIntervaloEnSegundos = when {
-                segundosTranscurridos < 40 -> 20L  // Simulación: primeros 40s → cada 20s
-                segundosTranscurridos < 80 -> 30L  // Después → cada 30s
-                else -> null                       // Luego detener
-            }
-
-            if (nuevoIntervaloEnSegundos == null || (prog.limiteFecha != null && ahora.isAfter(prog.limiteFecha))) {
-                prog.programacionActiva = false
-            } else {
-                prog.proxFecha = ahora.plusSeconds(nuevoIntervaloEnSegundos)
-            }
-
 
             notificacionProgramadaRepository.save(prog)
             logger.info("[Programada] Notificación enviada y reprogramada (${prog.titulo}) para ${cuentaUsuario.id}, comenzando en [${prog.fechaInicio}] -> [${prog.proxFecha}]")
