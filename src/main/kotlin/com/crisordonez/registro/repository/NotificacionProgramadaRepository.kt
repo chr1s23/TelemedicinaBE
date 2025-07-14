@@ -1,5 +1,6 @@
 package com.crisordonez.registro.repository
 
+import com.crisordonez.registro.model.entities.CuentaUsuarioEntity
 import com.crisordonez.registro.model.entities.NotificacionProgramadaEntity
 import com.crisordonez.registro.model.enums.TipoNotificacionEnum
 import org.springframework.data.jpa.repository.JpaRepository
@@ -49,5 +50,11 @@ interface NotificacionProgramadaRepository : JpaRepository<NotificacionProgramad
         @Param("estado") estado: Boolean,
         @Param("id") id: Long
     )
+
+    fun existsByCuentaUsuarioAndTipoNotificacionAndProgramacionActivaTrue(
+        cuentaUsuario: CuentaUsuarioEntity,
+        tipoNotificacion: TipoNotificacionEnum
+    ): Boolean
+
 
 }
