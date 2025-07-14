@@ -13,3 +13,9 @@ data class UbicacionResponse(
     val longitud: Double,
     val establecimiento: String
 )
+
+data class UbicacionRechazadaResponse(
+    val nombre: String,
+    val direccion: String,
+    val motivo: String
+)
