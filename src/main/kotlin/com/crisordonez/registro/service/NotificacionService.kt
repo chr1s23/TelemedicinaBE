@@ -76,6 +76,7 @@ class NotificacionService(
                     limiteFecha = ahora.plusDays(14)
                 )
                 crearNotificacionProgramada(request, requestProgramada)
+
             } else {
                 logger.info("[Programada] Ya existe una notificación programada de tipo RESULTADO para ${cuentaUsuario.id}, no se crea otra.")
             }

@@ -22,12 +22,20 @@ open class PushNotificacionService(
     override fun enviarPushFCM(usuarioPublicId: UUID, notificacion: NotificacionResponse) {
         val dispositivos = dispositivoAppRepository.findAllByUsuarioPublicId(usuarioPublicId)
 
-        if (dispositivos.isEmpty()) {
-            logger.info("No hay dispositivos registrados para el usuario $usuarioPublicId")
+        val tokens = dispositivos.map { it.fcmToken }
+        logger.info("🔍 Tokens encontrados para $usuarioPublicId: ${tokens.joinToString()}")
+
+        val dispositivosUnicos = dispositivos.distinctBy { it.fcmToken }
+        logger.info("📦 Tokens únicos filtrados: ${dispositivosUnicos.map { it.fcmToken }}")
+
+
+
+        if (dispositivosUnicos.isEmpty()) {
+            logger.info("No hay dispositivos móviles registrados con la app para el usuario $usuarioPublicId")
             return
         }
 
-        dispositivos.forEach { dispositivo ->
+        dispositivosUnicos.forEach { dispositivo ->
             val message = Message.builder()
                 .setToken(dispositivo.fcmToken)
                 .setNotification(
