@@ -38,4 +38,11 @@ class DispositivoAppUsuarioService(
             .findAllByUsuarioPublicId(usuarioPublicId)
             .map { it.toResponse() }
     }
+
+    override fun eliminarTokenFCMInvalido(fcmToken: String) {
+        log.info("Eliminando token FCM inválido: $fcmToken")
+        dispositivoAppRepository.deleteByFcmToken(fcmToken)
+        log.info("Token eliminado correctamente.")
+    }
+
 }

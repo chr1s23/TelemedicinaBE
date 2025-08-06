@@ -7,4 +7,5 @@ import java.util.*
 interface DispositivoAppUsuarioServiceInterface {
     fun registrarDispositivo(request: DispositivoAppUsuarioRequest)
     fun listarDispositivosPorUsuario(usuarioPublicId: UUID): List<DispositivoAppUsuarioResponse>
+    fun eliminarTokenFCMInvalido(fcmToken: String)
 }

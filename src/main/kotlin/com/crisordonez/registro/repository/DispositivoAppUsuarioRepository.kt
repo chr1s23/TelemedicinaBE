@@ -9,5 +9,6 @@ interface DispositivoAppUsuarioRepository : CrudRepository<DispositivoAppUsuario
     fun findAllByUsuarioPublicId(usuarioPublicId: UUID): List<DispositivoAppUsuarioEntity>
     fun findTopByUsuarioPublicIdOrderByFechaRegistroDesc(usuarioPublicId: UUID): DispositivoAppUsuarioEntity?
     fun findByFcmToken(fcmToken: String): DispositivoAppUsuarioEntity?
+    fun deleteByFcmToken(fcmToken: String)
 
 }

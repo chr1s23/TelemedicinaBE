@@ -44,24 +44,12 @@ class NotificacionService(
         val notificacion = request.toEntity(cuentaUsuario)
         val guardada = notificacionRepository.save(notificacion)
 
-
         /* *
-         * Inicio del Proceso para enviar una notificación de Tipo PUSH
+         * Enviar Notificación Push a TODOS los dispositivos válidos del usuario
          */
-        val dispositivo = dispositivoAppUsuarioRepository
-            .findTopByUsuarioPublicIdOrderByFechaRegistroDesc(cuentaUsuario.publicId)
-        val token = dispositivo?.fcmToken
+        val notificacionResponse = guardada.toResponse()
+        pushNotificacionService.enviarPushFCM(cuentaUsuario.publicId, notificacionResponse)
 
-        if (token != null) {
-            val notificacionResponse = guardada.toResponse()
-            pushNotificacionService.enviarPushFCM(
-                token,
-                notificacionResponse
-            )
-        }
-        else {
-            logger.info("[!] No se pudo enviar notificación push: el usuario no tiene token FCM registrado")
-        }
 
         /**
          * Proceso de crear un notificación programada para la notificación de tipo RESULTADO
@@ -92,9 +80,6 @@ class NotificacionService(
                 logger.info("[Programada] Ya existe una notificación programada de tipo RESULTADO para ${cuentaUsuario.id}, no se crea otra.")
             }
         }
-
-
-
         return guardada.toResponse()
     }
 
