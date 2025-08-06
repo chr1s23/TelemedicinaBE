@@ -219,6 +219,57 @@
             max-width: 80%;
           }
         }
+        /* ===== Video Tutorial ===== */
+        .section_video .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Relación 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-top: 20px;
+        }
+        .section_video .video-container video {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+        .timestamp-list {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .timestamp-item {
+            display: flex;
+            align-items: center;
+            background: #f5f9ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+        .timestamp-item:hover {
+            background: #e1f0ff;
+        }
+        .timestamp-item .time {
+            background: #0073e6;
+            color: white;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 6px;
+            min-width: 60px;
+            text-align: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .timestamp-item .desc {
+            flex-grow: 1;
+            color: #00284a;
+        }
     </style>
 </head>
 
@@ -298,16 +349,73 @@
         </div>
     </section>
 
+    <!-- Video Tutorial de Actualización -->
+    <section class="section section_video">
+        <h3>¿Cómo actualizar la aplicación?</h3>
+        <p>Te recomendamos ver el siguiente video donde se explica paso a paso cómo actualizar la aplicación móvil.</p>
+        <div class="video-container">
+            <video controls>
+                <source src="images/actualizar_app.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de videos.
+            </video>
+        </div>
+
+    </section>
     <!-- Descargar App -->
     <section class="section section_download">
         <h3>Descargar Aplicación Móvil</h3>
         <p>Puedes descargarla desde el siguiente enlace:</p>
-        <a href="https://drive.google.com/file/d/1YN8uQwT09pHvt73pLLUGt9ON5jgrvGlZ/view?usp=drive_link"
+        <a href="https://docs.google.com/uc?export=download&id=1YOYFoWu8UlQ-6ZIWloWhNDodNElTqZwa"
            class="btn-download" target="_blank">
             Descargar App
         </a>
     </section>
 
+    <!-- Video Tutorial de ¿Cómo usar la App? -->
+    <section class="section section_video">
+        <h3>¿Cómo usar la app SISA?</h3>
+        <p> En este video te mostramos como utilizar la  app SISA con todas sus funcionalidades.Tenemos las siguientes marcas de tiempo</p>
+        <div class="timestamp-list">
+            <div class="timestamp-item" data-time="16">
+                <span class="time">00:16</span>
+                <span class="desc">Cómo iniciar el proceso de automuestreo.</span>
+            </div>
+            <div class="timestamp-item" data-time="41">
+                <span class="time">00:41</span>
+                <span class="desc">Registrar el dispositivo de automuestreo.</span>
+            </div>
+            <div class="timestamp-item" data-time="66">
+                <span class="time">01:06</span>
+                <span class="desc">Iniciar el proceso de Automuestreo.</span>
+            </div>
+            <div class="timestamp-item" data-time="132">
+                <span class="time">02:12</span>
+                <span class="desc">Recursos Informativos.</span>
+            </div>
+            <div class="timestamp-item" data-time="160">
+                <span class="time">02:40</span>
+                <span class="desc">Localización de Servicios Relacionados con Psicología, Agresión y Ginecología.</span>
+            </div>
+            <div class="timestamp-item" data-time="172">
+                <span class="time">02:52</span>
+                <span class="desc">Sistema de Notificaciones</span>
+            </div>
+            <div class="timestamp-item" data-time="183">
+                <span class="time">03:03</span>
+                <span class="desc">Visualización de Resultados de un examen.</span>
+            </div>
+            <div class="timestamp-item" data-time="224">
+                <span class="time">03:44</span>
+                <span class="desc">Uso del Chatbot</span>
+            </div>
+        </div>
+        <div class="video-container">
+            <video id="usarAppVideo" controls>
+                <source src="images/usar_app.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de videos.
+            </video>
+        </div>
+    </section>
 </div>
 
 <!-- Footer -->
@@ -317,5 +425,20 @@
     <p>Av. 12 de Abril S/N y Agustín Cueva | Teléfono: +593 405 1000 ext. 2362</p>
     <p>Ing. Villie Morocho, PhD. | villie.morocho@ucuenca.edu.ec</p>
 </footer>
+<script>
+    const video = document.getElementById('usarAppVideo');
+    const timestampItems = document.querySelectorAll('.timestamp-item');
+
+    timestampItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const seconds = parseInt(item.getAttribute('data-time'));
+            if (!isNaN(seconds)) {
+                video.currentTime = seconds;
+                video.play();
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
