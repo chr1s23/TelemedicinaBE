@@ -88,11 +88,16 @@ class SecurityConfig {
                 registry.requestMatchers(HttpMethod.GET,  "/prueba/medico/prefixes").permitAll()
 
                 // 13) CRUD de ubicaciones
-                registry.requestMatchers(HttpMethod.GET, "/api/ubicaciones/**").permitAll()
-                registry.requestMatchers(HttpMethod.POST, "/api/ubicaciones/**").permitAll()
-                registry.requestMatchers(HttpMethod.PUT, "/api/ubicaciones/**").permitAll()
-                registry.requestMatchers(HttpMethod.DELETE, "/api/ubicaciones/**").permitAll()
-                //registry.requestMatchers("/api/ubicaciones/**").hasRole("ADMIN")
+                //registry.requestMatchers(HttpMethod.GET, "/api/ubicaciones/**").permitAll()
+                //registry.requestMatchers(HttpMethod.POST, "/api/ubicaciones/**").permitAll()
+                //registry.requestMatchers(HttpMethod.PUT, "/api/ubicaciones/**").permitAll()
+                //registry.requestMatchers(HttpMethod.DELETE, "/api/ubicaciones/**").permitAll()
+                registry.requestMatchers("/api/ubicaciones/**").hasRole("ADMIN") // Produccion
+
+                // 14) Listar Estados de Dispositivos
+                //registry.requestMatchers(HttpMethod.GET, "/api/estado-dispositivos/**").permitAll() // Desarrollo
+                registry.requestMatchers(HttpMethod.GET, "/api/estado-dispositivos/**").hasRole("ADMIN") // Produccion
+
 
                 // APP MOVIL
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
