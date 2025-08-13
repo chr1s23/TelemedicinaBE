@@ -37551,11 +37551,12 @@ _.L$=_.S$=0},
 aoh:function aoh(a){this.a=a},
 NA:function NA(a,b){var _=this
 _.d=!0
-_.e=null
-_.f=a
-_.r=null
-_.w="todos"
-_.x=b
+_.e=!1
+_.f=null
+_.r=a
+_.w=null
+_.x="todos"
+_.y=b
 _.c=_.a=null},
 aMy:function aMy(a){this.a=a},
 aMz:function aMz(a){this.a=a},
@@ -37577,8 +37578,9 @@ aMH:function aMH(){},
 aMF:function aMF(a,b,c){this.a=a
 this.b=b
 this.c=c},
-aMC:function aMC(a,b){this.a=a
-this.b=b},
+aMC:function aMC(a,b,c){this.a=a
+this.b=b
+this.c=c},
 aMB:function aMB(a,b){this.a=a
 this.b=b},
 aMD:function aMD(a){this.a=a},
@@ -136017,12 +136019,12 @@ A.aoh.prototype={
 $1(a){return a!=null?this.a.eh(a.JE()):"---"},
 $S:660}
 A.NA.prototype={
-W5(){var s=this,r=s.w,q=s.f
+W5(){var s=this,r=s.x,q=s.r
 if(!(r==="todos")){r=J.EI(q,new A.aMy(s))
-q=A.P(r,r.$ti.i("j.E"))}if(s.r!=null){r=J.EI(q,new A.aMz(s))
+q=A.P(r,r.$ti.i("j.E"))}if(!s.e)if(s.w!=null){r=J.EI(q,new A.aMz(s))
 q=A.P(r,r.$ti.i("j.E"))}return q},
 aR(){this.bm()
-this.e=null},
+this.f=null},
 vH(){var s=0,r=A.O(t.H),q=1,p=[],o=[],n=this,m,l,k,j
 var $async$vH=A.J(function(a,b){if(a===1){p.push(b)
 s=q}while(true)switch(s){case 0:n.W(new A.aMO(n))
@@ -136079,7 +136081,7 @@ case 1:return A.L(p.at(-1),r)}})
 return A.N($async$Ez,r)},
 zi(){var s=0,r=A.O(t.H),q,p=this,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5
 var $async$zi=A.J(function(a6,a7){if(a6===1)return A.L(a7,r)
-while(true)switch(s){case 0:s=J.eQ(p.f)?3:4
+while(true)switch(s){case 0:s=J.eQ(p.r)?3:4
 break
 case 3:s=5
 return A.I(p.vH(),$async$zi)
@@ -136155,9 +136157,9 @@ s=6
 return A.I(new A.aqu().ve(new Uint8Array(A.bi(l)),"xlsx",B.b7j,"reporte_dispositivos_"+A.h4("yyyy-MM-dd_HH-mm-ss",null).eh(new A.cb(Date.now(),0,!1))),$async$zi)
 case 6:l=p.c.ap(t.Q).f
 n=n.gn(o)
-g=p.w
+g=p.x
 if(g==="todos")g="todos"
-e=p.r!=null?", rango "+A.h4("dd/MM/yyyy",null).eh(p.r.a)+" - "+A.h4("dd/MM/yyyy",null).eh(p.r.b):""
+e=p.w!=null?", rango "+A.h4("dd/MM/yyyy",null).eh(p.w.a)+" - "+A.h4("dd/MM/yyyy",null).eh(p.w.b):""
 l.hX(A.o_(null,null,null,null,null,B.a9,null,A.b8("Reporte descargado ("+n+" registros, filtros: "+g+e+")",null,null,null,null,null,null,null,null),null,B.bX,null,null,null,null,null,null,null,null,null))
 case 1:return A.M(q,r)}})
 return A.N($async$zi,r)},
@@ -136183,13 +136185,13 @@ return new A.aW(B.e6,A.fH(A.a7o(B.VM,A.a([A.zM(B.a4M,B.bkP,s.gWy(),A.k9(r,r,B.bx
 R(a){var s,r,q=this,p=null,o=q.W5(),n=A.f6(B.as,!0,p,A.f4(p,p,p,B.jo,p,p,new A.aMU(a),p,p,p,p),B.Q,B.bB,0,p,p,B.dq,p,p,B.cp),m=t.D,l=A.da(A.a([A.Hn("assets/images/logoucuencaprincipal.png",32),B.bkC],m),B.aa,B.k1,B.aB,p)
 l=A.SJ(A.a([new A.aW(B.cl,A.f6(B.as,!0,p,A.f4(p,p,p,B.yb,p,p,q.gWy(),p,p,p,p),B.Q,B.bB,0,p,p,B.dq,p,p,B.cp),p)],m),B.bx,0,new A.aW(B.e7,n,p),l)
 n=A.a([],m)
-s=q.e
+s=q.f
 if(s!=null)n.push(A.cK(B.aJ,A.b8(s,p,p,p,p,B.eM,B.dD,p,p),B.Q,B.tG,p,p,p,p,p,B.e7,p,p,1/0))
 n.push(B.fm)
 n.push(q.ajq())
 n.push(B.cI)
-if(J.jm(q.f)){s=A.e2(8)
-r=q.w
+if(J.jm(q.r)){s=A.e2(8)
+r=q.x
 B.m.T(n,A.a([new A.aW(B.dN,A.yL(A.b8k(new A.aW(B.xt,A.da(A.a([B.V7,B.bec,A.hy(A.b8(r[0].toUpperCase()+B.p.d0(r,1),p,p,p,p,B.fn,p,p,p),1),B.ya],m),B.aa,B.ab,B.aB,p),p),p,r,new A.aMV(q),new A.aMW(q),t.N),B.E,2,!0,new A.cA(s,B.S)),p),B.cI],m))}n.push(B.cI)
 if(!q.d&&J.eQ(o))n.push(new A.aW(B.a2V,A.b8("No hay dispositivos para el filtro seleccionado.",p,p,p,p,A.jL(p,p,B.fE,p,p,p,p,p,p,p,p,p,B.xY,p,p,p,p,!0,p,p,p,p,p,p,p,p),p,p,p),p))
 if(J.jm(o)){m=A.e2(12)
@@ -136197,25 +136199,25 @@ s=A.K(a).aEE(B.E)
 r=$.az()
 n.push(A.hy(A.ky(new A.aW(B.a35,A.co(A.yL(new A.aW(B.a33,new A.ff(B.aJ,p,p,A.co(new A.o6(s,new A.J5(B.bl4,B.b1l,p,p,30,!0,10,new A.WL(o,q.gajv(),r),new A.bM(B.a_F,t.rc),p),p),p,1200),p),p),B.E,4,!0,new A.cA(m,B.S)),p,1/0),p),p,B.ap,p,p,p,!1,B.bc),1))}return A.pD(l,B.E,A.dV(n,B.aa,B.ab,B.aB),p)}}
 A.aMy.prototype={
-$1(a){return B.p.cT(a.b.toLowerCase())===B.p.cT(this.a.w.toLowerCase())},
+$1(a){return B.p.cT(a.b.toLowerCase())===B.p.cT(this.a.x.toLowerCase())},
 $S:144}
 A.aMz.prototype={
 $1(a){var s,r,q=a.c
 if(q==null)return!1
 s=A.c1(A.at(q),A.b1(q),A.cO(q),0,0,0,0)
 r=this.a
-return!s.ea(r.r.a)&&!s.dS(r.r.b)},
+return!s.ea(r.w.a)&&!s.dS(r.w.b)},
 $S:144}
 A.aMO.prototype={
 $0(){var s=this.a
-s.d=!0
-s.e=null},
+s.e=s.d=!0
+s.f=null},
 $S:0}
 A.aMP.prototype={
-$0(){this.a.f=this.b},
+$0(){this.a.r=this.b},
 $S:0}
 A.aMQ.prototype={
-$0(){return this.a.e="Error al cargar dispositivos: "+A.p(this.b)},
+$0(){return this.a.f="Error al cargar dispositivos: "+A.p(this.b)},
 $S:0}
 A.aMR.prototype={
 $0(){return this.a.d=!1},
@@ -136223,13 +136225,13 @@ $S:0}
 A.aMK.prototype={
 $0(){var s=this.a
 s.d=!0
-s.e=null},
+s.f=null},
 $S:0}
 A.aML.prototype={
-$0(){this.a.f=this.b},
+$0(){this.a.r=this.b},
 $S:0}
 A.aMM.prototype={
-$0(){return this.a.e="Error al filtrar por fechas"},
+$0(){return this.a.f="Error al filtrar por fechas"},
 $S:0}
 A.aMN.prototype={
 $0(){return this.a.d=!1},
@@ -136237,7 +136239,7 @@ $S:0}
 A.aMI.prototype={
 $0(){var s=this.a
 s.d=!0
-s.e=null},
+s.f=null},
 $S:0}
 A.aMJ.prototype={
 $0(){var s=null,r=this.a,q=r.c
@@ -136253,24 +136255,26 @@ A.aMH.prototype={
 $1(a){return A.h4("dd MMM y","es").eh(a)},
 $S:664}
 A.aMF.prototype={
-$2(a,b){var s,r,q,p=null,o=A.e2(14),n=A.e2(8),m=this.a,l=m.b
-if(l!=null&&m.a!=null){s=this.c
-l=A.p(s.$1(l))
-r=m.a
+$2(a,b){var s,r,q,p,o=null,n=A.e2(14),m=A.e2(8),l=this.a,k=l.b
+if(k!=null&&l.a!=null){s=this.c
+k=A.p(s.$1(k))
+r=l.a
 r.toString
-r="Desde: "+l+"   \u2014   Hasta: "+A.p(s.$1(r))
-l=r}else l="Selecciona un rango (Desde \u2014 Hasta)"
-n=A.cK(p,A.b8(l,p,p,p,p,B.bjj,B.dD,p,p),B.Q,p,p,new A.dd(B.a_k,p,p,n,p,p,B.bh),p,p,B.a2O,B.xs,p,p,1/0)
-l=Date.now()
-s=new A.cb(Date.now(),0,!1)
-r=A.c1(1900,1,1,0,0,0,0)
-q=t.D
-l=A.co(A.dV(A.a([n,A.co(new A.a3s(B.ak,B.lg,0,B.a1V,s,p,r,new A.cb(l,0,!1),p,p,p,!0,new A.aMC(m,b),p),320,350)],q),B.aa,B.ab,B.bm),p,360)
-return A.yw(A.a([A.i7(!1,B.iH,p,p,p,p,p,p,new A.aMD(a),p,p),A.l0(!1,B.bk7,p,p,p,p,p,p,new A.aME(m,this.b,a),p,p)],q),p,l,new A.cA(o,B.S),B.bkc)},
+r="Desde: "+k+"   \u2014   Hasta: "+A.p(s.$1(r))
+k=r}else k="Selecciona un rango (Desde \u2014 Hasta)"
+m=A.cK(o,A.b8(k,o,o,o,o,B.bjj,B.dD,o,o),B.Q,o,o,new A.dd(B.a_k,o,o,m,o,o,B.bh),o,o,B.a2O,B.xs,o,o,1/0)
+k=Date.now()
+s=this.b
+r=new A.cb(Date.now(),0,!1)
+q=A.c1(1900,1,1,0,0,0,0)
+p=t.D
+k=A.co(A.dV(A.a([m,A.co(new A.a3s(B.ak,B.lg,0,B.a1V,r,o,q,new A.cb(k,0,!1),o,o,o,!0,new A.aMC(l,s,b),o),320,350)],p),B.aa,B.ab,B.bm),o,360)
+return A.yw(A.a([A.i7(!1,B.iH,o,o,o,o,o,o,new A.aMD(a),o,o),A.l0(!1,B.bk7,o,o,o,o,o,o,new A.aME(l,s,a),o,o)],p),o,k,new A.cA(n,B.S),B.bkc)},
 $S:665}
 A.aMC.prototype={
 $1(a){var s=a.a
-if(s instanceof A.e0)this.b.$1(new A.aMB(this.a,s))},
+if(s instanceof A.e0)this.c.$1(new A.aMB(this.a,s))
+this.b.e=!1},
 $S:666}
 A.aMB.prototype={
 $0(){var s=this.b,r=this.a,q=r.b=s.a,p=s.b
@@ -136302,7 +136306,7 @@ $0(){var s=this.a,r=s.b
 r.toString
 s=s.a
 s.toString
-this.b.r=new A.Gb(r,s,t.hU)},
+this.b.w=new A.Gb(r,s,t.hU)},
 $S:0}
 A.aMU.prototype={
 $0(){return A.cz(this.a,!1).hx()},
@@ -136313,10 +136317,10 @@ s.W(new A.aMS(s,a))
 s.vH()},
 $S:29}
 A.aMS.prototype={
-$0(){this.a.w=this.b},
+$0(){this.a.x=this.b},
 $S:0}
 A.aMV.prototype={
-$1(a){var s=this.a.x,r=A.a1(s).i("a7<1,mo<i>>")
+$1(a){var s=this.a.y,r=A.a1(s).i("a7<1,mo<i>>")
 s=A.P(new A.a7(s,new A.aMT(),r),r.i("aw.E"))
 return s},
 $S:165}
