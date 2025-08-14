@@ -1,6 +1,12 @@
 <th:block th:fragment="footer">
     <footer class="footer">
-        <p>Para soporte: <strong>099 119 0832</strong> · Extensión <strong>4790</strong> (Paulina)</p>
-        <p>Universidad de Cuenca – CLIAS</p>
+        <div style="text-align: center; line-height: 1.6;">
+            Universidad de Cuenca – Grupo de Investigación en Infraestructura de Datos Espaciales<br/>
+            Facultad de Ingeniería. Departamento de Ciencias de la Computación<br/>
+            Víctor Manuel Albornoz y Av. de los Cerezos | Teléfono: +593 405 1000 ext. 4790<br/>
+            Ing. Villie Morocho, PhD. |
+            <a href="mailto:villie.morocho@ucuenca.edu.ec">villie.morocho@ucuenca.edu.ec</a><br/><br/>
+            &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span> Universidad de Cuenca
+        </div>
     </footer>
 </th:block>

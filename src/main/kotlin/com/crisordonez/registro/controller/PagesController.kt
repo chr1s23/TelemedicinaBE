@@ -30,4 +30,10 @@ class PagesController {
         model.addAttribute("active", "contactos")
         return "contactos"
     }
+    /*
+    @GetMapping("/web")
+    fun serveFrontend(): String {
+        return "redirect:static/web/index.html"
+    }
+    */
 }
