@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments/head :: head('CLIAS | SISA – Inicio')"></head>
+<body>
+<header th:replace="_fragments/navbar :: navbar(${active})"></header>
+
+<main class="container">
+    <section class="hero">
+        <h1>SISA — Sistema Inteligente de Salud y Autocuidado</h1>
+        <p>Descripción breve de SISA…</p>
+
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="/downloads/sisa.apk">Descargar App</a>
+            <a class="btn" href="https://wa.me/593991190832" target="_blank" rel="noopener">
+                Soporte por WhatsApp
+            </a>
+            <small>Para cualquier soporte comunicarse al número: <strong>099 119 0832</strong></small>
+        </div>
+    </section>
+
+    <section>
+        <h2>Videos de ayuda</h2>
+        <div class="video-grid">
+            <video controls preload="metadata">
+                <source src="/media/actualizar_app.mp4" type="video/mp4" />
+            </video>
+            <video id="usarAppVideo" controls preload="metadata">
+                <source src="/media/usar_app.mp4" type="video/mp4" />
+            </video>
+        </div>
+
+        <!-- marcas de tiempo -->
+        <ul class="timestamps">
+            <li data-time="16">00:16 — Cómo iniciar el proceso…</li>
+            <li data-time="41">00:41 — Registrar el dispositivo…</li>
+            <!-- … -->
+        </ul>
+    </section>
+</main>
+
+<footer th:replace="_fragments/footer :: footer"></footer>
+
+<script>
+    const v = document.getElementById('usarAppVideo');
+    document.querySelectorAll('.timestamps [data-time]').forEach(li => {
+      li.addEventListener('click', () => {
+        const s = parseInt(li.dataset.time, 10); if (!isNaN(s)) { v.currentTime = s; v.play(); }
+      });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<th:block th:fragment="navbar(active)">
+    <nav class="nav">
+        <div class="nav-left">
+            <img src="/images/logo.png" alt="UCUENCA" height="28" />
+            <span class="brand">geo‑telesalud</span>
+        </div>
+        <div class="nav-links">
+            <a th:classappend="${active}=='home' ? 'active'"        th:href="@{/}">Inicio</a>
+            <a th:classappend="${active}=='qs' ? 'active'"          th:href="@{/quienes-somos}">¿Quiénes somos?</a>
+            <a th:classappend="${active}=='proyecto' ? 'active'"    th:href="@{/proyecto}">Proyecto</a>
+            <a th:classappend="${active}=='contactos' ? 'active'"   th:href="@{/contactos}">Contactos</a>
+            <a href="/web/" target="_self">Geoportal/Admin</a> <!-- si quieres exponer el panel -->
+        </div>
+    </nav>
+</th:block>
