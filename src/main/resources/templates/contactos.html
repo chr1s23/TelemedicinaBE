@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments/head :: head('CLIAS | SISA – Contactos')"></head>
+<body>
+<header th:replace="_fragments/navbar :: navbar('contactos')"></header>
+
+<main class="container my-5">
+
+    <!-- Título -->
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Contáctanos</h1>
+        <p class="text-muted">Estamos aquí para ayudarte en lo que necesites</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Información de contacto -->
+        <div class="col-lg-5">
+            <h4 class="mb-3">Información de contacto</h4>
+            <ul class="list-unstyled">
+                <li class="mb-2">
+                    <i class="bi bi-geo-alt-fill text-primary"></i>
+                    <strong>Dirección:</strong> Víctor Manuel Albornoz y Av. de los Cerezos, Cuenca – Ecuador
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-telephone-fill text-primary"></i>
+                    <strong>Teléfono:</strong> +593 405 1000 ext. 4790
+                </li>
+                <li class="mb-2">
+                    <i class="bi bi-envelope-fill text-primary"></i>
+                    <strong>Email:</strong> <a href="mailto:gi.ide@ucuenca.edu.ec">gi.ide@ucuenca.edu.ec</a>
+                </li>
+            </ul>
+
+            <!-- Mapa -->
+            <div class="mt-4">
+                <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.7397745490675!2d-79.03957934091979!3d-2.891191339471199!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91cd22b0d263a699%3A0xb1b8b189eabaab86!2sCampus%20Balzay%20de%20la%20Universidad%20de%20Cuenca!5e0!3m2!1ses!2sec!4v1755280939647!5m2!1ses!2sec"
+                        width="100%" height="250" style="border:0;"
+                        allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="col-lg-7">
+            <h4 class="mb-3">Envíanos un mensaje</h4>
+            <form action="mailto:gi.ide@ucuenca.edu.ec" method="post" enctype="text/plain">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mensaje" class="form-label">Mensaje</label>
+                    <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+            </form>
+        </div>
+
+    </div>
+
+</main>
+
+<footer th:replace="_fragments/footer :: footer"></footer>
+</body>
+</html>

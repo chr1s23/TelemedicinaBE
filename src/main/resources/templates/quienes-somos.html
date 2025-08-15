@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments/head :: head('CLIAS | ¿Quiénes somos?')"></head>
+<body>
+<header th:replace="_fragments/navbar :: navbar('qs')"></header>
+
+<main class="container my-5">
+
+    <!-- Hero -->
+    <section class="text-center mb-5">
+        <h1 class="fw-bold mb-2">Grupo de Investigación de Infraestructura de Datos Espaciales (CLIAS)</h1>
+        <p class="lead text-muted">
+            15+ años impulsando investigación, desarrollo e innovación geoespacial con énfasis en informática,
+            planificación territorial y ciencia de datos.
+        </p>
+    </section>
+
+    <!-- Acerca de -->
+    <section class="row g-4 align-items-start mb-5">
+        <div class="col-lg-7">
+            <h2 class="h4">Quiénes somos</h2>
+            <p>
+                El Grupo de Investigación de Infraestructura de Datos Espaciales de la Universidad de Cuenca
+                fue reconocido en 2022 por el Vicerrectorado de Investigación. Integramos especialistas de
+                planificación y ordenamiento territorial (Facultad de Arquitectura y Urbanismo) y gestión de
+                datos e ingeniería de software (Facultad de Ingeniería).
+            </p>
+            <p>
+                El equipo está conformado por profesionales, investigadores, ayudantes de investigación,
+                estudiantes de pregrado y posgrado que han aportado en proyectos de investigación aplicada
+                y desarrollo con impacto nacional e internacional.
+            </p>
+            <p>
+                Participamos en redes como <strong>CYTED-IDEAIS</strong> y <strong>RTC-REDU</strong>, lo que nos
+                permite mantener un alto componente de innovación y colaboración.
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <img src="/images/quienes-hero.jpg" class="img-fluid rounded shadow-sm"
+                 alt="Equipo CLIAS enseñando el uso de la aplicación móvil.">
+        </div>
+    </section>
+
+    <!-- Proyectos -->
+    <section class="mb-5">
+        <h2 class="h4 mb-3">Proyectos recientes</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item px-0">
+                <span class="badge bg-primary me-2">Sep 2023 – Ago 2024</span>
+                <strong>Uso de Herramientas Digitales</strong> en los procesos de participación ciudadana de los PDOT.
+            </li>
+            <li class="list-group-item px-0">
+                <span class="badge bg-primary me-2">Sep 2024 – Ago 2025</span>
+                <strong>Herramientas Digitales para Fortalecer la Participación</strong> en el Ordenamiento Territorial
+                Parroquial Rural del cantón Cuenca.
+            </li>
+        </ul>
+        <p class="mt-3 mb-0 text-muted">
+            Estos proyectos han involucrado activamente a GADs como <em>Baños</em> y <em>San Joaquín</em>, potenciando
+            resultados aplicados y la formación de talento.
+        </p>
+    </section>
+
+    <!-- Equipo -->
+    <section class="mb-5">
+        <h2 class="h4 mb-4">Nuestro equipo</h2>
+
+        <!-- Coordinación -->
+        <div class="mb-4">
+            <h3 class="h5 mb-3">Director del Proyecto</h3>
+            <div class="row g-4">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/villie.jpg"
+                                 alt="Ing. Villie Morocho, PhD."
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Ing. Villie Morocho, PhD.</h5>
+                            <p class="card-text text-muted small mb-0">
+                                Director | Universidad de Cuenca
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investigadoras/es -->
+        <div class="mb-4">
+            <h3 class="h5 mb-3">Investigadoras/es</h3>
+            <div class="row g-4">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/natalia-pacurucu.jpg"
+                                 alt="Arq. Natalia Pacurucu, PhD."
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Arq. Natalia Pacurucu, PhD.</h6>
+                            <p class="text-muted small mb-0">Planificación y ordenamiento territorial</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/monica-gonzalez.jpg"
+                                 alt="Arq. Mónica Gonzalez, Mgst."
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Arq. Mónica Gonzalez, Mgst.</h6>
+                            <p class="text-muted small mb-0">Ordenamiento territorial</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/micaela-davila.jpg"
+                                 alt="Ing. Micaela Dávila"
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Arq. Lorena Vivanco, PhD.</h6>
+                            <p class="text-muted small mb-0">Planificación urbana y regional</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/rosario-achig.jpg"
+                                 alt="Ing. Rosario Achig, Mgst."
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Ing. Rosario Achig, Mgst.</h6>
+                            <p class="text-muted small mb-0">Ingeniera en Sistemas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/veronica-viloria.jpg"
+                                 alt="Ing. Verónica Viloria"
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Ing. Verónica Viloria</h6>
+                            <p class="text-muted small mb-0">Ingeniera en Electrónica y Telecomunicaciones</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ayudantes -->
+        <div>
+            <h3 class="h5 mb-3">Ayudantes de Investigación</h3>
+            <div class="row g-4">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="images/team/jonnathan-aguilar.jpg"
+                                 alt="Jonnathan Aguilar"
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Jonnathan Aguilar</h6>
+                            <p class="text-muted small mb-0">Ayudante de Investigación</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 text-center border-0 shadow-sm">
+                        <div class="pt-4">
+                            <img src="REEMPLAZA_CON_URL_DE_FOTO/emily-romero.jpg"
+                                 alt="Emily Romero"
+                                 class="rounded-circle object-fit-cover"
+                                 style="width:120px;height:120px;">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Emily Romero</h6>
+                            <p class="text-muted small mb-0">Ayudante de Investigación</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- CTA -->
+    <section class="border rounded p-4 bg-light">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+            <div class="mb-3 mb-md-0">
+                <h2 class="h5 mb-1">¿Colaboramos?</h2>
+                <p class="mb-0 text-muted">Escríbenos para alianzas, proyectos y pasantías.</p>
+            </div>
+            <div>
+                <a href="mailto:gi.ide@ucuenca.edu.ec" class="btn btn-primary">Contactar a CLIAS</a>
+                <a th:href="@{/contactos}" class="btn btn-outline-secondary ms-2">Ver contactos</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="_fragments/footer :: footer"></footer>
+</body>
+</html>
