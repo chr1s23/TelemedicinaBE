@@ -1,4 +1,6 @@
-/* ===== Reset básico ===== */
+/* ===================================================================================
+CSS de la barra de Navegación, del formato en General y del  Footer.
+ ====================================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -49,6 +51,25 @@ body {
 /* borde inferior sutil (opcional) */
 .navbar.border-bottom { border-color:#e6eef8 !important; }
 
+
+
+/*======== Sección del Hero ========*/
+.hero-qs {
+  background: linear-gradient(3deg, #0d1b4c, #0f2e64a8); /* tonos similares al banner de inicio */
+  min-height: 230px; /* altura fija tipo banner */
+  padding: 45px 20px;
+  border-radius: 0 0 12px 12px; /* borde inferior redondeado para elegancia */
+  box-shadow: 0 6px 12px rgba(0,0,0,.25);
+}
+
+.hero-qs h1 {
+  font-size: 2rem;
+}
+
+.hero-qs p {
+  max-width: 700px;
+  margin: 0 auto;
+}
 
 /* ===== Contenido principal ===== */
 main {
@@ -162,7 +183,7 @@ h1, h2, h3 {
   padding: .5rem .85rem;
 }
 
-/* md+ (>=768px): más grandes y con más aire */
+/* md+ (>=768px) */
 @media (min-width: 768px) {
   .navbar .nav-link {
     font-size: 1.2rem;
@@ -170,12 +191,10 @@ h1, h2, h3 {
   }
 }
 
-/* Puedes subir un poco más en xl si lo deseas */
 @media (min-width: 1200px) {
   .navbar .nav-link { font-size: 1.25rem; }
 }
 
-/* Por si prefieres controlar el gap desde CSS en vez de la clase gap-3 */
 @media (min-width: 768px) {
   .navbar-nav { gap: 1rem; } /* ~gap-3 */
 }

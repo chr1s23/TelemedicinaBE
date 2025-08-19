@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{_fragments/head :: head('CLIAS | SISA – Proyecto', ~{::extraHead})}"></head>
+
+<th:block th:fragment="extraHead">
+    <link rel="stylesheet" href="/css/pages/proyecto.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</th:block>
+
+<body>
+<header th:replace="_fragments/navbar :: navbar('proyecto')"></header>
+
+<main class="container my-0">
+
+    <!-- Encabezado -->
+    <section class="hero-qs d-flex flex-column justify-content-center align-items-center text-center mb-5">
+        <div class="container">
+            <h1 class="fw-bold mb-3 text-white">
+                Proyecto SISA
+            </h1>
+            <p class="lead text-light">
+                Información general del proyecto, objetivos y entes financiadores
+            </p>
+        </div>
+    </section>
+
+    <!-- ¿De qué se trata el proyecto? -->
+    <!-- ¿De qué se trata el proyecto? -->
+    <section class="section card p-4 mb-4">
+        <h2 class="h4 section-title mb-3">¿De qué se trata este proyecto?</h2>
+        <div class="row g-4">
+            <!-- Texto -->
+            <div class="col-lg-8 d-flex flex-column justify-content-center">
+                <p>
+                    Este proyecto surge como una respuesta innovadora para
+                    <strong>abordar las barreras existentes en la detección y prevención del cáncer cervical.</strong>
+                </p>
+                <p>
+                    Proporciona información educativa sobre el VPH, el cáncer de cuello uterino,
+                    el automuestreo y la salud sexual y reproductiva en general.
+                </p>
+            </div>
+
+            <!-- Imagen -->
+            <div class="col-lg-4 d-flex justify-content-center align-items-center">
+                <img src="/images/robot.png" class="img-fluid rounded shadow-sm"
+                     alt="Robot SISA" style="max-width: 220px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Objetivo general -->
+    <section class="section card p-4 mb-4">
+        <h2 class="h4 section-title mb-3">Objetivo general</h2>
+        <div class="highlight p-3 rounded">
+            Implementar un asistente virtual (AV) basado en IA para promover el automuestreo
+            para la detección del VPH en pacientes de 30 a 65 años.
+            <!-- <p th:text="${proyecto.objetivoGeneral}"></p> -->
+        </div>
+    </section>
+
+    <!-- Objetivos específicos -->
+    <section class="section card p-4 mb-4">
+        <h2 class="h4 section-title mb-3">Objetivos específicos</h2>
+        <div class="objectives">
+            <div class="objective">
+                <div class="badge-obj">01</div>
+                <div>
+                    <strong>Asistente Virtual</strong>
+                    <p>Desarrollar un asistente conversacional para capacitar a pacientes de 30 a 65 años sobre el automuestreo y detección del VPH.</p>
+                </div>
+            </div>
+
+            <div class="objective">
+                <div class="badge-obj">02</div>
+                <div>
+                    <strong>Características sociodemográficas</strong>
+                    <p>Identificar las características sociodemográficas de la población de estudio.</p>
+                </div>
+            </div>
+
+            <div class="objective">
+                <div class="badge-obj">03</div>
+                <div>
+                    <strong>Contenido educativo</strong>
+                    <p>Integrar contenido interactivo sobre signos y síntomas del VPH para fomentar el autocuidado.</p>
+                </div>
+            </div>
+
+            <div class="objective">
+                <div class="badge-obj">04</div>
+                <div>
+                    <strong>Aceptabilidad y efectividad</strong>
+                    <p>Evaluar la efectividad del AV en la promoción del automuestreo y la concienciación sobre el cáncer cervical.</p>
+                </div>
+            </div>
+
+            <!-- Ejemplo si luego lo alimentas desde el backend -->
+            <!-- <div class="objective" th:each="obj, iStat : ${proyecto.objetivosEspecificos}">
+              <div class="badge-obj" th:text="${#numbers.formatInteger(iStat.index+1,2)}">01</div>
+              <div><p th:text="${obj}">Texto objetivo</p></div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Entes financiadores -->
+    <section class="section card p-4">
+        <h2 class="h4 section-title mb-3">Entes financiadores y unidades participantes</h2>
+
+        <div class="row g-4 align-items-stretch">
+            <!-- CLIAS -->
+            <div class="col-md-6 col-lg-4">
+                <div class="fin-card h-100 p-3">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <img src="/images/clias.png" class="fin-logo" alt="CLIAS">
+                        <h3 class="h6 m-0">CLIAS</h3>
+                    </div>
+                    <p class="mb-0 text-muted">Descripción pendiente…</p>
+                </div>
+            </div>
+
+            <!-- VIUC -->
+            <div class="col-md-6 col-lg-4">
+                <div class="fin-card h-100 p-3">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <img src="/images/viuc.png" class="fin-logo" alt="VIUC">
+                        <h3 class="h6 m-0">VIUC</h3>
+                    </div>
+                    <p class="mb-0 text-muted">Descripción pendiente…</p>
+                </div>
+            </div>
+
+            <!-- Departamento -->
+            <div class="col-md-6 col-lg-4">
+                <div class="fin-card h-100 p-3">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <img src="/images/dcc.png" class="fin-logo" alt="Departamento">
+                        <h3 class="h6 m-0">Departamento de Ciencias de la Computación</h3>
+                    </div>
+                    <p class="mb-0 text-muted">Descripción pendiente…</p>
+                </div>
+            </div>
+
+            <!-- Facultad de Ingeniería -->
+            <div class="col-md-6 col-lg-6">
+                <div class="fin-card h-100 p-3">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <img src="/images/ingenieria.png" class="fin-logo" alt="Facultad de Ingeniería">
+                        <h3 class="h6 m-0">Facultad de Ingeniería</h3>
+                    </div>
+                    <p class="mb-0 text-muted">Descripción pendiente…</p>
+                </div>
+            </div>
+
+            <!-- Facultad de Medicina -->
+            <div class="col-md-6 col-lg-6">
+                <div class="fin-card h-100 p-3">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <img src="/images/medicina.png" class="fin-logo" alt="Facultad de Medicina">
+                        <h3 class="h6 m-0">Facultad de Medicina</h3>
+                    </div>
+                    <p class="mb-0 text-muted">Descripción pendiente…</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer th:replace="_fragments/footer :: footer"></footer>
+</body>
+</html>

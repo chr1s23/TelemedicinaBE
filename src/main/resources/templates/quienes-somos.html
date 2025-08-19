@@ -1,41 +1,54 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="_fragments/head :: head('CLIAS | ¿Quiénes somos?')"></head>
+<head th:replace="~{_fragments/head :: head('CLIAS | ¿Quiénes somos?', ~{::extraHead})}"></head>
+
+<th:block th:fragment="extraHead">
+    <link rel="stylesheet" href="/css/pages/quienes-somos.css">
+</th:block>
+
 <body>
 <header th:replace="_fragments/navbar :: navbar('qs')"></header>
 
-<main class="container my-5">
+<main class="container my-0">
 
     <!-- Hero -->
-    <section class="text-center mb-5">
-        <h1 class="fw-bold mb-2">Grupo de Investigación de Infraestructura de Datos Espaciales (CLIAS)</h1>
-        <p class="lead text-muted">
-            15+ años impulsando investigación, desarrollo e innovación geoespacial con énfasis en informática,
-            planificación territorial y ciencia de datos.
-        </p>
+    <section class="hero-qs d-flex flex-column justify-content-center align-items-center text-center mb-5">
+        <div class="container">
+            <h1 class="fw-bold mb-3 text-white">
+                Grupo de Investigación de Infraestructura de Datos Espaciales (CLIAS)
+            </h1>
+            <p class="lead text-light">
+                +15 años impulsando investigación, desarrollo e innovación geoespacial
+                con énfasis en informática, planificación territorial y ciencia de datos.
+            </p>
+        </div>
     </section>
+
 
     <!-- Acerca de -->
     <section class="row g-4 align-items-start mb-5">
         <div class="col-lg-7">
-            <h2 class="h4">Quiénes somos</h2>
-            <p>
-                El Grupo de Investigación de Infraestructura de Datos Espaciales de la Universidad de Cuenca
-                fue reconocido en 2022 por el Vicerrectorado de Investigación. Integramos especialistas de
-                planificación y ordenamiento territorial (Facultad de Arquitectura y Urbanismo) y gestión de
-                datos e ingeniería de software (Facultad de Ingeniería).
-            </p>
-            <p>
-                El equipo está conformado por profesionales, investigadores, ayudantes de investigación,
-                estudiantes de pregrado y posgrado que han aportado en proyectos de investigación aplicada
-                y desarrollo con impacto nacional e internacional.
-            </p>
-            <p>
-                Participamos en redes como <strong>CYTED-IDEAIS</strong> y <strong>RTC-REDU</strong>, lo que nos
-                permite mantener un alto componente de innovación y colaboración.
-            </p>
+            <div class="p-4 bg-white rounded shadow-sm quienes-box">
+                <h2 class="h4 ">Quiénes somos</h2>
+                <p>
+                    El Grupo de Investigación de Infraestructura de Datos Espaciales de la Universidad de Cuenca
+                    fue reconocido en 2022 por el Vicerrectorado de Investigación. Integramos especialistas de
+                    planificación y ordenamiento territorial (Facultad de Arquitectura y Urbanismo) y gestión de
+                    datos e ingeniería de software (Facultad de Ingeniería).
+                </p>
+                <p>
+                    El equipo está conformado por profesionales, investigadores, ayudantes de investigación,
+                    estudiantes de pregrado y posgrado que han aportado en proyectos de investigación aplicada
+                    y desarrollo con impacto nacional e internacional.
+                </p>
+                <p>
+                    Participamos en redes como <strong>CYTED-IDEAIS</strong> y <strong>RTC-REDU</strong>, lo que nos
+                    permite mantener un alto componente de innovación y colaboración.
+                </p>
+            </div>
         </div>
-        <div class="col-lg-5">
+
+        <div class="col-lg-5 text-center">
             <img src="/images/quienes-hero.jpg" class="img-fluid rounded shadow-sm"
                  alt="Equipo CLIAS enseñando el uso de la aplicación móvil.">
         </div>
@@ -43,7 +56,7 @@
 
     <!-- Proyectos -->
     <section class="mb-5">
-        <h2 class="h4 mb-3">Proyectos recientes</h2>
+        <h2 class="h4 section-title mb-3">Proyectos recientes</h2>
         <ul class="list-group list-group-flush">
             <li class="list-group-item px-0">
                 <span class="badge bg-primary me-2">Sep 2023 – Ago 2024</span>
@@ -63,25 +76,22 @@
 
     <!-- Equipo -->
     <section class="mb-5">
-        <h2 class="h4 mb-4">Nuestro equipo</h2>
+        <h2 class="h4 section-title mb-4">Nuestro equipo</h2>
 
-        <!-- Coordinación -->
+        <!-- Director del Proyecto -->
         <div class="mb-4">
             <h3 class="h5 mb-3">Director del Proyecto</h3>
             <div class="row g-4">
                 <div class="col-sm-6 col-lg-4">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/villie.jpg"
+                            <img src="/images/team/villie.jpg"
                                  alt="Ing. Villie Morocho, PhD."
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title mb-1">Ing. Villie Morocho, PhD.</h5>
-                            <p class="card-text text-muted small mb-0">
-                                Director | Universidad de Cuenca
-                            </p>
+                            <p class="text-muted small mb-0">Director | Universidad de Cuenca</p>
                         </div>
                     </div>
                 </div>
@@ -92,13 +102,13 @@
         <div class="mb-4">
             <h3 class="h5 mb-3">Investigadoras/es</h3>
             <div class="row g-4">
+
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/natalia-pacurucu.jpg"
+                            <img src="/REEMPLAZA_CON_URL_DE_FOTO/natalia-pacurucu.jpg"
                                  alt="Arq. Natalia Pacurucu, PhD."
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Arq. Natalia Pacurucu, PhD.</h6>
@@ -108,12 +118,11 @@
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/monica-gonzalez.jpg"
+                            <img src="/REEMPLAZA_CON_URL_DE_FOTO/monica-gonzalez.jpg"
                                  alt="Arq. Mónica Gonzalez, Mgst."
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Arq. Mónica Gonzalez, Mgst.</h6>
@@ -123,12 +132,11 @@
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/micaela-davila.jpg"
+                            <img src="/REEMPLAZA_CON_URL_DE_FOTO/micaela-davila.jpg"
                                  alt="Ing. Micaela Dávila"
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Arq. Lorena Vivanco, PhD.</h6>
@@ -138,12 +146,11 @@
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/rosario-achig.jpg"
+                            <img src="/REEMPLAZA_CON_URL_DE_FOTO/rosario-achig.jpg"
                                  alt="Ing. Rosario Achig, Mgst."
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Ing. Rosario Achig, Mgst.</h6>
@@ -153,33 +160,33 @@
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/veronica-viloria.jpg"
+                            <img src="/REEMPLAZA_CON_URL_DE_FOTO/veronica-viloria.jpg"
                                  alt="Ing. Verónica Viloria"
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Ing. Verónica Viloria</h6>
-                            <p class="text-muted small mb-0">Ingeniera en Electrónica y Telecomunicaciones</p>
+                            <p class="text-muted small mb-0">Ingeniería en Electrónica y Telecomunicaciones</p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <!-- Ayudantes -->
+        <!-- Ayudantes de Investigación -->
         <div>
             <h3 class="h5 mb-3">Ayudantes de Investigación</h3>
             <div class="row g-4">
+
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="images/team/jonnathan-aguilar.jpg"
+                            <img src="/images/team/jonnathan-aguilar.jpg"
                                  alt="Jonnathan Aguilar"
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Jonnathan Aguilar</h6>
@@ -189,12 +196,11 @@
                 </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card h-100 text-center border-0 shadow-sm">
+                    <div class="team-card card h-100 text-center">
                         <div class="pt-4">
-                            <img src="REEMPLAZA_CON_URL_DE_FOTO/emily-romero.jpg"
+                            <img src="/REEMPLAZA_CON_URL_DE_FOTO/emily-romero.jpg"
                                  alt="Emily Romero"
-                                 class="rounded-circle object-fit-cover"
-                                 style="width:120px;height:120px;">
+                                 class="team-photo rounded-circle">
                         </div>
                         <div class="card-body">
                             <h6 class="card-title mb-1">Emily Romero</h6>
@@ -202,6 +208,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 

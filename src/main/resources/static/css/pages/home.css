@@ -1,0 +1,24 @@
+.hero { width: 100%; display: block; margin-bottom: 1.5rem; }
+.hero picture, .hero-img { display: block; width: 100%; }
+
+/* Alto responsivo (no ocupa toda la página): 360px–600px */
+.hero-img{
+  height: clamp(360px, 50svh, 600px);
+  object-fit: cover;          /* llena sin deformar */
+  object-position: center 32%;/* ajusta encuadre si hace falta */
+  background: #0a2c5d;        /* color de fondo detrás del PNG */
+}
+
+/* Fino para móvil muy pequeño: un poco más alto y centrado el contenido */
+@media (max-width: 449.98px){
+  .hero-img{
+    height: clamp(240px, 32svh, 600px);
+    object-position: center 36%;
+  }
+}
+
+
+#actividadesCarousel img{
+  object-fit: cover;
+  height: 600px;
+}
