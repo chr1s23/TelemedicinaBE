@@ -15,11 +15,10 @@
     <section class="hero-qs d-flex flex-column justify-content-center align-items-center text-center mb-5">
         <div class="container">
             <h1 class="fw-bold mb-3 text-white">
-                Grupo de Investigación de Infraestructura de Datos Espaciales (CLIAS)
+                Grupo conformado por las Facultades de Ingeniería, Ciencias Médicas y Química
             </h1>
             <p class="lead text-light">
-                +15 años impulsando investigación, desarrollo e innovación geoespacial
-                con énfasis en informática, planificación territorial y ciencia de datos.
+                ...
             </p>
         </div>
     </section>
@@ -56,7 +55,7 @@
 
     <!-- Proyectos -->
     <section class="mb-5">
-        <h2 class="h4 section-title mb-3">Proyectos recientes</h2>
+        <h2 class="h4 section-title mb-3">Proyectos relacionados</h2>
         <ul class="list-group list-group-flush">
             <li class="list-group-item px-0">
                 <span class="badge bg-primary me-2">Sep 2023 – Ago 2024</span>
@@ -78,10 +77,11 @@
     <section class="mb-5">
         <h2 class="h4 section-title mb-4">Nuestro equipo</h2>
 
-        <!-- Director del Proyecto -->
+        <!-- Director y Codirector del Proyecto -->
         <div class="mb-4">
-            <h3 class="h5 mb-3">Director del Proyecto</h3>
+            <h3 class="h5 mb-3">Director y Codirector</h3>
             <div class="row g-4">
+
                 <div class="col-sm-6 col-lg-4">
                     <div class="team-card card h-100 text-center">
                         <div class="pt-4">
@@ -91,17 +91,59 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title mb-1">Ing. Villie Morocho, PhD.</h5>
-                            <p class="text-muted small mb-0">Director | Universidad de Cuenca</p>
+                            <p class="text-muted small mb-0">Director del Proyecto</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4">
+                    <div class="team-card card h-100 text-center">
+                        <div class="pt-4">
+                            <img src="/images/team/bernardo-vega.jpg"
+                                 alt="Dr. Bernardo Vega."
+                                 class="team-photo rounded-circle">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">Dr. Bernardo Vega</h5>
+                            <p class="text-muted small mb-0">Codirector del Proyecto</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Investigadoras/es -->
+        <!-- Investigadoras -->
         <div class="mb-4">
-            <h3 class="h5 mb-3">Investigadoras/es</h3>
+            <h3 class="h5 mb-3">Investigadoras</h3>
             <div class="row g-4">
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="team-card card h-100 text-center">
+                        <div class="pt-4">
+                            <img src="/images/team/vivian-neira.png"
+                                 alt="Dra. Vivián Neira, PhD."
+                                 class="team-photo rounded-circle">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Dra. Vivian Neira, PhD.</h6>
+                            <p class="text-muted small mb-0">Doctora en Genética Humana</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="team-card card h-100 text-center">
+                        <div class="pt-4">
+                            <img src="/images/team/diana-pelaez.png"
+                                 alt="Ing. Diana Peláez, Mgst."
+                                 class="team-photo rounded-circle">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Ing. Diana Peláez, Mgst.</h6>
+                            <p class="text-muted small mb-0">Ingeniera en Bioquímica y Farmacia</p>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="team-card card h-100 text-center">
@@ -149,7 +191,7 @@
         </div>
 
         <!-- Ayudantes de Investigación -->
-        <div>
+        <div class="mb-4">
             <h3 class="h5 mb-3">Ayudantes de Investigación</h3>
             <div class="row g-4">
 
@@ -184,6 +226,27 @@
             </div>
         </div>
 
+        <!-- Tesista -->
+        <div class="mb-4">
+            <h3 class="h5 mb-3">Tesista</h3>
+            <div class="row g-4">
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="team-card card h-100 text-center">
+                        <div class="pt-4">
+                            <img src="/images/team/christian-ordonez.jpg"
+                                 alt="Christian Ordoñez"
+                                 class="team-photo rounded-circle">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">Christian Ordoñez</h6>
+                            <p class="text-muted small mb-0">Tesista de la Carrera de Computación</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
     <!-- CTA -->
@@ -194,8 +257,7 @@
                 <p class="mb-0 text-muted">Escríbenos para alianzas, proyectos y pasantías.</p>
             </div>
             <div>
-                <a href="mailto:gi.ide@ucuenca.edu.ec" class="btn btn-primary">Contactar a CLIAS</a>
-                <a th:href="@{/contactos}" class="btn btn-outline-secondary ms-2">Ver contactos</a>
+                <a th:href="@{/contactos}" class="btn btn-primary">Contáctanos</a>
             </div>
         </div>
     </section>
