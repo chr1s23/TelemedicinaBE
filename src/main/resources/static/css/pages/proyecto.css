@@ -117,3 +117,88 @@
 @media (max-width: 768px){
   .section .row.align-items-center{ align-items:flex-start !important; }
 }
+
+
+/* --------------------------------------------------------------------------- */
+/* ===== Sección de descarga tipo Google Play (versión clara) ===== */
+
+.download-play-light{
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.download-play-light h2{
+  font-size: 1.75rem;
+}
+
+.download-play-light p{
+  font-size: 1.1rem;
+}
+
+/* Caja de capturas */
+.screenshots-light{
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 12px 0;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.04);
+}
+
+/* Tira desplazable */
+.screenshots-strip{
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 12px 8px 12px;
+  scroll-snap-type: x mandatory;
+}
+
+.screenshots-strip img{
+  height: 320px;
+  width: auto;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  scroll-snap-align: start;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+/* Scrollbar fino */
+.screenshots-strip::-webkit-scrollbar{ height: 8px; }
+.screenshots-strip::-webkit-scrollbar-thumb{
+  background: #cbd5e1;
+  border-radius: 6px;
+}
+.screenshots-strip::-webkit-scrollbar-track{ background: transparent; }
+
+/* Responsivo */
+@media (max-width: 991.98px){
+  .screenshots-strip img{ height: 260px; }
+}
+@media (max-width: 575.98px){
+  .screenshots-strip img{ height: 200px; }
+}
+
+/*--------------------------------------------------*/
+/* ===== Sección de soporte ===== */
+.support-section {
+  background: #f8f9fa; /* gris muy claro */
+  border-top: 1px solid rgba(0,0,0,.05);
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+.support-section h2 {
+  color: #198754; /* verde Bootstrap (éxito) */
+}
+
+.support-section .btn-success {
+  background-color: #25d366; /* verde oficial de WhatsApp */
+  border: none;
+}
+
+.support-section .btn-success:hover {
+  background-color: #1ebe5d; /* hover más oscuro */
+}

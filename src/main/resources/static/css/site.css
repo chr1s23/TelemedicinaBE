@@ -55,11 +55,25 @@ body {
 
 /*======== Sección del Hero ========*/
 .hero-qs {
-  background: linear-gradient(3deg, #0d1b4c, #0f2e64a8); /* tonos similares al banner de inicio */
-  min-height: 230px; /* altura fija tipo banner */
+  position: relative;
+  background: url('/images/fondo_banner.jpg') center/cover no-repeat;
+  min-height: 230px;
   padding: 45px 20px;
-  border-radius: 0 0 12px 12px; /* borde inferior redondeado para elegancia */
+  border-radius: 0 0 12px 12px;
   box-shadow: 0 6px 12px rgba(0,0,0,.25);
+  color: #fff; /* asegura que las letras sean blancas */
+  text-align: center;
+  z-index: 1;
+}
+
+/* Capa de oscurecimiento (overlay) */
+.hero-qs::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45); /* oscurece la imagen (ajustar 0.45 a gusto) */
+  border-radius: 0 0 12px 12px;
+  z-index: -1; /* se coloca detrás del texto */
 }
 
 .hero-qs h1 {
