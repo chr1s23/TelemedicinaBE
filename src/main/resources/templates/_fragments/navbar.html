@@ -1,15 +1,19 @@
 <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="navbar(active)">
     <nav class="navbar navbar-expand-xl navbar-light bg-white border-bottom py-2">
         <div class="container-xl">
-
             <!-- Marca: 2 logos -->
-            <a th:href="@{/}" class="navbar-brand me-4">
-                <!-- En móviles: columna. En >=md: fila -->
-                <div class="brand-logos d-flex flex-column flex-sm-row align-items-start gap-1">
-                    <img src="/images/logo.png"  alt="UCUENCA" class="brand-img">
-                    <img src="/images/clias.png"  alt="CLIAS"   class="brand-img">
-                </div>
-            </a>
+            <div class="brand-logos d-flex flex-column flex-sm-row align-items-start gap-1">
+                <!-- Logo UCUENCA -->
+                <a href="https://www.ucuenca.edu.ec/" target="_blank" rel="noopener" class="navbar-brand">
+                    <img src="/images/logo.png" alt="UCUENCA" class="brand-img">
+                </a>
+
+                <!-- Logo CLIAS -->
+                <a href="https://clias.iecs.org.ar/" target="_blank" rel="noopener" class="navbar-brand">
+                    <img src="/images/clias.png" alt="CLIAS" class="brand-img">
+                </a>
+            </div>
+
 
             <!-- Botón hamburguesa, alineado a la derecha con padding -->
             <button class="navbar-toggler ms-auto me-2 me-sm-3 d-xl-none" type="button"
@@ -38,9 +42,7 @@
                         <a class="nav-link" th:classappend="${active}=='contactos' ? ' active'"
                            th:href="@{/contactos}">Contactos</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/web" target="_self">Admin</a>
-                    </li>
+
                 </ul>
             </div>
 
