@@ -100,7 +100,7 @@ class SecurityConfig {
 
 
                 // APP MOVIL
-                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
+                registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/**", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
                 registry.requestMatchers("/usuarios/registro", "/usuarios/autenticar", "/archivo/nombre/**", "/usuarios/validar", "/usuarios/cambiar-contrasena", "/usuarios/chat-time-average").permitAll()
 
                 //NOTIFICACIONES
