@@ -133,10 +133,10 @@
                 <div class="col-lg-7">
                     <div class="screenshots-light">
                         <div class="screenshots-strip">
-                            <img src="/images/app/cap1.jpeg" alt="Captura 1 de la app SISA">
                             <img src="/images/app/cap2.jpeg" alt="Captura 2 de la app SISA">
+                            <img src="/images/app/cap6.jpeg" alt="Captura 6 de la app SISA">
                             <img src="/images/app/cap3.jpeg" alt="Captura 3 de la app SISA">
-                            <img src="/images/app/cap4.jpeg" alt="Captura 4 de la app SISA">
+                            <img src="/images/app/cap8.jpeg" alt="Captura 8 de la app SISA">
                             <img src="/images/app/cap5.jpeg" alt="Captura 5 de la app SISA">
                         </div>
                     </div>
@@ -158,80 +158,6 @@
             </a>
         </div>
     </section>
-
-    <!-- Video: ¿Cómo actualizar la aplicación? -->
-    <section class="section card p-4 mb-4">
-        <h2 class="h4 section-title mb-3">¿Cómo actualizar la aplicación?</h2>
-        <p class="text-muted">Video paso a paso para actualizar la app SISA.</p>
-        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
-            <video controls preload="metadata">
-                 <source src="/images/posters/actualizar_app.mp4" type="video/mp4">
-                Tu navegador no soporta video HTML5.
-            </video>
-        </div>
-    </section>
-
-    <!-- Video: ¿Cómo usar la app SISA? + marcas de tiempo -->
-    <section class="section card p-4 mb-5">
-        <h2 class="h4 section-title mb-3">¿Cómo usar la app SISA?</h2>
-        <p class="text-muted">Toca una marca de tiempo para saltar al tema.</p>
-
-        <!-- marcas de tiempo -->
-        <ul class="timestamp-list list-unstyled mb-4">
-            <li class="timestamp-item" data-time="16">
-                <span class="time">00:16</span>
-                <span class="desc">Cómo iniciar el proceso de automuestreo.</span>
-            </li>
-            <li class="timestamp-item" data-time="41">
-                <span class="time">00:41</span>
-                <span class="desc">Registrar el dispositivo de automuestreo.</span>
-            </li>
-            <li class="timestamp-item" data-time="66">
-                <span class="time">01:06</span>
-                <span class="desc">Iniciar el proceso de automuestreo.</span>
-            </li>
-            <li class="timestamp-item" data-time="132">
-                <span class="time">02:12</span>
-                <span class="desc">Recursos informativos.</span>
-            </li>
-            <li class="timestamp-item" data-time="160">
-                <span class="time">02:40</span>
-                <span class="desc">Servicios relacionados (Psicología, Agresión y Ginecología).</span>
-            </li>
-            <li class="timestamp-item" data-time="172">
-                <span class="time">02:52</span>
-                <span class="desc">Sistema de notificaciones.</span>
-            </li>
-            <li class="timestamp-item" data-time="183">
-                <span class="time">03:03</span>
-                <span class="desc">Visualización de resultados.</span>
-            </li>
-            <li class="timestamp-item" data-time="224">
-                <span class="time">03:44</span>
-                <span class="desc">Uso del chatbot.</span>
-            </li>
-        </ul>
-
-        <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
-            <video id="usarAppVideo" controls preload="metadata">
-                <source src="/images/posters/usar_app.mp4" type="video/mp4">
-                Tu navegador no soporta video HTML5.
-            </video>
-        </div>
-    </section>
-
-    <!-- Script para saltar a las marcas de tiempo -->
-    <script>
-        (function(){
-          const v = document.getElementById('usarAppVideo');
-          document.querySelectorAll('.timestamp-item[data-time]').forEach(li => {
-            li.addEventListener('click', () => {
-              const s = parseInt(li.dataset.time, 10);
-              if (!isNaN(s) && v) { v.currentTime = s; v.play(); }
-            });
-          });
-        })();
-    </script>
 
     <!-- Entes financiadores -->
     <section class="section card p-4">

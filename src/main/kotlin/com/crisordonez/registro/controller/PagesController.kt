@@ -30,10 +30,9 @@ class PagesController {
         model.addAttribute("active", "contactos")
         return "contactos"
     }
-    /*
-    @GetMapping("/web")
-    fun serveFrontend(): String {
-        return "redirect:static/web/index.html"
+    @GetMapping("/preguntas-frecuentes")
+    fun preguntasFrecuentes(model: Model): String {
+        model.addAttribute("active", "proyecto")
+        return "preguntas-frecuentes" // nombre del template sin .html
     }
-    */
 }

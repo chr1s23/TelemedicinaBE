@@ -34,10 +34,23 @@
                         <a class="nav-link" th:classappend="${active}=='qs' ? ' active'"
                            th:href="@{/quienes-somos}">¿Quiénes somos?</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:classappend="${active}=='proyecto' ? ' active'"
-                           th:href="@{/proyecto}">Proyecto</a>
+                    <li class="nav-item dropdown d-flex align-items-center">
+                        <!-- enlace principal que navega -->
+                        <a class="nav-link"
+                           th:href="@{/proyecto}"
+                           th:classappend="${active}=='proyecto' ? ' active'">
+                            Proyecto
+                        </a>
+
+                        <!-- caret que abre el dropdown -->
+                        <a class="nav-link dropdown-toggle dropdown-toggle-split"
+                           href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false"></a>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/preguntas-frecuentes}">Preguntas Frecuentes</a></li>
+                        </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${active}=='contactos' ? ' active'"
                            th:href="@{/contactos}">Contactos</a>
