@@ -119,7 +119,6 @@ class CuentaUsuarioService(
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(
                 cuentaUsuario.nombreUsuario, cuentaUsuario.contrasena
             ))
-
             val token = jwtUtil.generateToken(cuentaUsuarioDetailService.loadUserByUsername(cuentaUsuario.nombreUsuario))
             val usuario = cuentaUsuarioRepository.findByNombreUsuario(cuentaUsuario.nombreUsuario).get()
             if (cuentaUsuario.appVersion != null) {
