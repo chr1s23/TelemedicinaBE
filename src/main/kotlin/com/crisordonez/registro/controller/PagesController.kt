@@ -35,4 +35,20 @@ class PagesController {
         model.addAttribute("active", "proyecto")
         return "preguntas-frecuentes" // nombre del template sin .html
     }
+
+    @GetMapping("/hl7")
+    fun hl7(model: Model): String {
+        model.addAttribute("active", "hl7")
+        model.addAttribute("fhirEntities", listOf(
+            "paciente",
+            "medico",
+            "sesion-chat",
+            "examen-vph",
+            "salud-sexual",
+            "evolucion",
+            "archivo"
+        ))
+        return "hl7"
+    }
+
 }
