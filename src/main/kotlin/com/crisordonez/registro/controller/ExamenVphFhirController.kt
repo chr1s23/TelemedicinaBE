@@ -37,7 +37,6 @@ class ExamenVphFhirController(
 
         exams.forEach { ex ->
             val child = toFhirBundle(ex)
-            // "Aplanamos": copiamos cada entry del bundle hijo al master
             child.entry.forEach { e ->
                 master.addEntry(Bundle.BundleEntryComponent().apply {
                     fullUrl = e.fullUrl

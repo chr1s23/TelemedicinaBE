@@ -50,7 +50,6 @@ object ArchivoFhirMapper {
             contentType = a.tipo ?: "application/octet-stream"
             title = a.nombre ?: "archivo"
             data = a.contenido
-            // Attachment.size es Int -> proteger contra overflow
             size = if (a.tamano > Int.MAX_VALUE) Int.MAX_VALUE else a.tamano.toInt()
         }
         doc.content = listOf(DocumentReference.DocumentReferenceContentComponent(att))

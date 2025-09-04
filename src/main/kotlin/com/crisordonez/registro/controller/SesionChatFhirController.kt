@@ -24,7 +24,6 @@ class SesionChatFhirController(
 
     @GetMapping("/{publicId}", produces = ["application/fhir+json"])
     fun getOne(@PathVariable publicId: UUID): ResponseEntity<String> {
-        // Si tu repo devuelve Optional:
         val entity = repo.findByPublicId(publicId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Sesión de chat no encontrada") }
 
@@ -37,7 +36,6 @@ class SesionChatFhirController(
     fun getAll(): ResponseEntity<String> {
         val master = Bundle().apply { type = Bundle.BundleType.COLLECTION }
 
-        // Optional<...> no aplica aquí; findAll() devuelve lista
         val all = repo.findAll()
         all.forEach { s ->
             val child = toFhirBundle(s)

@@ -25,7 +25,6 @@ class PacienteFhirController(
         val paciente = pacienteRepository.findByPublicId(publicId)
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Paciente no encontrado") }
 
-        // mapPacienteToFhir(paciente) -> Bundle (tu mapper actual)
         val bundle = mapPacienteToFhir(paciente)
 
         val json = parser.encodeResourceToString(bundle)
@@ -38,7 +37,6 @@ class PacienteFhirController(
     fun findAllFhirPacientes(): ResponseEntity<String> {
         val pacientes = pacienteRepository.findAll()
 
-        // aplanado (evitar bundle de bundles)
         val master = Bundle().apply { type = Bundle.BundleType.COLLECTION }
         pacientes.forEach { p ->
             val child = mapPacienteToFhir(p)

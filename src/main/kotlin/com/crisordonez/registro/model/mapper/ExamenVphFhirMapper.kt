@@ -91,7 +91,7 @@ object ExamenVphFhirMapper {
 
         }
         ex.fechaResultado?.let {
-            obs.issued = it // ya es java.util.Date en tu entidad
+            obs.issued = it
         }
 
         if (!patientRef.reference.isNullOrBlank()) obs.subject = patientRef
@@ -191,7 +191,6 @@ object ExamenVphFhirMapper {
                 contentType = "application/pdf"
                 title = ex.nombre ?: "resultado.pdf"
                 data = contenidoBytes
-                // Attachment.size es Int; evita overflow por seguridad
                 size = min(contenidoBytes.size.toLong(), Int.MAX_VALUE.toLong()).toInt()
             }
             dr.addPresentedForm(att)
