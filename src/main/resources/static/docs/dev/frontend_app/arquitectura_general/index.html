@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-dev/frontend_app/arquitectura_general" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">App Móvil SISA - Arquitectura General | Documentación del Proyecto</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://clias.ucuenca.edu.ec/docs/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://clias.ucuenca.edu.ec/docs/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://clias.ucuenca.edu.ec/docs/dev/frontend_app/arquitectura_general"><meta data-rh="true" property="og:locale" content="es"><meta data-rh="true" name="docusaurus_locale" content="es"><meta data-rh="true" name="docsearch:language" content="es"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="App Móvil SISA - Arquitectura General | Documentación del Proyecto"><meta data-rh="true" name="description" content="Esta sección describe cómo está organizada la _app_ móvil SISA a nivel de capas, módulos y flujos internos, y cómo se integra con los servicios de backend y con Firebase Cloud Messaging (FCM) para notificaciones. El foco es la aplicación móvil; se citan componentes del backend solo cuando es imprescindible para entender la integración."><meta data-rh="true" property="og:description" content="Esta sección describe cómo está organizada la _app_ móvil SISA a nivel de capas, módulos y flujos internos, y cómo se integra con los servicios de backend y con Firebase Cloud Messaging (FCM) para notificaciones. El foco es la aplicación móvil; se citan componentes del backend solo cuando es imprescindible para entender la integración."><link data-rh="true" rel="icon" href="/docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://clias.ucuenca.edu.ec/docs/dev/frontend_app/arquitectura_general"><link data-rh="true" rel="alternate" href="https://clias.ucuenca.edu.ec/docs/dev/frontend_app/arquitectura_general" hreflang="es"><link data-rh="true" rel="alternate" href="https://clias.ucuenca.edu.ec/docs/dev/frontend_app/arquitectura_general" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Manual de Desarrollador","item":"https://clias.ucuenca.edu.ec/docs/category/manual-de-desarrollador"},{"@type":"ListItem","position":2,"name":"Arquitectura General","item":"https://clias.ucuenca.edu.ec/docs/dev/frontend_app/arquitectura_general"}]}</script><link rel="stylesheet" href="/docs/assets/css/styles.aadc4ef1.css">
+<script src="/docs/assets/js/runtime~main.746fc6e8.js" defer="defer"></script>
+<script src="/docs/assets/js/main.e14300dd.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Saltar al contenido principal"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Saltar al contenido principal</a></div><nav aria-label="Principal" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Alternar barra lateral" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/docs/"></a><div class="navbar__item">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <a href="https://www.ucuenca.edu.ec" target="_blank" rel="noopener noreferrer">
+                <img src="/docs/img/logos/logo.png" alt="Logo UCuenca" style="height:48px;">
+              </a>
+              <a href="https://clias.ucuenca.edu.ec" target="_blank" rel="noopener noreferrer">
+                <img src="/docs/img/logos/clias.png" alt="Logo CLIAS" style="height:48px;">
+              </a>
+            </div>
+          </div></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Volver al principio" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Barra lateral de Documentos" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/">Documentación Oficial</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/manual-de-desarrollador">Manual de Desarrollador</a><button aria-label="Colapsar categoría &#x27;Manual de Desarrollador&#x27; de la barra lateral" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/dev/intro">Introducción para Desarrolladores</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/dev/Backend/description">Backend</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/dev/chatbot/description">Chatbot</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/docs/dev/frontend_app/introduccion_sisa">Frontend Móvil</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/dev/frontend_app/introduccion_sisa">Introducción</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/dev/frontend_app/arquitectura_general">Arquitectura General</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/dev/frontend_app/modulos_principales">Módulos Principales</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/dev/frontend_app/servicios_apis">Servicios y APIs</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/dev/frontend_app/notificaciones_push">Notificaciones Push</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/dev/frontend_app/configuracion_despliegue">Configuración y Despliegue</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/docs/dev/frontend_web/description">Frontend Web</a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/manual-de-administrador-web">Manual de Administrador (Web)</a><button aria-label="Colapsar categoría &#x27;Manual de Administrador (Web)&#x27; de la barra lateral" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/admin/intro">Introducción para Administradores</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/admin/gestionar_usuarios">Gestionar Usuarios</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/admin/status_dispositivos">Status de Dispositivos</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/admin/generacion_codigos">Generación de Códigos</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/admin/servicios_relacionados">Localización de Servicios Relacionados</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/manual-de-usuario-app-móvil">Manual de Usuario (App Móvil)</a><button aria-label="Ampliar la categoría &#x27;Manual de Usuario (App Móvil)&#x27; de la barra lateral" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Rastro de navegación"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Página de Inicio" class="breadcrumbs__link" href="/docs/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/docs/category/manual-de-desarrollador"><span>Manual de Desarrollador</span></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Frontend Móvil</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Arquitectura General</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">En esta página</button></div><div class="theme-doc-markdown markdown"><header><h1>Arquitectura General</h1></header>
+<p>Esta sección describe <strong>cómo está organizada la <em>app</em> móvil SISA</strong> a nivel de capas, módulos y flujos internos, y <strong>cómo se integra</strong> con los servicios de backend y con <strong>Firebase Cloud Messaging (FCM)</strong> para notificaciones. El foco es la <strong>aplicación móvil</strong>; se citan componentes del backend solo cuando es imprescindible para entender la integración.</p>
+<blockquote>
+<p>Nota: La documentación en inglés (DeepWiki – <em>TelemedicinaApp</em>) es de referencia y no siempre refleja los módulos más recientes. Aquí se presenta la <strong>versión actualizada</strong> aplicada a SISA.</p>
+</blockquote>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="vista-de-alto-nivel-app--servicios--backend">Vista de Alto Nivel (App – Servicios – Backend)<a href="#vista-de-alto-nivel-app--servicios--backend" class="hash-link" aria-label="Enlace directo al Vista de Alto Nivel (App – Servicios – Backend)" title="Enlace directo al Vista de Alto Nivel (App – Servicios – Backend)">​</a></h2>
+<div style="display:flex;justify-content:center;margin:12px 0"><div style="transform:scale(0.85);transform-origin:top center"></div></div>
+<p><strong>Claves de la vista:</strong></p>
+<ul>
+<li>La <em>app</em> está organizada en <strong>Presentación → Estado → Servicios → Almacenamiento/HTTP</strong>.</li>
+<li>Los <strong>Servicios</strong> encapsulan la comunicación con el backend y la gestión local (segura y caché).</li>
+<li>Las <strong>notificaciones</strong> se envían desde el backend a <strong>FCM</strong>, y el dispositivo las recibe a través del <strong>handler</strong> nativo/Flutter.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="relación-entre-las-capas-en-la-vista-de-alto-nivel">Relación entre las capas en la Vista de Alto Nivel<a href="#relación-entre-las-capas-en-la-vista-de-alto-nivel" class="hash-link" aria-label="Enlace directo al Relación entre las capas en la Vista de Alto Nivel" title="Enlace directo al Relación entre las capas en la Vista de Alto Nivel">​</a></h3>
+<p>En el diagrama de arquitectura se distinguen tres niveles principales dentro de la aplicación:</p>
+<ul>
+<li>
+<p><strong>Capa de Presentación (Pantallas, Widgets)</strong><br>
+<!-- -->Se encarga únicamente de mostrar los datos al usuario y de recolectar sus interacciones.<br>
+<!-- -->Ejemplos: pantalla de login, formularios de encuestas, dashboard de resultados.</p>
+</li>
+<li>
+<p><strong>Gestión de Estado</strong><br>
+<!-- -->Representa la capa intermedia donde se mantiene la información viva de la aplicación.<br>
+<!-- -->Aquí se conserva y actualiza el estado actual de la app, como:</p>
+<ul>
+<li>Usuario autenticado.</li>
+<li>Notificaciones disponibles.</li>
+<li>Encuestas pendientes de envío.</li>
+</ul>
+<p>En <strong>SISA</strong>, un ejemplo concreto es el archivo <code>notification_state.dart</code>, que administra el estado de las notificaciones recibidas y asegura que la interfaz se actualice en tiempo real.</p>
+</li>
+<li>
+<p><strong>Servicios (<code>service/*.dart</code>)</strong><br>
+<!-- -->Son responsables de ejecutar la lógica “externa”:</p>
+<ul>
+<li>Comunicarse con el backend vía API REST (con el cliente <code>Dio</code>).</li>
+<li>Guardar y recuperar datos en <code>SecureStorage</code> o en caché.</li>
+<li>Registrar y manejar el token en <strong>Firebase Cloud Messaging (FCM)</strong>.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>🔑 <strong>Nota:</strong> La “Gestión de Estado” no corresponde a un archivo específico, sino a un <strong>patrón de diseño</strong> que organiza cómo la UI interactúa con los servicios. De esta forma, se asegura que la app permanezca coherente, extensible y preparada para manejar conectividad limitada.</p>
+</blockquote>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="arquitectura-interna-de-la-app-capas-y-módulos">Arquitectura Interna de la App (capas y módulos)<a href="#arquitectura-interna-de-la-app-capas-y-módulos" class="hash-link" aria-label="Enlace directo al Arquitectura Interna de la App (capas y módulos)" title="Enlace directo al Arquitectura Interna de la App (capas y módulos)">​</a></h2>
+<div style="display:flex;justify-content:center;margin:12px 0"><div style="transform:scale(0.85);transform-origin:top center"></div></div>
+<p><strong>Ideas clave:</strong></p>
+<ul>
+<li>Los servicios están <strong>desacoplados</strong> de la UI y de la gestión de estado.</li>
+<li><code>connectivity_service.dart</code> define el <strong>comportamiento offline-first</strong> (validar conexión antes de llamar al backend y sincronizar cuando vuelve internet).</li>
+<li><code>firebase_messaging_handler.dart</code> + <code>notification_state.dart</code> gobiernan el <strong>ciclo de vida de notificaciones</strong> (foreground/background/taps).</li>
+</ul>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="estrategia-offline-first-y-manejo-de-errores">Estrategia <em>Offline-First</em> y Manejo de Errores<a href="#estrategia-offline-first-y-manejo-de-errores" class="hash-link" aria-label="Enlace directo al estrategia-offline-first-y-manejo-de-errores" title="Enlace directo al estrategia-offline-first-y-manejo-de-errores">​</a></h2>
+<ul>
+<li><strong>Verificación de conectividad:</strong> antes de cualquier operación de red, la app consulta <code>connectivity_service.dart</code>.</li>
+<li><strong>Almacenamiento temporal/local:</strong> formularios, encuestas y datos sensibles se guardan en <code>SecureStorage</code>/caché hasta su sincronización.</li>
+<li><strong>Sincronización diferida:</strong> cuando vuelve la conectividad, los servicios <strong>reintentan</strong> el envío/actualización.</li>
+<li><strong>Manejo de errores:</strong> estandarizar respuestas (timeouts, 401/403, 5xx) mostrando mensajes útiles y, en caso de 401/403, <strong>limpieza de sesión y redirección a Login</strong>.</li>
+</ul>
+<p><strong>Diagrama de Secuencia — Inicio de Sesión y Registro de Token FCM</strong></p>
+<!-- -->
+<p><strong>Diagrama de Secuencia — Operación Offline con Sincronización Posterior</strong></p>
+<!-- -->
+<p><strong>Diagrama de Flujo — Notificaciones Push</strong></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="flujo-de-notificaciones-push-en-sisa">Flujo de Notificaciones Push en SISA<a href="#flujo-de-notificaciones-push-en-sisa" class="hash-link" aria-label="Enlace directo al Flujo de Notificaciones Push en SISA" title="Enlace directo al Flujo de Notificaciones Push en SISA">​</a></h3>
+<p>El siguiente diagrama describe cómo viaja una notificación desde el backend hasta la interfaz del usuario en la app móvil:</p>
+<ol>
+<li>
+<p><strong>Backend CLIAS</strong></p>
+<ul>
+<li>El servidor genera un evento (ej. resultado disponible, recordatorio).</li>
+<li>Envía una notificación estructurada hacia <strong>Firebase Cloud Messaging (FCM)</strong>, incluyendo el <code>token</code> del dispositivo o el <code>topic</code> correspondiente.</li>
+</ul>
+</li>
+<li>
+<p><strong>Firebase Cloud Messaging (FCM)</strong></p>
+<ul>
+<li>Actúa como intermediario en la nube.</li>
+<li>Recibe la notificación y la direcciona al sistema operativo del dispositivo registrado.</li>
+<li>Garantiza la entrega incluso si la app está en segundo plano.</li>
+</ul>
+</li>
+<li>
+<p><strong>Sistema Operativo del Dispositivo (Android/iOS)</strong></p>
+<ul>
+<li>Recibe el push y lo despacha a la aplicación asociada.</li>
+<li>Si la app está cerrada, muestra una notificación nativa en la bandeja del sistema.</li>
+<li>Si está abierta, envía el evento directamente a la app.</li>
+</ul>
+</li>
+<li>
+<p><strong>App SISA</strong></p>
+<ul>
+<li>Capta la notificación y la deriva al <strong>handler</strong> definido en Flutter.</li>
+<li>Aquí se decide si la notificación se muestra como banner emergente, badge o redirección automática.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>firebase_messaging_handler.dart</code></strong></p>
+<ul>
+<li>Gestiona la lógica de recepción del mensaje.</li>
+<li>Diferencia entre notificación en <strong>foreground</strong> (app abierta), <strong>background</strong> o <strong>terminated</strong>.</li>
+<li>Estandariza los datos recibidos antes de pasarlos al estado global.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>notification_state.dart</code></strong></p>
+<ul>
+<li>Mantiene el estado actualizado de las notificaciones dentro de la app.</li>
+<li>Permite que la interfaz se reactive automáticamente cuando llega una nueva alerta.</li>
+<li>Aquí se administran también notificaciones leídas/no leídas.</li>
+</ul>
+</li>
+<li>
+<p><strong>Pantallas / Widgets (UI)</strong></p>
+<ul>
+<li>Finalmente, la información se refleja al usuario:<!-- -->
+<ul>
+<li><strong>Banners</strong>: mensajes visibles en la parte superior de la app.</li>
+<li><strong>Badges</strong>: indicadores de cantidad de notificaciones pendientes.</li>
+<li><strong>Rutas</strong>: redirección automática a la pantalla relevante (ej. ver resultado).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>🔑 <strong>Idea central:</strong><br>
+<!-- -->El flujo garantiza que <strong>todas las notificaciones viajen desde el backend hasta el usuario final</strong>, independientemente del estado de la aplicación (abierta, minimizada o cerrada).</p>
+<!-- -->
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="relación-con-el-modelo-de-datos">Relación con el Modelo de Datos<a href="#relación-con-el-modelo-de-datos" class="hash-link" aria-label="Enlace directo al Relación con el Modelo de Datos" title="Enlace directo al Relación con el Modelo de Datos">​</a></h2>
+<ul>
+<li>La app <strong>consume/produce</strong> entidades que se corresponden con el <strong>modelo de datos del backend</strong> (ERD actualizado).</li>
+<li>Desde la app se gestionan: <strong>Paciente, CuentaUsuario, Dispositivo, Sesión de Chat, Exámenes/Resultados, Archivos</strong>, entre otros.</li>
+<li>La app no accede directamente a la base de datos; opera mediante <strong>APIs REST</strong> y mapea las respuestas a <strong>modelos locales</strong> para persistencia temporal y renderizado en UI.</li>
+</ul>
+<blockquote>
+<p>El diagrama ERD de referencia es provisto por el equipo de backend y <strong>se mantiene fuera</strong> de esta documentación (que se centra en el cliente móvil).</p>
+</blockquote>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="consideraciones-de-diseño">Consideraciones de Diseño<a href="#consideraciones-de-diseño" class="hash-link" aria-label="Enlace directo al Consideraciones de Diseño" title="Enlace directo al Consideraciones de Diseño">​</a></h2>
+<ul>
+<li><strong>Modularidad:</strong> cada servicio encapsula una funcionalidad del dominio (auth, chat, encuestas, socioeconómico, resultados, archivos, ubicación, notificaciones).</li>
+<li><strong>Trazabilidad:</strong> logs consistentes (errores y eventos clave) facilitan soporte y auditoría.</li>
+<li><strong>Extensibilidad:</strong> nuevos formularios o flujos reutilizan la misma ruta: UI → Estado → Servicio → Almacenamiento/HTTP → Backend.</li>
+<li><strong>Seguridad:</strong> uso de <strong>JWT</strong> en cabeceras, almacenamiento mínimo en dispositivo y respeto de políticas de privacidad (ver capítulo <em>Seguridad y Privacidad</em>).</li>
+</ul>
+<hr>
+<h1>Estructura de Directorios (guía general)</h1>
+<p>La aplicación SISA mantiene una estructura modular dentro de la carpeta <code>lib/</code>.<br>
+<!-- -->Para una mejor comprensión, la estructura se divide en vistas generales y detalles por carpeta.</p>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="vista-general-del-árbol-lib">Vista general del árbol <code>lib/</code><a href="#vista-general-del-árbol-lib" class="hash-link" aria-label="Enlace directo al vista-general-del-árbol-lib" title="Enlace directo al vista-general-del-árbol-lib">​</a></h2>
+<blockquote>
+<p>Panorama rápido para ubicar carpetas principales.</p>
+</blockquote>
+<div style="display:flex;justify-content:center;margin:10px 0"><div style="transform:scale(0.9);transform-origin:top center;max-width:980px"></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="62-detalle-de-libservice">6.2 Detalle de <code>lib/service/</code><a href="#62-detalle-de-libservice" class="hash-link" aria-label="Enlace directo al 62-detalle-de-libservice" title="Enlace directo al 62-detalle-de-libservice">​</a></h2>
+<blockquote>
+<p>Servicios agrupados por <strong>dominio</strong> para compresión visual.</p>
+</blockquote>
+<div style="display:flex;justify-content:center;margin:10px 0"><div style="transform:scale(0.85);transform-origin:top center;max-width:980px"></div></div>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="63-detalle-de-libview">6.3 Detalle de <code>lib/view/</code><a href="#63-detalle-de-libview" class="hash-link" aria-label="Enlace directo al 63-detalle-de-libview" title="Enlace directo al 63-detalle-de-libview">​</a></h2>
+<blockquote>
+<p>Estructura sugerida de pantallas y componentes reutilizables.</p>
+</blockquote>
+<div style="display:flex;justify-content:center;margin:10px 0"><div style="transform:scale(0.9);transform-origin:top center;max-width:980px"></div></div>
+<hr>
+<hr>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="qué-sigue">¿Qué sigue?<a href="#qué-sigue" class="hash-link" aria-label="Enlace directo al ¿Qué sigue?" title="Enlace directo al ¿Qué sigue?">​</a></h3>
+<p>En los siguientes capítulos se detallan <strong>Módulos Principales</strong>, <strong>Servicios y APIs</strong>, y <strong>Conectividad/Offline</strong>, reutilizando los diagramas y convenciones presentadas en esta arquitectura.</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Página del documento"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/dev/frontend_app/introduccion_sisa"><div class="pagination-nav__sublabel">Anterior</div><div class="pagination-nav__label">Introducción</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/dev/frontend_app/modulos_principales"><div class="pagination-nav__sublabel">Siguiente</div><div class="pagination-nav__label">Módulos Principales</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#vista-de-alto-nivel-app--servicios--backend" class="table-of-contents__link toc-highlight">Vista de Alto Nivel (App – Servicios – Backend)</a><ul><li><a href="#relación-entre-las-capas-en-la-vista-de-alto-nivel" class="table-of-contents__link toc-highlight">Relación entre las capas en la Vista de Alto Nivel</a></li></ul></li><li><a href="#arquitectura-interna-de-la-app-capas-y-módulos" class="table-of-contents__link toc-highlight">Arquitectura Interna de la App (capas y módulos)</a></li><li><a href="#estrategia-offline-first-y-manejo-de-errores" class="table-of-contents__link toc-highlight">Estrategia <em>Offline-First</em> y Manejo de Errores</a><ul><li><a href="#flujo-de-notificaciones-push-en-sisa" class="table-of-contents__link toc-highlight">Flujo de Notificaciones Push en SISA</a></li></ul></li><li><a href="#relación-con-el-modelo-de-datos" class="table-of-contents__link toc-highlight">Relación con el Modelo de Datos</a></li><li><a href="#consideraciones-de-diseño" class="table-of-contents__link toc-highlight">Consideraciones de Diseño</a></li><li><a href="#vista-general-del-árbol-lib" class="table-of-contents__link toc-highlight">Vista general del árbol <code>lib/</code></a></li><li><a href="#62-detalle-de-libservice" class="table-of-contents__link toc-highlight">6.2 Detalle de <code>lib/service/</code></a></li><li><a href="#63-detalle-de-libview" class="table-of-contents__link toc-highlight">6.3 Detalle de <code>lib/view/</code></a><ul><li><a href="#qué-sigue" class="table-of-contents__link toc-highlight">¿Qué sigue?</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">
+        <div style="text-align: center; line-height: 1.6;">
+          Universidad de Cuenca – Grupo de Investigación en Infraestructura de Datos Espaciales<br>
+          Facultad de Ingeniería. Departamento de Ciencias de la Computación<br>
+          Campus Balzay - Víctor Manuel Albornoz y Av. de los Cerezos (Bloque A) | Teléfono: +593 7 413 4520 ext. 4790<br>
+          Ing. Villie Morocho, PhD. | <a href="mailto:gi.ide@ucuenca.edu.ec">gi.ide@ucuenca.edu.ec</a><br><br>
+          &copy; 2025 Universidad de Cuenca
+        </div>
+      </div></div></div></footer></div>
+</body>
+</html>

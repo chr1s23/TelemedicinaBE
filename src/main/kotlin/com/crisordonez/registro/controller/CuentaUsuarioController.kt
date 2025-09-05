@@ -1,5 +1,7 @@
 package com.crisordonez.registro.controller
 
+import com.crisordonez.registro.model.requests.AppVersionRequest
+import com.crisordonez.registro.model.requests.TiempoChatRequest
 import com.crisordonez.registro.model.requests.CuentaUsuarioRequest
 import com.crisordonez.registro.model.responses.CuentaUsuarioResponse
 import com.crisordonez.registro.service.CuentaUsuarioServiceInterface
@@ -64,4 +66,30 @@ class CuentaUsuarioController {
         return ResponseEntity.ok(cuentaUsuarioServiceInterface.updateContrasena(cuenta))
     }
 
+    @PutMapping("/chat-time/{publicId}")
+    fun actualizarTimestampsChat(
+        @PathVariable publicId: UUID,
+        @Valid @RequestBody tiempoChatRequest: TiempoChatRequest
+    ): ResponseEntity<Unit> {
+        return ResponseEntity.ok(cuentaUsuarioServiceInterface.updateTiempoChat(publicId, tiempoChatRequest))
+    }
+
+    @GetMapping("/chat-time-average")
+    fun obtenerTiempoPromedioChat(): ResponseEntity<Double> {
+        return ResponseEntity.ok(cuentaUsuarioServiceInterface.getChatTimeAvergae())
+    }
+
+    @PutMapping("/app-version/{publicId}")
+    fun establecerVersionApp(
+        @PathVariable publicId: UUID,
+        @RequestBody appVersion: AppVersionRequest
+    ): ResponseEntity<Unit> {
+        return ResponseEntity.ok(cuentaUsuarioServiceInterface.stablishAppVersion(publicId, appVersion))
+    }
+
+    @GetMapping("/public-indent/{idInterno}")
+    fun obtenerPublicIdDesdeIdInterno(@PathVariable idInterno: Long): ResponseEntity<UUID> {
+        val publicId = cuentaUsuarioServiceInterface.obtenerPublicIdPorIdInterno(idInterno)
+        return ResponseEntity.ok(publicId)
+    }
 }

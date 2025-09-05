@@ -16,11 +16,6 @@ FROM amazoncorretto:21
 # Establecer la zona horaria
 ENV TZ=America/Guayaquil
 
-RUN yum install -y tzdata && \
-    ln -sf /usr/share/zoneinfo/America/Guayaquil /etc/localtime && \
-    echo "America/Guayaquil" > /etc/timezone && \
-    yum clean all
-
 WORKDIR /home/deployments
 
 # Copia el archivo JAR construido desde la fase de construcción

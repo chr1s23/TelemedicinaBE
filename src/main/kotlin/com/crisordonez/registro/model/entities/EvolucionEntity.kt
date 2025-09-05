@@ -40,6 +40,7 @@ data class EvolucionEntity(
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "medico_id")
-    var medico: MedicoEntity? = null
+    var medico: MedicoEntity? = null,
+
 
 ) : AuditModel()

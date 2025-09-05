@@ -53,4 +53,8 @@ class InformacionSocioeconomicaService(
         log.info("Registros consultados correctamente - Total: ${infos.size}")
         return infos
     }
+    override fun existeFichaSocioeconomica(publicId: UUID): Boolean {
+        return informacionSocioeconomicaRepository.existsByCuentaUsuarioPublicId(publicId)
+    }
+
 }

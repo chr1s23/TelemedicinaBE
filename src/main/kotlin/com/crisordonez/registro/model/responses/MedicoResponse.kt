@@ -7,6 +7,8 @@ data class MedicoResponse(
 
     val publicId: UUID,
 
+    val usuario: String,
+
     val nombre: String,
 
     val correo: String,
@@ -15,5 +17,10 @@ data class MedicoResponse(
 
     val sexo: SexoEnum,
 
-    val evoliciones: List<EvolucionResponse> = emptyList()
+    val nRegistro: String,
+
+    val evoluciones: List<EvolucionResponse> = emptyList()
+
 )
+
+

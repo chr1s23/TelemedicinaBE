@@ -6,8 +6,10 @@ data class AnamnesisResponse(
 
     val publicId: UUID,
 
-    val edadPrimerRelacionSexual: Int? = null,
+    val sexual: Int? = null,
 
-    val edadPrimerPap: Int? = null
+    val edadPrimerPap: Int? = null,
+
+    val campo: String
 
 )

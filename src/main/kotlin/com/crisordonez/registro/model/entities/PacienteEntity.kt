@@ -5,8 +5,7 @@ import com.crisordonez.registro.model.enums.IdiomaEnum
 import com.crisordonez.registro.model.enums.PaisEnum
 import com.crisordonez.registro.model.enums.SexoEnum
 import jakarta.persistence.*
-import java.util.Date
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "pacientes")
@@ -16,7 +15,7 @@ data class PacienteEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(name = "public_id", nullable = false, unique = true)
     var publicId: UUID = UUID.randomUUID(),
 
     @Column(nullable = false)
@@ -39,8 +38,12 @@ data class PacienteEntity(
 
     var identificacion: String? = null,
 
-    @OneToOne
-    @JoinColumn(name = "cuenta_id")
+    @OneToOne(fetch = FetchType.LAZY,optional = false, cascade = [CascadeType.MERGE])
+    @JoinColumn(
+        name = "cuenta_id",
+        referencedColumnName = "id",
+        nullable = false
+    )
     var cuenta: CuentaUsuarioEntity,
 
     @OneToOne
@@ -51,10 +54,14 @@ data class PacienteEntity(
     @JoinColumn(name = "anamnesis_id")
     var anamnesis: AnamnesisEntity? = null,
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "paciente", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var saludSexual: SaludSexualEntity? = null,
+
+    @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)
     var sesionChat: MutableList<SesionChatEntity> = mutableListOf(),
 
-    @OneToMany(fetch = FetchType.LAZY)
-    var dispositivos: MutableList<DispositivoEntity> = mutableListOf()
+    @OneToMany(mappedBy = "paciente", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var dispositivos: MutableList<DispositivoRegistradoEntity> = mutableListOf()
 
 ) : AuditModel()
+

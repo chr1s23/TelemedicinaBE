@@ -35,5 +35,11 @@ class InformacionSocioeconomicaController {
     fun getTodosInformacion(): ResponseEntity<List<InformacionSocioeconomicaResponse>> {
         return ResponseEntity.ok(informacionSocioeconomicaServiceInterface.getTodosInfo())
     }
+    @GetMapping("/ficha/existe/{cuentaUsuarioPublicId}")
+    fun verificarFicha(@PathVariable cuentaUsuarioPublicId: UUID): Map<String, Boolean> {
+        val existe = informacionSocioeconomicaServiceInterface.existeFichaSocioeconomica(cuentaUsuarioPublicId)
+        return mapOf("existeFicha" to existe)
+    }
+
 
 }

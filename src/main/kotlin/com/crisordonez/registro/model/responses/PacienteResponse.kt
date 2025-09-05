@@ -26,4 +26,5 @@ data class PacienteResponse(
 
     val sesionChat: List<SesionChatResponse> = emptyList()
 
+
 )

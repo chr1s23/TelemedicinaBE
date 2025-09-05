@@ -7,6 +7,7 @@ import com.crisordonez.registro.model.mapper.InformacionSocioeconomicaMapper.toR
 import com.crisordonez.registro.model.mapper.SesionChatMapper.toResponse
 import com.crisordonez.registro.model.requests.PacienteRequest
 import com.crisordonez.registro.model.responses.PacienteResponse
+
 import java.text.SimpleDateFormat
 
 object PacienteMapper {

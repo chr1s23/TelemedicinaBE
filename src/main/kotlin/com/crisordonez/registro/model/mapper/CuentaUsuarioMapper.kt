@@ -12,7 +12,8 @@ object CuentaUsuarioMapper {
             nombreUsuario = this.nombreUsuario,
             contrasena = pass,
             aceptaConsentimiento = this.aceptaConsentimiento,
-            rol = this.rol
+            rol = this.rol,
+            appVersion = this.appVersion ?: ""
         )
     }
 
