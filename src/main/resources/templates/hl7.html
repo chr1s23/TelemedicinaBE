@@ -6,7 +6,24 @@
 
 <main class="container" style="max-width:1100px;margin:2rem auto;">
 
-    <!-- === LOGIN (solo frontend) === -->
+    <!-- Introducción HL7 -->
+    <section style="margin:1.5rem 0;padding:1rem;border:1px solid #e2e8f0;border-radius:.75rem;background:#f8fafc;">
+        <h2 style="font-size:1.1rem;margin-bottom:.5rem;">¿Qué es HL7 y cómo se relaciona con este proyecto?</h2>
+        <p style="color:#334155;line-height:1.5;">
+            HL7 (Health Level Seven) es un conjunto de estándares internacionales para el intercambio
+            electrónico de información clínica y administrativa entre sistemas de salud. Su perfil
+            FHIR (Fast Healthcare Interoperability Resources) modela los datos como <em>recursos</em>
+            (por ejemplo, <code>Patient</code>, <code>Observation</code>, <code>DiagnosticReport</code>) que pueden
+            consultarse y transportarse fácilmente mediante APIs y formatos como JSON.
+        </p>
+        <p style="color:#334155;line-height:1.5;">
+            Este visor es la capa de exploración del proyecto: te permite consultar esos recursos FHIR
+            de forma masiva (“Todos”) o puntual por (“UUID”), visualizar un resumen amigable y revisar
+            el JSON original. Así comprobamos la interoperabilidad de nuestro backend con los estándares HL7/FHIR.
+        </p>
+    </section>
+
+    <!-- Login -->
     <section id="loginSection" style="max-width:420px;margin:0 auto 2rem;">
         <h1>Iniciar sesión</h1>
         <p style="color:#64748b">Autentícate para ver el visor HL7.</p>
@@ -29,14 +46,13 @@
         </form>
     </section>
 
-    <!-- === APP (solo visible si hay “usuario” en localStorage) === -->
+
     <section id="appSection" style="display:none;">
         <div style="display:flex;align-items:center;gap:12px;">
             <h1 style="margin:0;">Visor HL7 FHIR</h1>
 
             <div id="userBadge"
                  style="margin-left:auto;background:#ecfeff;border:1px solid #a5f3fc;color:#0e7490;padding:.25rem .5rem;border-radius:.5rem;font-size:.85rem;">
-                <!-- Se llena con nombre/role -->
             </div>
 
             <button id="btnLogout"
@@ -44,7 +60,7 @@
                 Salir
             </button>
         </div>
-        <p style="color:#64748b;margin-top:.5rem">Consulta “todos” o “por UUID” sobre tus recursos FHIR.</p>
+        <p style="color:#64748b;margin-top:.5rem">Consulta “todos” o por “UUID” sobre tus recursos FHIR.</p>
 
         <section style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;">
             <div>
@@ -89,7 +105,7 @@
     /*<![CDATA[*/
     const $ = (id) => document.getElementById(id);
 
-    // ---------- helpers UI ----------
+
     function showInline(el, msg, kind="info"){
         el.style.display="inline-block";
         el.style.background = kind==="error"?"#fee2e2":(kind==="ok"?"#ecfeff":"#f8fafc");
@@ -102,7 +118,7 @@
     function renderRow(k,v){ if(!v && v!==0) return ""; return `<div style="display:grid;grid-template-columns:160px 1fr;gap:12px;margin:.25rem 0;"><div style="color:#64748b">${k}</div><div>${v}</div></div>`; }
     function currentMode(){ return [...document.querySelectorAll('input[name="mode"]')].find(r=>r.checked)?.value || "all"; }
 
-    // ---------- “autenticación” frontend ----------
+
     function getUser(){
         try { return JSON.parse(localStorage.getItem("authUser") || "null"); } catch { return null; }
     }
@@ -124,7 +140,7 @@
     }
     updateUIByAuth();
 
-    // ---------- login usando tu AuthController ----------
+
     $("loginForm").addEventListener("submit", async (e)=>{
         e.preventDefault();
         const box = $("loginMsg");
@@ -153,13 +169,12 @@
         }
     });
 
-    // ---------- logout (frontend: limpiar localStorage) ----------
+
     $("btnLogout").addEventListener("click", ()=>{
         setUser(null);
         updateUIByAuth();
     });
 
-    // ---------- app: render y fetch ----------
     const alertBox = $("alert");
     function showAlert(msg, type="info"){ showInline(alertBox, msg, type); }
     function clearAlert(){ hide(alertBox); }
@@ -246,7 +261,7 @@
   `).join("");
     }
 
-    // ---- consulta /fhir/** (sin Authorization) ----
+    // ---- consulta /fhir/
     $("btnFetch").addEventListener("click", async ()=>{
         if(!getUser()){ updateUIByAuth(); return; }
         clearAlert();
@@ -265,7 +280,6 @@
             showInline($("alert"), "Consultando…");
             const res = await fetch(url, {
                 headers: { "Accept": "application/fhir+json, application/json" }
-                // SIN credentials y SIN Authorization porque tu backend no maneja sesión/token aquí
             });
             if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
             const json = await res.json();
@@ -278,7 +292,6 @@
         }
     });
 
-    // habilitar/deshabilitar UUID según radio
     document.addEventListener("change",(e)=>{
         if(e.target && e.target.name==="mode"){
             const byId = e.target.value==="byId";
