@@ -12,7 +12,4 @@ interface UbicacionRepository: JpaRepository<UbicacionEntity, Long> {
     fun findByEstablecimiento(establecimiento: EstablecimientoEnum): List<UbicacionEntity>
 
     fun deleteByPublicId(publicId: UUID)
-
-    fun findByNombreAndDireccionAndEstablecimiento(nombre: String, direccion: String, establecimiento: EstablecimientoEnum): UbicacionEntity?
 }
-
