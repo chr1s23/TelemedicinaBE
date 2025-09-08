@@ -40,6 +40,10 @@ class SecurityConfig {
                 // para el build web
                 registry.requestMatchers("/web/**", "/static/**", "/index.html", "/favicon.png", "/icons/**", "/flutter_bootstrap.js", "/web/flutter_service_worker.js", "/web/main.dart.js", "/favicon.ico", "/assets/**").permitAll();
 
+                registry.requestMatchers(
+                    "/docs/**", "/css/**", "/js/**", "/images/**", "/img/**", "/assets/**", "/webjars/**"
+                ).permitAll()
+
                 // 1) Permito todos los OPTIONS (CORS preflight)
                 registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
